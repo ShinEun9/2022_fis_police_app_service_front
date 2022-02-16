@@ -7,14 +7,11 @@ import {TouchableOpacity} from "react-native";
 
 function CustomInput({type, width, height}) {
     const [values, setValues] = React.useState({firstName: '', lastName: ''});
-    const [color, setColor] = React.useState("")
-    const [selectValue, setSelectValue] = React.useState({sido: '', local: ''});
     useEffect(() => {
-        console.log(selectValue);
-    }, [selectValue])
+        console.log(values);
+    }, [values])
 
 
-    const [password, onPasswordEntry] = React.useState("")
     // input handleChange 함수
     const handleChange = (name, value) => {
         setValues({
@@ -23,93 +20,15 @@ function CustomInput({type, width, height}) {
         })
     }
 
-    const handleSelectChange = (name, value) => {
-        setSelectValue({
-            ...selectValue,
-            [name]: value
-        })
-    }
 
-
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
-        hideDatePicker();
-    };
-
-
-    // select handleChange 함수
+    //  select handleChange 함수
     return (
-        // <TextInput
-        //     style={{...styles.input, width: parseInt(width), height: parseInt(height)}}
-        //     onChangeText={(value) => handleChange('firstName', value)}
-        //     value={values.firstName}
-        //     multiline
-        // />
-
-        // <View style={{display:"flex", flexDirection: "row"}}>
-        //     <RNPickerSelect
-        //         value={selectValue.sido}
-        //         onValueChange={(value) => handleSelectChange("sido", value)}
-        //         placeholder={{
-        //             label: '시/도 선택',
-        //             value: null
-        //         }}
-        //         items={[
-        //             { label: 'Football', value: 'football' },
-        //             { label: 'Baseball', value: 'baseball' },
-        //             { label: 'Hockey', value: 'hockey' },
-        //         ]}
-        //         style={{
-        //             ...pickerSelectStyles,
-        //             flex:1,
-        //             iconContainer: {
-        //                 top: 10,
-        //                 right: 18,
-        //             },
-        //         }}
-        //         useNativeAndroidPickerStyle={false}
-        //         textInputProps={{ underlineColor: 'yellow' }}
-        //         Icon={() => {
-        //             return <Ionicons name="md-arrow-down" size={24} color="gray" />;
-        //         }}
-        //     />
-        //     <RNPickerSelect
-        //         onValueChange={(value) => handleSelectChange("local",value)}
-        //         value={selectValue.local}
-        //         placeholder={{
-        //             label: '지역 선택',
-        //             value: null
-        //         }}
-        //         items={[
-        //             { label: 'Football', value: 'football' },
-        //             { label: 'Baseball', value: 'baseball' },
-        //             { label: 'Hockey', value: 'hockey' },
-        //         ]}
-        //         style={{
-        //             ...pickerSelectStyles,
-        //             flex:1,
-        //             iconContainer: {
-        //                 top: 10,
-        //                 right: 18,
-        //             },
-        //         }}
-        //         useNativeAndroidPickerStyle={false}
-        //         textInputProps={{ underlineColor: 'yellow' }}
-        //         Icon={() => {
-        //             return <Ionicons name="md-arrow-down" size={24} color="gray" />;
-        //         }}
-        //     />
-        // </View>
+        <TextInput
+            style={{...styles.input, width: parseInt(width), height: parseInt(height)}}
+            onChangeText={(value) => handleChange('firstName', value)}
+            value={values.firstName}
+            multiline
+        />
 
 
         // <TextInput
@@ -119,49 +38,6 @@ function CustomInput({type, width, height}) {
         //     placeholder="hi"
         //     secureTextEntry={true}
         // />
-
-        // <View style={styles.passwordContainer}>
-        //     <TextInput
-        //         style={styles.inputStyle}
-        //         secureTextEntry
-        //         placeholder="Password"
-        //         value={password}
-        //         onChangeText={onPasswordEntry}
-        //     />
-        //     <Ionicons name="search" size={20} color="gray" />
-        // </View>
-
-
-        <View>
-            <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
-                <View style={{width: 200, height: 40, flexDirection: 'row', borderWidth: "1", borderColor: "gray", alignItems: "center", justifyContent: "space-between", paddingHorizontal: 10}}>
-                    <Text>
-                        날짜 선택
-                    </Text>
-                    <View
-                        style={{
-                            backgroundColor: 'transparent',
-                            borderTopWidth: 10,
-                            borderTopColor: 'gray',
-                            borderRightWidth: 10,
-                            borderRightColor: 'transparent',
-                            borderLeftWidth: 10,
-                            borderLeftColor: 'transparent',
-                            width: 0,
-                            height: 0,
-                        }}
-                    />
-                </View>
-            </TouchableOpacity>
-
-            <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-            />
-
-        </View>
 
 
     )
@@ -177,8 +53,8 @@ const styles = StyleSheet.create(
             padding: 10
         },
         input2: {
-            // borderColor: "#ECE6E6",
-            borderColor: "transparent",
+            borderColor: "#ECE6E6",
+            // borderColor: "transparent",
             borderBottomColor: "#ECE6E6",
             margin: 12,
             borderWidth: 2,
@@ -202,33 +78,5 @@ const styles = StyleSheet.create(
     }
 );
 
-const pickerSelectStyles = StyleSheet.create(
-        {
-            inputIOS: {
-                width: 140,
-                marginRight: 10,
-                fontSize: 16,
-                height: 50,
-                paddingVertical: 12,
-                paddingHorizontal: 10,
-                borderWidth: 1,
-                borderColor: 'gray',
-                borderRadius: 4,
-                color: 'black',
-                paddingRight: 30, // to ensure the text is never behind the icon
-            },
-            inputAndroid: {
-                fontSize: 16,
-                paddingHorizontal: 10,
-                paddingVertical: 8,
-                borderWidth: 0.5,
-                borderColor: 'purple',
-                borderRadius: 8,
-                color: 'black',
-                paddingRight: 30, // to ensure the text is never behind the icon
-            }
-        }
-    )
-;
 
 export default CustomInput;

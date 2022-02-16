@@ -3,6 +3,9 @@ import {StatusBar} from 'expo-status-bar';
 import {StyleSheet, Text, View} from 'react-native';
 import CustomInput from "./components/atom/CustomInput";
 import CustomButton from "./components/atom/CustomButton";
+import Select from "./components/atom/Select";
+import DatePicker from "./components/atom/DatePicker";
+import Timepicker from "./components/atom/Timepicker";
 
 export default function App() {
 
@@ -12,7 +15,9 @@ export default function App() {
         <View style={styles.container}>
             <StatusBar style="auto"/>
             <CustomInput width="300" height="400" />
-            {/*<CustomButton width="300" height="300" backgroundColor={"#000"} content={"hi"} />*/}
+            <Select />
+            <DatePicker />
+            <Timepicker />
         </View>
     );
 }
