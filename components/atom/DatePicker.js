@@ -58,9 +58,9 @@ function DatePicker(props) {
             </TouchableOpacity>
             <DateTimePickerModal
                 locale="ko"
-                date={date}
                 isVisible={isDatePickerVisible}
                 mode="date"
+                date={date===null?new Date():date}
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
             />

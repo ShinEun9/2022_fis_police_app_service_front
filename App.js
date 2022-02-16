@@ -6,6 +6,7 @@ import CustomButton from "./components/atom/CustomButton";
 import Select from "./components/atom/Select";
 import DatePicker from "./components/atom/DatePicker";
 import Timepicker from "./components/atom/Timepicker";
+import CustomInput3 from "./components/atom/CustomInput3";
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
             <Select />
             <DatePicker />
             <Timepicker />
+            {/*<CustomInput3 />*/}
         </View>
     );
 }

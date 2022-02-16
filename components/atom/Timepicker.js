@@ -63,7 +63,7 @@ function Timepicker(props) {
                 locale="ko"
                 isVisible={isDatePickerVisible}
                 mode="time"
-                date={time}
+                date={time===null?new Date():time}
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}/>
         </View>)

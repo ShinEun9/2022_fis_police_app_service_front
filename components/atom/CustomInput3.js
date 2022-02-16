@@ -25,7 +25,7 @@ const styles = StyleSheet.create(
     {
         passwordContainer: {
             flexDirection: 'row',
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: 'center',
             borderWidth: 1,
             width: 300,
