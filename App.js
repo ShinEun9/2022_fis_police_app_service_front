@@ -12,10 +12,7 @@ export default function App() {
 
 
     return (
-
         <View style={styles.container}>
-            <CustomImageButton onPress={()=>{console.log('pressed')}} size={24} color={"black"} name="calendar" />
-            <CustomMap style={styles.map}/>
         </View>
     );
 }
@@ -23,12 +20,7 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    maps: {
-        flex:2,
-        backgroundColor:"black",
-    }
 });
