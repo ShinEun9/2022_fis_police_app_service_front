@@ -21,11 +21,10 @@ function LoginTemplate(props) {
     }
     return (
         <SafeAreaView style={{
+            flex:1,
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            width: useWindowDimensions().width,
-            height: useWindowDimensions().height,
             backgroundColor: "orange"
         }}>
             <View style={{flex:1, justifyContent: "center", backgroundColor: "yellow"}}>

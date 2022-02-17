@@ -4,7 +4,7 @@ import {AntDesign} from "@expo/vector-icons";
 
 function CustomRightImageButton({onPress, name, size, content, color}) {
     return (
-        <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
+        <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
             <View style={styles.button}>
                 <Text style={{fontSize: 25}}>{content}</Text>
                 <AntDesign name={name} size={size} color={color}></AntDesign>
