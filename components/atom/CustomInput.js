@@ -19,6 +19,7 @@ function CustomInput({type, width, height, placeholder, password}) {
 
     //  select handleChange 함수
     return (
+
         // <TextInput
         //     style={{...styles.input, width: parseInt(width), height: parseInt(height)}}
         //     onChangeText={(value) => handleChange('firstName', value)}
@@ -28,7 +29,7 @@ function CustomInput({type, width, height, placeholder, password}) {
 
 
         <TextInput
-            style={{...styles.input2, width: parseInt(width), height: parseInt(height)}}
+            style={{...styles.input2, width: parseInt(width), height: parseInt(height) }}
             onChangeText={(value) => handleChange('firstName', value)}
             value={values.firstName}
             placeholder={placeholder}

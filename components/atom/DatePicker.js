@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {AntDesign} from "@expo/vector-icons";
 
 function DatePicker(props) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -29,7 +30,7 @@ function DatePicker(props) {
         <View>
             <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
                 <View style={{
-                    width: 200,
+                    width: 235,
                     height: 40,
                     flexDirection: 'row',
                     borderWidth: "1",
@@ -41,19 +42,7 @@ function DatePicker(props) {
                     <Text>
                         {date === null ? "날짜 선택" : `${getFormattedDate(date)}`}
                     </Text>
-                    <View
-                        style={{
-                            backgroundColor: 'transparent',
-                            borderTopWidth: 10,
-                            borderTopColor: 'gray',
-                            borderRightWidth: 10,
-                            borderRightColor: 'transparent',
-                            borderLeftWidth: 10,
-                            borderLeftColor: 'transparent',
-                            width: 0,
-                            height: 0,
-                        }}
-                    />
+                    <AntDesign name="calendar" size={24} color="black" />
                 </View>
             </TouchableOpacity>
             <DateTimePickerModal

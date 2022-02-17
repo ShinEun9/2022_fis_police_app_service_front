@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import {useEffect, useState} from "react";
 import async from "async";
 
+
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
 

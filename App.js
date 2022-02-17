@@ -1,44 +1,4 @@
 
-// import React from "react";
-// import {StatusBar} from 'expo-status-bar';
-// import {StyleSheet, Text, View} from 'react-native';
-// import CustomInput from "./components/atom/CustomInput";
-// import CustomButton from "./components/atom/CustomButton";
-// import Select from "./components/atom/Select";
-// import DatePicker from "./components/atom/DatePicker";
-// import Timepicker from "./components/atom/Timepicker";
-// import NavigationBar from "./components/NavigationBar";
-// import CustomInput3 from "./components/atom/CustomInput3";
-// import CustomLeftImageButton from "./components/atom/CustomLeftImageButton";
-//
-//
-// export default function App() {
-//     return (
-//         <View style={styles.container}>
-//             {/*<NavigationBar />*/}
-//             {/*<CustomInput3 />*/}
-//
-//             <CustomLeftImageButton name={"form"} size={20} color={"black"} content={"지문 등록 신청하러가기"}/>
-//             <CustomLeftImageButton name={"form"} size={20} color={"black"} content={"지문 등록 신청하러가기"}/>
-//             <CustomLeftImageButton name={"form"} size={20} color={"black"} content={"지문 등록 신청하러가기"}/>
-//             <CustomLeftImageButton name={"form"} size={20} color={"black"} content={"지문 등록 신청하러가기"}/>
-//
-//         </View>
-//     );
-// }
-//
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: '#fff',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//     },
-// });
-
-
-
-
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -64,6 +24,7 @@ function App() {
 
     return (
 
+
         <NavigationContainer>
             <Stack.Navigator
                 initialRouteName={auth === "" ? "LoginTemplate" : auth === "Agent" ? "AgentMainTemplate" : "CenterMainTemplate"}
@@ -86,6 +47,7 @@ function App() {
                               options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
+
 
     );
 }
