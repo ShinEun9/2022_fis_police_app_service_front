@@ -1,12 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
 function CustomRightImageButton({onPress, name, size, content, color}) {
     return (
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
             <View style={styles.button}>
-                <Text>{content}</Text>
+                <Text style={{fontSize: 25}}>{content}</Text>
                 <AntDesign name={name} size={size} color={color}></AntDesign>
             </View>
         </TouchableOpacity>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor:'#ECE6E6',
         justifyContent:"space-between",
-        width:300,
-        height:90
+        width: Dimensions.get("window").width * 0.8,
+        height:Dimensions.get("window").height * 0.1,
     }
 })
