@@ -1,26 +1,24 @@
 import React from 'react';
-import {StyleSheet, TextInput, View} from "react-native";
+import {Dimensions, StyleSheet, TextInput, useWindowDimensions, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 
-function CustomInput3({onSubmitFunction}) {
-    const [password, onPasswordEntry] = React.useState("")
-    // input handleChange 함수
+function SearchInput({id, submitFunction, handleChange, currentInfo, placeholder}) {
 
     return (
         <View style={styles.passwordContainer}>
             <TextInput
+                id={id}
+                value={currentInfo[id]}
+                onSubmitEditing={submitFunction}
+                onChangeText={(value)=>handleChange(id, value)}
+                placeholder = {placeholder}
                 style={styles.inputStyle}
-                secureTextEntry
-                placeholder="Password"
-                value={password}
-                onChangeText={onPasswordEntry}
-                onSubmitEditing={onSubmitFunction}
             />
             <Ionicons name="search" size={20} color="gray" />
         </View>    );
 }
 
-export default CustomInput3;
+export default SearchInput;
 
 const styles = StyleSheet.create(
     {
@@ -29,8 +27,8 @@ const styles = StyleSheet.create(
             justifyContent: "space-between",
             alignItems: 'center',
             borderWidth: 1,
-            width: 300,
-            height: 40,
+            width: Dimensions.get("window").width * 0.8,
+            height: 50,
             padding: 10,
             borderColor: '#A2A2A2',
             paddingBottom: 10,

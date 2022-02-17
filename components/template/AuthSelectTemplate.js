@@ -8,8 +8,8 @@ function AuthSelectTemplate(props) {
     }
     return (
         <SafeAreaView style={{
-            backgroundColor: "pink", width: useWindowDimensions().width,
-            height: useWindowDimensions().height,
+            flex:1,
+            backgroundColor: "pink",
             justifyContent: "center",
             alignItems: "center"
         }}>

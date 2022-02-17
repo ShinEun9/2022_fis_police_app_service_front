@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, TextInput, View, Text, Button} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
-import {Ionicons} from '@expo/vector-icons';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import {TouchableOpacity} from "react-native";
 
-function CustomInput({type, width, height, placeholder}) {
+function CustomInput({type, width, height, placeholder, password}) {
     const [values, setValues] = React.useState({firstName: '', lastName: ''});
     useEffect(() => {
         console.log(values);
@@ -36,6 +32,7 @@ function CustomInput({type, width, height, placeholder}) {
             onChangeText={(value) => handleChange('firstName', value)}
             value={values.firstName}
             placeholder={placeholder}
+            secureTextEntry={password?true:false}
         />
 
 
@@ -58,21 +55,6 @@ const styles = StyleSheet.create(
             margin: 12,
             borderWidth: 2,
             padding: 10,
-        },
-        passwordContainer: {
-            flexDirection: 'row',
-            justifyContent: "center",
-            alignItems: 'center',
-            borderWidth: 1,
-            width: 300,
-            height: 40,
-            padding: 10,
-            borderColor: '#A2A2A2',
-            paddingBottom: 10,
-            borderRadius: 10
-        },
-        inputStyle: {
-            flex: 1,
         }
     }
 );

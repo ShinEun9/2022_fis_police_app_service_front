@@ -1,31 +1,19 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {Ionicons} from '@expo/vector-icons';
 
-function Select(props) {
-    const [selectValue, setSelectValue] = React.useState({sido: '', local: ''});
-    const handleSelectChange = (name, value) => {
-        setSelectValue({
-            ...selectValue,
-            [name]: value
-        })
-    }
-
+function Select({label, id, items, handleChange, currentInfo}) {
     return (
         <View style={{display: "flex", flexDirection: "row"}}>
             <RNPickerSelect
-                value={selectValue.sido}
-                onValueChange={(value) => handleSelectChange("sido", value)}
+                value={currentInfo[id]}
+                onValueChange={(value) => handleChange(id, value)}
                 placeholder={{
-                    label: '시/도 선택',
+                    label: label,
                     value: null
                 }}
-                items={[
-                    {label: 'Football', value: 'football'},
-                    {label: 'Baseball', value: 'baseball'},
-                    {label: 'Hockey', value: 'hockey'},
-                ]}
+                items={items}
                 style={{
                     ...pickerSelectStyles,
                     flex: 1,
@@ -46,58 +34,21 @@ function Select(props) {
         ;
 }
 
-// const styles = StyleSheet.create(
-//         {
-//             container: {
-//                 display: "flex",
-//                 flexDirection: "row",
-//                 borderWidth: 1,
-//                 borderRadius: 10,
-//                 borderColor: "gray",
-//                 alignItems: "center",
-//                 justifyContent: "space-between",
-//                 paddingHorizontal: 15
-//             },
-//             inputIOS: {
-//                 marginRight: 10,
-//                 fontSize: 16,
-//                 height: 50,
-//                 borderRadius: 4,
-//                 color: 'black',
-//                 paddingRight: 30,  //to ensure the text is never behind the icon
-//             },
-//             inputAndroid: {
-//                 fontSize: 16,
-//                 paddingHorizontal: 10,
-//                 paddingVertical: 8,
-//                 borderWidth: 0.5,
-//                 borderColor: 'purple',
-//                 borderRadius: 8,
-//                 color: 'black',
-//                 paddingRight: 30,  //to ensure the text is never behind the icon
-//             }
-//         }
-//     )
-// ;
-
 
 const pickerSelectStyles = StyleSheet.create(
         {
             inputIOS: {
-                width: 140,
+                width: Dimensions.get('window').width*0.4,
                 marginRight: 10,
-                fontSize: 16,
                 height: 50,
                 paddingVertical: 12,
                 paddingHorizontal: 10,
                 borderWidth: 1,
                 borderColor: 'gray',
                 borderRadius: 4,
-                color: 'black',
                 paddingRight: 30,  //to ensure the text is never behind the icon
             },
             inputAndroid: {
-                fontSize: 16,
                 paddingHorizontal: 10,
                 paddingVertical: 8,
                 borderWidth: 0.5,
