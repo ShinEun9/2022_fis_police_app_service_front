@@ -13,92 +13,39 @@ function Select(props) {
     }
 
     return (
-        // <View style={styles.container}>
-        //     <RNPickerSelect
-        //         value={selectValue.sido}
-        //         onValueChange={(value) => handleSelectChange("sido", value)}
-        //         placeholder={{
-        //             label: '시/도 선택',
-        //             value: null
-        //         }}
-        //         items={[
-        //             {label: 'Football', value: 'football'},
-        //             {label: 'Baseball', value: 'baseball'},
-        //             {label: 'Hockey', value: 'hockey'},
-        //         ]}
-        //         style={{
-        //             ...styles,
-        //             width: 160,
-        //             iconContainer: {
-        //                 top: 10,
-        //                 right: 18,
-        //             },
-        //         }}
-        //         useNativeAndroidPickerStyle={false}
-        //         textInputProps={{underlineColor: 'yellow'}}
-        //     />
-        //     <Ionicons name="md-arrow-down" size={24} color="gray"/>
-        // </View>
+        <View style={{display: "flex", flexDirection: "row"}}>
+            <RNPickerSelect
+                value={selectValue.sido}
+                onValueChange={(value) => handleSelectChange("sido", value)}
+                placeholder={{
+                    label: '시/도 선택',
+                    value: null
+                }}
+                items={[
+                    {label: 'Football', value: 'football'},
+                    {label: 'Baseball', value: 'baseball'},
+                    {label: 'Hockey', value: 'hockey'},
+                ]}
+                style={{
+                    ...pickerSelectStyles,
+                    flex: 1,
+                    iconContainer: {
+                        top: 10,
+                        right: 18,
+                    },
+                }}
+                useNativeAndroidPickerStyle={false}
+                textInputProps={{underlineColor: 'yellow'}}
+                Icon={() => {
+                    return <Ionicons name="md-arrow-down" size={24} color="gray"/>;
+                }}
+            />
+        </View>
 
-
-    <View style={{display: "flex", flexDirection: "row"}}>
-        <RNPickerSelect
-            value={selectValue.sido}
-            onValueChange={(value) => handleSelectChange("sido", value)}
-            placeholder={{
-                label: '시/도 선택',
-                value: null
-            }}
-            items={[
-                {label: 'Football', value: 'football'},
-                {label: 'Baseball', value: 'baseball'},
-                {label: 'Hockey', value: 'hockey'},
-            ]}
-            style={{
-                ...pickerSelectStyles,
-                flex: 1,
-                iconContainer: {
-                    top: 10,
-                    right: 18,
-                },
-            }}
-            useNativeAndroidPickerStyle={false}
-            textInputProps={{underlineColor: 'yellow'}}
-            Icon={() => {
-                return <Ionicons name="md-arrow-down" size={24} color="gray"/>;
-            }}
-        />
-        <RNPickerSelect
-            onValueChange={(value) => handleSelectChange("local", value)}
-            value={selectValue.local}
-            placeholder={{
-                label: '지역 선택',
-                value: null
-            }}
-            items={[
-                {label: 'Football', value: 'football'},
-                {label: 'Baseball', value: 'baseball'},
-                {label: 'Hockey', value: 'hockey'},
-            ]}
-            style={{
-                ...pickerSelectStyles,
-                flex: 1,
-                iconContainer: {
-                    top: 10,
-                    right: 18,
-                },
-            }}
-            useNativeAndroidPickerStyle={false}
-            textInputProps={{underlineColor: 'yellow'}}
-            Icon={() => {
-                return <Ionicons name="md-arrow-down" size={24} color="gray"/>;
-            }}
-        />
-    </View>
-
-)
-    ;
+    )
+        ;
 }
+
 // const styles = StyleSheet.create(
 //         {
 //             container: {

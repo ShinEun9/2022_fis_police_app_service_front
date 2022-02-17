@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, TextInput, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 
-function CustomInput3(props) {
+function CustomInput3({onSubmitFunction}) {
     const [password, onPasswordEntry] = React.useState("")
     // input handleChange 함수
 
@@ -14,6 +14,7 @@ function CustomInput3(props) {
                 placeholder="Password"
                 value={password}
                 onChangeText={onPasswordEntry}
+                onSubmitEditing={onSubmitFunction}
             />
             <Ionicons name="search" size={20} color="gray" />
         </View>    );
@@ -35,5 +36,8 @@ const styles = StyleSheet.create(
             paddingBottom: 10,
             borderRadius: 10
         },
+        inputStyle: {
+            flex: 1,
+        }
     }
 );

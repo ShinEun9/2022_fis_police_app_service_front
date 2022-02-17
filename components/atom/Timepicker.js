@@ -22,7 +22,6 @@ function Timepicker(props) {
     };
 
     const getFormattedTime = (time) => {
-
         let a = time.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})
         return a;
 
