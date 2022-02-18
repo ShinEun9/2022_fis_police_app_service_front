@@ -50,8 +50,8 @@ const styles = StyleSheet.create(
             padding: 10
         },
         input2: {
-            borderColor: "#A2A2A2",
-            // borderColor: "transparent",
+            // borderColor: "#A2A2A2",
+            borderColor: "transparent",
             borderBottomColor: "#A2A2A2",
             margin: 12,
             borderWidth: 2,
