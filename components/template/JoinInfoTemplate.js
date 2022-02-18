@@ -1,16 +1,17 @@
 import React from 'react';
-import {Text, SafeAreaView} from "react-native";
-import CustomInput from "../atom/CustomInput";
-import CustomButton from "../atom/CustomButton";
+import {SafeAreaView, View} from "react-native";
+import JoinInputForm from "../organisms/JoinInputForm";
 
 function JoinInfoTemplate(props) {
-    const goSomePage = ()=>{
+    const goSomePage = () => {
         props.navigation.navigate('CenterPage')
     }
 
     return (
-        <SafeAreaView>
-            <CustomButton width = "300" height ="300" backgroundColor="black" content="회원가입" onPress={goSomePage} />
+        <SafeAreaView style={{flex: 1}}>
+            <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
+                <JoinInputForm/>
+            </View>
         </SafeAreaView>
     );
 }

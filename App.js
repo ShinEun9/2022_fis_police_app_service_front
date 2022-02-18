@@ -42,9 +42,6 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import MainScreen from './MainScreen';
-import DetailScreen from './DetailScreen';
-import Agent from "./components/Agent";
 import SearchCenterTemplate from "./components/template/SearchCenterTemplate";
 import JoinInfoTemplate from "./components/template/JoinInfoTemplate";
 import LoginTemplate from "./components/template/LoginTemplate";
