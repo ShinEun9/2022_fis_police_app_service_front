@@ -38,7 +38,7 @@ function ApplyInputForm(props) {
                 </View>
             </View>
             <View style={styles.Button}>
-                <CustomButton backgroundColor={"orange"} onPress={props.onPress}  content={"제출"}/>
+                <CustomButton backgroundColor={"orange"} onPress={props.onPress}  width="100" height="40" content={"제출"}/>
             </View>
 
         </View>
