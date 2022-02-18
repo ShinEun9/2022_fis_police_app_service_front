@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import {Ionicons} from '@expo/vector-icons';
+import {Style} from "../../Style";
 
-function Select({label, id, items, handleChange, currentInfo}) {
+function Select({label, id, items, width, height, handleChange, currentInfo}) {
     return (
-        <View style={{display: "flex", flexDirection: "row"}}>
+        <View style={{display: "flex"}}>
             <RNPickerSelect
                 value={currentInfo[id]}
                 onValueChange={(value) => handleChange(id, value)}
@@ -25,7 +26,7 @@ function Select({label, id, items, handleChange, currentInfo}) {
                 useNativeAndroidPickerStyle={false}
                 textInputProps={{underlineColor: 'yellow'}}
                 Icon={() => {
-                    return <Ionicons name="md-arrow-down" size={24} color="gray"/>;
+                    return <Ionicons name="md-arrow-down" size={24} color={Style.color1}/>;
                 }}
             />
         </View>
@@ -38,21 +39,18 @@ function Select({label, id, items, handleChange, currentInfo}) {
 const pickerSelectStyles = StyleSheet.create(
         {
             inputIOS: {
-                width: Dimensions.get('window').width*0.4,
                 marginRight: 10,
-                height: 50,
                 paddingVertical: 12,
                 paddingHorizontal: 10,
-                borderWidth: 1,
-                borderColor: 'gray',
-                borderRadius: 4,
+                borderWidth: 2,
+                borderColor: `${Style.color1}`,
                 paddingRight: 30,  //to ensure the text is never behind the icon
             },
             inputAndroid: {
                 paddingHorizontal: 10,
                 paddingVertical: 8,
                 borderWidth: 0.5,
-                borderColor: 'purple',
+                borderColor: `${Style.color1}`,
                 borderRadius: 8,
                 color: 'black',
                 paddingRight: 30,  //to ensure the text is never behind the icon

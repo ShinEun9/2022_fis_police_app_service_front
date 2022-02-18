@@ -10,7 +10,7 @@ function JoinInfoTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
-                <JoinInputForm/>
+                <JoinInputForm props={props}/>
             </View>
         </SafeAreaView>
     );

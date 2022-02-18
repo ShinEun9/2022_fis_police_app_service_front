@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {AntDesign} from "@expo/vector-icons";
+import {Style} from "../../Style";
 
-function DatePicker(props) {
+function DatePicker({id, handleChange, currentInfo}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState(null);
     const showDatePicker = () => {
@@ -33,24 +34,25 @@ function DatePicker(props) {
                     width: 235,
                     height: 40,
                     flexDirection: 'row',
-                    borderWidth: "1",
-                    borderColor: "gray",
+                    borderWidth: "2",
+                    borderColor: `${Style.color1}`,
                     alignItems: "center",
                     justifyContent: "space-between",
                     paddingHorizontal: 10
                 }}>
                     <Text>
-                        {date === null ? "날짜 선택" : `${getFormattedDate(date)}`}
+                        {date === null ? "날짜 선택" : `${getFormattedDate(currentInfo.c_date)}`}
                     </Text>
                     <AntDesign name="calendar" size={24} color="black" />
                 </View>
             </TouchableOpacity>
             <DateTimePickerModal
+                id="c_date"
                 locale="ko"
                 isVisible={isDatePickerVisible}
                 mode="date"
                 date={date===null?new Date():date}
-                onConfirm={handleConfirm}
+                onConfirm={(value)=>{handleChange(id, value)}}
                 onCancel={hideDatePicker}
             />
 

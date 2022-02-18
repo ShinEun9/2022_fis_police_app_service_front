@@ -9,7 +9,6 @@ function AuthSelectTemplate(props) {
     return (
         <SafeAreaView style={{
             flex:1,
-            backgroundColor: "pink",
             justifyContent: "center",
             alignItems: "center"
         }}>
