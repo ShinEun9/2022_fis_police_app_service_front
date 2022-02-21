@@ -40,7 +40,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
                     label: '미참여',
                     value: false
                 }]}
-                        width={`${useWindowDimensions().width * 0.79}`} height="40"
+                        width={`${useWindowDimensions().width*0.79 }`} height="40"
                         handleChange={handleChange} currentInfo={currentInfo}/>
 
             </View>
