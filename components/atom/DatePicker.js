@@ -6,18 +6,11 @@ import {Style} from "../../Style";
 
 function DatePicker({id, handleChange, currentInfo}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [date, setDate] = useState(null);
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
-
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date) => {
-        setDate(date);
-        hideDatePicker();
     };
 
     const getFormattedDate = (date) => {
@@ -41,9 +34,9 @@ function DatePicker({id, handleChange, currentInfo}) {
                     paddingHorizontal: 10
                 }}>
                     <Text>
-                        {date === null ? "날짜 선택" : `${getFormattedDate(currentInfo.c_date)}`}
+                        {currentInfo.c_date === null ? "날짜 선택" : `${getFormattedDate(currentInfo.c_date)}`}
                     </Text>
-                    <AntDesign name="calendar" size={24} color="black" />
+                    <AntDesign name="calendar" size={24} color="black"/>
                 </View>
             </TouchableOpacity>
             <DateTimePickerModal
@@ -51,8 +44,11 @@ function DatePicker({id, handleChange, currentInfo}) {
                 locale="ko"
                 isVisible={isDatePickerVisible}
                 mode="date"
-                date={date===null?new Date():date}
-                onConfirm={(value)=>{handleChange(id, value)}}
+                date={currentInfo.c_date === null ? new Date() : currentInfo.c_date}
+                onConfirm={(value) => {
+                    handleChange(id, value);
+                    hideDatePicker();
+                }}
                 onCancel={hideDatePicker}
             />
 
