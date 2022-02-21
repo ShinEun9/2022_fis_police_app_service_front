@@ -8,7 +8,7 @@ import {Style} from "../../Style";
 import Select from "../atom/Select";
 
 
-const screen = Dimensions.get("window");
+
 
 function ApplyInputForm({onPress, handleChange, currentInfo}) {
     return (

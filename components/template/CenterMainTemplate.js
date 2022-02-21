@@ -19,6 +19,7 @@ function CenterMainTemplate(props) {
         props.navigation.navigate("OffenderAlertTemplate")
     }
 
+
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 0.5}}>

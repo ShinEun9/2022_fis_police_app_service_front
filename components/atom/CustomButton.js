@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, Button, Dimensions} from 'react-native';
 import {TouchableOpacity} from "react-native";
 import Modal from "react-native-modal";
 import styled from "styled-components/native";
+import {Style} from "../../Style";
 
 
 const screen = Dimensions.get("window");
@@ -10,16 +11,6 @@ const StyledSafeAreaView = styled.SafeAreaView`
   flex: 1;
   justify-content: center;
   align-items: center;
-`;
-
-const StyledModalContainer = styled.View`
-  flex-direction: column;
-  align-items: center;
-  /* 모달창 크기 조절 */
-  width: 320px;
-  height: 220px;
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 10px;
 `;
 
 const StyledModalButton = styled.TouchableOpacity`
@@ -36,10 +27,6 @@ const StyledModalGradeWrapper = styled.View`
   justify-content: center;
 `;
 
-const StyledModalGradeText = styled.Text`
-  align-self: center;
-  font-size: 15px;
-`;
 
 const StyledModalText = styled.Text`
   align-self: center;
@@ -69,14 +56,17 @@ const StyledModalOutputText = styled.Text`
   font-size: 30px;
 `;
 
-function CustomButton({width, height, backgroundColor, onPress, content, modal}) {
+function CustomButton({width, height, backgroundColor, onPress, content, modal, modalContent}) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
-
+    const send = () => {
+        console.log("제출")
+        setModalVisible(!modalVisible)
+    }
     if (!modal) {
         return (
             <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
@@ -99,21 +89,21 @@ function CustomButton({width, height, backgroundColor, onPress, content, modal})
                     //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
                     useNativeDriver={true}
                     hideModalContentWhileAnimating={true}
-                    onBackdropPress={()=>{setModalVisible(false)}}
+                    onBackdropPress={() => {
+                        setModalVisible(false)
+                    }}
                     style={{flex: 1, justifyContent: "center", alignItems: "center"}}
                 >
-                    <StyledModalContainer>
+                    <View style={styles.container}>
                         <StyledModalGradeWrapper>
-                            <StyledModalGradeText>선택지</StyledModalGradeText>
+                            <View style={styles.content}>{modalContent}</View>
                         </StyledModalGradeWrapper>
-                        <StyledModalButton
-                            onPress={() => {
-                                setModalVisible(false);
-                            }}
-                        >
-                            <Text style={{ alignSelf: "center" }}>닫기</Text>
-                        </StyledModalButton>
-                    </StyledModalContainer>
+                        <View style={styles.customButton}>
+                            <CustomButton backgroundColor={Style.color2} onPress={send} width="100" height="40"
+                                          content={"제출"}/>
+                        </View>
+
+                    </View>
                 </Modal>
             </View>
         )
@@ -133,5 +123,24 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 20,
         color: "white"
+    },
+    content: {
+        display: "flex",
+        justifyContent: "center",
+        marginTop: 30
+    },
+    customButton: {
+        display: "flex",
+        paddingVertical: 7,
+        marginBottom: 10
+    },
+    container: {
+        flexDirection: "column",
+        alignItems: "center",
+        /* 모달창 크기 조절 */
+        width: screen.width*0.9,
+        height: screen.height*0.9,
+        backgroundColor:"white",
+        borderRadius: 10,
     }
 })

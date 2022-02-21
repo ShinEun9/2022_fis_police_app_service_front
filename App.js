@@ -14,6 +14,7 @@ import ScheduleCheckTemplate from "./components/template/ScheduleCheckTemplate";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import CustomNavigation from "./components/CustomNavigation";
 import {Platform, Text} from "react-native";
+
 import MoneyCheckTemplate from "./components/template/MoneyCheckTemplate";
 import OffenderAlertTemplate from "./components/template/OffenderAlertTemplate";
 import StartupSupportTemplate from "./components/template/StartupSupportTemplate";
@@ -75,9 +76,11 @@ function App() {
                 <Stack.Screen name="ScheduleAcceptTemplate" component={ScheduleAcceptTemplate}
                               options={{headerShown: false}}/>
                 <Stack.Screen name="ScheduleCheckTemplate" component={ScheduleCheckTemplate}
+
                               options={{headerShown: false}}/>
                 <Stack.Screen name="MoneyCheckTemplate" component={MoneyCheckTemplate}
                               options={{headerShown: false}}/>
+
             </Stack.Navigator>
         </NavigationContainer>
 

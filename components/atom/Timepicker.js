@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-function Timepicker(props) {
+function Timepicker(width) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [time, setTime] = useState(null);
     useEffect(() => {
@@ -31,7 +31,7 @@ function Timepicker(props) {
         <View>
             <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
                 <View style={{
-                    width: 200,
+                    width: 233,
                     height: 40,
                     flexDirection: 'row',
                     borderWidth: "1",
