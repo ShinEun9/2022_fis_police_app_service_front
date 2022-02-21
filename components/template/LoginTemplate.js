@@ -8,8 +8,6 @@ function LoginTemplate(props) {
     const [currentInfo, setCurrentInfo] = React.useState({user_id: "", user_password: ""});
 
     // input handleChange 함수
-
-
     const handleChange = (name, value) => {
         setCurrentInfo({
             ...currentInfo,
