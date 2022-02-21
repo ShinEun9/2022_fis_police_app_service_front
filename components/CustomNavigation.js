@@ -1,15 +1,20 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Button, useWindowDimensions} from 'react-native'
 import {FontAwesome} from "@expo/vector-icons";
+import CustomImageButton from "./atom/CustomImageButton";
 
-function CustomNavigation({navigation, type = "a"}) {
-    const [open, setOpen] = useState(false)
-    const handleOpen = () => {
-        setOpen((prev) => !prev);
+function CustomNavigation({navigation, type = "join", title, icon = false}) {
+    // const [open, setOpen] = useState(false)
+    // const handleOpen = () => {
+    //     setOpen((prev) => !prev);
+    // }
+
+    const onPressCalendar = () => {
+        console.log("hi")
     }
     let element;
 
-    if (type === "a") {
+    if (type === "join" || type === "titleNavbar") {
         element = <View style={{
             width: useWindowDimensions().width,
             height: 50,
@@ -17,19 +22,51 @@ function CustomNavigation({navigation, type = "a"}) {
             alignItems: "center",
             paddingHorizontal: 20
         }}>
-            <TouchableOpacity activeOpacity={0.6} onPress={()=>navigation.goBack()} style={{flex: 1}}>
-                <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}} />
+            <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.goBack()} style={{flex: 1}}>
+                <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
             </TouchableOpacity>
-            <Text style={{fontSize: 23, fontWeight: "600",  flex: 1, textAlign: "center"}}>회원가입</Text>
-            <View  style={{ flex: 1 }}></View>
-      </View>
+            <Text style={{fontSize: 20, fontWeight: "600", flex: 2.8, textAlign: "center"}}>{title}</Text>
+            <View style={{flex: 1, alignItems: "flex-end"}}>
+                {type === "titleNavbar" ?
+                    <CustomImageButton onPress={onPressCalendar} name={"gear"} color={"black"} size={30}/>
+                    : null}
+            </View>
+        </View>
+    } else if (type === "agent") {
+        element = <View style={{
+            width: useWindowDimensions().width,
+            height: 50,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            paddingHorizontal: 20
+        }}>
+            <View style={{marginRight: 15}}>
+                <CustomImageButton onPress={onPressCalendar} name={"calendar-o"} color="black" size={30}/>
+            </View>
+            <CustomImageButton onPress={onPressCalendar} name={"gear"} color={"black"} size={30}/>
+
+        </View>
+    } else if (type === "titleNavbar") {
+        element = <View style={{
+            width: useWindowDimensions().width,
+            height: 50,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            paddingHorizontal: 20
+        }}>
+            <Text style={{fontSize: 20}}>{title}</Text>
+            ≈ </View>
+
     }
+
 
     return (
         // <View>
-        //     <TouchableOpacity onPress={handleOpen} style={{flexDirection: "row", alignItems: "center"}}>
-        //         <Text>열기</Text>
-        //         {open ? <FontAwesome name="angle-down" size={24} color="black"/> :
+        // <TouchableOpacity onPress={handleOpen} style={{flexDirection: "row", alignItems: "center"}}>
+        // <Text>열기</Text>
+        // {open ? <FontAwesome name="angle-down" size={24} color="black"/> :
         //             <FontAwesome name="angle-up" size={24} color="black"/>}
         //     </TouchableOpacity>
         //     <View style={open ? {display: "block"} : {display: "none"}}>

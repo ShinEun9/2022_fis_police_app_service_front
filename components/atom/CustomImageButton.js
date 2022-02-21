@@ -4,10 +4,8 @@ import {TouchableOpacity,View} from "react-native";
 
 function CustomImageButton({onPress,name,size,color}) {
     return (
-        <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
-            <View>
+        <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
                 <FontAwesome name={name} size={size} color={color}></FontAwesome>
-            </View>
         </TouchableOpacity>
 
     );

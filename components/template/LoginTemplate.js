@@ -8,8 +8,6 @@ function LoginTemplate(props) {
     const [currentInfo, setCurrentInfo] = React.useState({user_id: "", user_password: ""});
 
     // input handleChange 함수
-
-
     const handleChange = (name, value) => {
         setCurrentInfo({
             ...currentInfo,
@@ -28,7 +26,7 @@ function LoginTemplate(props) {
     const goSomePage = () => {
         //로그인 api 요청
 
-        let auth = "center"
+        let auth = "agent"
         if (auth === "center") {
             props.navigation.navigate('CenterMainTemplate', props);
         } else if (auth === "agent") {
