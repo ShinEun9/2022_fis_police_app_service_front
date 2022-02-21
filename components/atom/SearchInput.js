@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dimensions, StyleSheet, TextInput, useWindowDimensions, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
+import {Style} from "../../Style";
 
 function SearchInput({id, submitFunction, handleChange, currentInfo, placeholder}) {
 
@@ -26,13 +27,12 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             alignItems: 'center',
-            borderWidth: 1,
+            borderWidth: 2,
             width: Dimensions.get("window").width * 0.8,
             height: 50,
             padding: 10,
-            borderColor: '#A2A2A2',
+            borderColor: Style.color1,
             paddingBottom: 10,
-            borderRadius: 10
         },
         inputStyle: {
             flex: 1,
