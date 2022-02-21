@@ -4,7 +4,9 @@ import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
 import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
-import ConfirmationForm from "../organisms/ConfirmationForm";
+
+import CustomModal from "../atom/CustomModal";
+import CustomNavigation from "../CustomNavigation";
 
 
 const screen = Dimensions.get("window");
@@ -24,7 +26,7 @@ function CheckReservationTemplate(props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.nav}>
-                <Text>네비게이션 바</Text>
+                <CustomNavigation navigation={props.navigation} type="titleNavbar" title="내 예약 확인하러 가기"/>
             </View>
             <View style={styles.comment}>
                 <Text style={styles.text}>현장요원이 배치 안 됨</Text>

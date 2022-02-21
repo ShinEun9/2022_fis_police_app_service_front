@@ -3,6 +3,7 @@ import {Text, SafeAreaView, View, findNodeHandle, useWindowDimensions, Modal, Al
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
 import CustomNavigation from "../CustomNavigation";
+import MoneyCheckTemplate from "./MoneyCheckTemplate";
 
 
 function AgentMainTemplate(props) {
@@ -43,9 +44,15 @@ function AgentMainTemplate(props) {
     const goScheduleCheckTemplate = () => {
         props.navigation.navigate('ScheduleCheckTemplate')
     }
+    const goMoneyCheckTemplate = () =>{
+        props.navigation.navigate('MoneyCheckTemplate')
+
+    }
+
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
+                <CustomNavigation navigation={props.navigation} type="agentMain"/>
             </View>
             <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
                 <View style={{alignItems: "flex-start", width: useWindowDimensions().width * 0.9, marginBottom: 5}}>
@@ -58,7 +65,7 @@ function AgentMainTemplate(props) {
                                        size={30} color="black"/>
                 <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate} name="calendar"
                                        size={30} color="black"/>
-                <CustomLeftImageButton content="급여 확인" onPress={goScheduleCheckTemplate} name="dollar" size={30}
+                <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
                                        color="black"/>
             </View>
 

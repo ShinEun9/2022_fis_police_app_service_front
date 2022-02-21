@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, SafeAreaView, ScrollView, StyleSheet, useWindowDimensions} from "react-native";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
+import CustomImageButton from "../atom/CustomImageButton";
+import CustomNavigation from "../CustomNavigation";
 
 function ScheduleAcceptTemplate(props) {
     // const [todaySchedule, setTodaySchedule] = useState([{
@@ -30,7 +32,10 @@ function ScheduleAcceptTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <ScrollView>
+            <View style={{backgroundColor: "pink"}}>
+                <CustomNavigation navigation={props.navigation} type="titleNavbar" title="내 일정 수락하러가기"/>
+            </View>
+            <ScrollView contentContainerStyle={{flex: 9, backgroundColor: "orange", marginBottom: 10}}>
                 {/*{todaySchedule.map((item) =>*/}
                 {/*    <View style={{height: useWindowDimensions().height * 0.5}}>*/}
                 {/*        <View style={styles.label}>*/}

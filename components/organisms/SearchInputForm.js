@@ -8,14 +8,14 @@ function SearchInputForm({handleChange, currentInfo, submitFunction}) {
 
     return (
         <>
-            <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
-                <Select label="시/도 선택" id="sido" width={useWindowDimensions().width*0.4} height="50"
+            <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
+                <Select label="시/도 선택" id="sido" width={useWindowDimensions().width*0.35}
                         items={[{label: 'Football', value: 'football'}, {
                             label: 'Baseball',
                             value: 'baseball'
                         }, {label: 'Hockey', value: 'hockey'}]}
                         handleChange={handleChange} currentInfo={currentInfo}/>
-                <Select label="지역 선택" id="local"
+                <Select label="지역 선택" id="local" width={useWindowDimensions().width*0.35}
                         items={[{label: 'Football', value: 'football'}, {
                             label: 'Baseball',
                             value: 'baseball'
