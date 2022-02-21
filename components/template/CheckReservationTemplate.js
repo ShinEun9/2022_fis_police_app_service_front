@@ -4,18 +4,18 @@ import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
 import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
-import CustomModal from "../atom/CustomModal";
+import ConfirmationForm from "../organisms/ConfirmationForm";
 
 
 const screen = Dimensions.get("window");
 const checkConfirmation = () => {
     return(
-        <CustomModal/>
+        console.log("확인서 열람")
     )
 }
 const checkHistory = () => {
     return (
-        <CustomModal/>
+        console.log("신청기록")
     )
 }
 
@@ -43,7 +43,8 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomButton backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modal={true}/>
+                                              height={35} content={"확인서 열람"} modal={true}  modalContent={<ConfirmationForm/>}/>
+                                {/*modalContent 알맞은 파일로 변경 필요*/}
 
                             </View>
 
@@ -58,7 +59,7 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomButton backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modal={true}/>
+                                              height={35} content={"확인서 열람"} modal={true} modalContent={<ConfirmationForm/>} />
                             </View>
                         </View>
                     </View>

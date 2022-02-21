@@ -14,6 +14,7 @@ import ScheduleCheckTemplate from "./components/template/ScheduleCheckTemplate";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import CustomNavigation from "./components/CustomNavigation";
 import {Platform, Text} from "react-native";
+import ConfirmationForm from "./components/organisms/ConfirmationForm";
 
 const Stack = createStackNavigator();
 
@@ -84,6 +85,10 @@ function App() {
 
                 />
                 <Stack.Screen name="ScheduleCheckTemplate" component={ScheduleCheckTemplate}
+                              options={{headerShown: false}}
+
+                />
+                <Stack.Screen name="ConfirmationForm" component={ConfirmationForm}
                               options={{headerShown: false}}
 
                 />

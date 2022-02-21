@@ -10,6 +10,7 @@ function CenterMainTemplate(props) {
         props.navigation.navigate("CheckReservationTemplate")
     }
 
+
     return (
         <SafeAreaView>
             <CustomLeftImageButton onPress={goSomePageA} content="a" />
