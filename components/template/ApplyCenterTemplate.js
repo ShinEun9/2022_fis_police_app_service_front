@@ -8,7 +8,7 @@ function ApplyCenterTemplate(props) {
         c_address:"",
         c_email:"",
         c_participation:"",
-        c_date:"",
+        c_date: null,
     })
     const handleChange = (name, value)=>{
         setCurrentInfo({
