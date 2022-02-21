@@ -11,7 +11,7 @@ function JoinInfoTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} title="회원가입"/>
+                <CustomNavigation navigation={props.navigation} type="join" title="회원가입"/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>
                 <JoinInputForm props={props}/>

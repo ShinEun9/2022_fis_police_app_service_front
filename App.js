@@ -15,6 +15,8 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import CustomNavigation from "./components/CustomNavigation";
 import {Platform, Text} from "react-native";
 import MoneyCheckTemplate from "./components/template/MoneyCheckTemplate";
+import OffenderAlertTemplate from "./components/template/OffenderAlertTemplate";
+import StartupSupportTemplate from "./components/template/StartupSupportTemplate";
 
 const Stack = createStackNavigator();
 
@@ -55,22 +57,27 @@ function App() {
                 //     headerBackTitleVisible: false
                 // }}
             >
-                <Stack.Screen name="LoginTemplate" component={LoginTemplate} options={{headerShown: false}} />
-                <Stack.Screen name="AuthSelectTemplate" component={AuthSelectTemplate} options={{headerShown: false}} />
+                <Stack.Screen name="LoginTemplate" component={LoginTemplate} options={{headerShown: false}}/>
+                <Stack.Screen name="AuthSelectTemplate" component={AuthSelectTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="SearchCenterTemplate" component={SearchCenterTemplate}
-                              options={{headerShown: false}} />
-                <Stack.Screen name="JoinInfoTemplate" component={JoinInfoTemplate} options={{headerShown: false}} />
-                <Stack.Screen name="CenterMainTemplate" component={CenterMainTemplate} options={{headerShown: false}} />
-                <Stack.Screen name="ApplyCenterTemplate" component={ApplyCenterTemplate} options={{headerShown: false}} />
+                              options={{headerShown: false}}/>
+                <Stack.Screen name="JoinInfoTemplate" component={JoinInfoTemplate} options={{headerShown: false}}/>
+                <Stack.Screen name="CenterMainTemplate" component={CenterMainTemplate} options={{headerShown: false}}/>
+                <Stack.Screen name="ApplyCenterTemplate" component={ApplyCenterTemplate}
+                              options={{headerShown: false}}/>
                 <Stack.Screen name="CheckReservationTemplate" component={CheckReservationTemplate}
-                              options={{headerShown: false}} />
+                              options={{headerShown: false}}/>
+                <Stack.Screen name="StartupSupportTemplate" component={StartupSupportTemplate}
+                              options={{headerShown: false}}/>
+                <Stack.Screen name="OffenderAlertTemplate" component={OffenderAlertTemplate} options={{headerShown: false}}/>
+
                 <Stack.Screen name="AgentMainTemplate" component={AgentMainTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="ScheduleAcceptTemplate" component={ScheduleAcceptTemplate}
-                              options={{headerShown: false}} />
+                              options={{headerShown: false}}/>
                 <Stack.Screen name="ScheduleCheckTemplate" component={ScheduleCheckTemplate}
-                              options={{headerShown: false}} />
+                              options={{headerShown: false}}/>
                 <Stack.Screen name="MoneyCheckTemplate" component={MoneyCheckTemplate}
-                              options={{headerShown: false}} />
+                              options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
 

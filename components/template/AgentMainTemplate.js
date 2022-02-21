@@ -52,7 +52,7 @@ function AgentMainTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="agent"/>
+                <CustomNavigation navigation={props.navigation} type="agentMain"/>
             </View>
             <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
                 <View style={{alignItems: "flex-start", width: useWindowDimensions().width * 0.9, marginBottom: 5}}>

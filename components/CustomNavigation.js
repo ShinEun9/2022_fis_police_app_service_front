@@ -3,15 +3,22 @@ import {View, Text, TouchableOpacity, Button, useWindowDimensions} from 'react-n
 import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "./atom/CustomImageButton";
 
-function CustomNavigation({navigation, type = "join", title, icon = false}) {
+function CustomNavigation({navigation, type, title}) {
     // const [open, setOpen] = useState(false)
     // const handleOpen = () => {
     //     setOpen((prev) => !prev);
     // }
 
+    // onPressCalendar와 onPressSetting 함수를 어디서 정의 하는 것이 맞을까?
+    // props로 받는 게 맞을까 아니면,,, 여기서 정의하는 게 맞을까? 흠...
     const onPressCalendar = () => {
-        console.log("hi")
+        console.log("press Calendar")
     }
+
+    const onPressSetting = ()=>{
+        console.log("press Setting")
+    }
+
     let element;
 
     if (type === "join" || type === "titleNavbar") {
@@ -32,7 +39,7 @@ function CustomNavigation({navigation, type = "join", title, icon = false}) {
                     : null}
             </View>
         </View>
-    } else if (type === "agent") {
+    } else if (type === "agentMain" || type === "centerMain") {
         element = <View style={{
             width: useWindowDimensions().width,
             height: 50,
@@ -41,24 +48,13 @@ function CustomNavigation({navigation, type = "join", title, icon = false}) {
             alignItems: "center",
             paddingHorizontal: 20
         }}>
-            <View style={{marginRight: 15}}>
+
+            {type==="agentMain" ? <View style={{marginRight: 15}}>
                 <CustomImageButton onPress={onPressCalendar} name={"calendar-o"} color="black" size={30}/>
-            </View>
-            <CustomImageButton onPress={onPressCalendar} name={"gear"} color={"black"} size={30}/>
+            </View> : null}
+            <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
 
         </View>
-    } else if (type === "titleNavbar") {
-        element = <View style={{
-            width: useWindowDimensions().width,
-            height: 50,
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            paddingHorizontal: 20
-        }}>
-            <Text style={{fontSize: 20}}>{title}</Text>
-            ≈ </View>
-
     }
 
 
