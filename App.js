@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -12,6 +11,9 @@ import CheckReservationTemplate from "./components/template/CheckReservationTemp
 import AgentMainTemplate from "./components/template/AgentMainTemplate";
 import ScheduleAcceptTemplate from "./components/template/ScheduleAcceptTemplate";
 import ScheduleCheckTemplate from "./components/template/ScheduleCheckTemplate";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import CustomNavigation from "./components/CustomNavigation";
+import {Platform, Text} from "react-native";
 
 const Stack = createStackNavigator();
 
@@ -20,28 +22,71 @@ function App() {
     let auth = "";
 
     return (
-
-
         <NavigationContainer>
             <Stack.Navigator
                 initialRouteName={auth === "" ? "LoginTemplate" : auth === "Agent" ? "AgentMainTemplate" : "CenterMainTemplate"}
+                // screenOptions={{
+                //     cardStyle: {backgroundColor: '#ffffff'},
+                //     headerStyle: {
+                //         height: 110,
+                //         backgroundColor: '#FFD8CC',
+                //         borderBottomWidth: 1,
+                //         borderBottomColor: '#99154E',
+                //     },
+                //     headerTitleStyle: {color: '#000000', fontsize: 24},
+                //     headerTitleAlign: 'center',
+                //     headerTitle: ({style}) => (
+                //         <MaterialCommunityIcons name='react' style={style}/>
+                //     ), headerBackImage: ({tintColor}) => {
+                //         const style = {
+                //             marginRight: 5,
+                //             marginLeft: Platform.OS === 'ios' ? 11 : 0,
+                //         };
+                //         return (
+                //             <MaterialCommunityIcons
+                //                 name='arrow-left-circle-outline'
+                //                 size={30}
+                //                 color={tintColor}
+                //                 style={style}
+                //             />
+                //         );
+                //     },
+                //     headerBackTitleVisible: false
+                // }}
             >
-                <Stack.Screen name="LoginTemplate" component={LoginTemplate} options={{headerShown: false}}/>
-                <Stack.Screen name="AuthSelectTemplate" component={AuthSelectTemplate} options={{headerShown: false}}/>
+                <Stack.Screen name="LoginTemplate" component={LoginTemplate} options={{headerShown: false}}
+                />
+
+                <Stack.Screen name="AuthSelectTemplate" component={AuthSelectTemplate} options={{headerShown: false}}
+                />
                 <Stack.Screen name="SearchCenterTemplate" component={SearchCenterTemplate}
-                              options={{headerShown: false}}/>
-                <Stack.Screen name="JoinInfoTemplate" component={JoinInfoTemplate}
-                              options={{headerShown: false}}/>
-                <Stack.Screen name="CenterMainTemplate" component={CenterMainTemplate} options={{headerShown: false}}/>
-                <Stack.Screen name="ApplyCenterTemplate" component={ApplyCenterTemplate}
-                              options={{headerShown: false}}/>
+                              options={{headerShown: false}}
+
+                />
+                <Stack.Screen name="JoinInfoTemplate" component={JoinInfoTemplate} options={{headerShown: false}}
+
+                />
+                <Stack.Screen name="CenterMainTemplate" component={CenterMainTemplate} options={{headerShown: false}}
+                />
+                <Stack.Screen name="ApplyCenterTemplate" component={ApplyCenterTemplate} options={{headerShown: false}}
+
+                />
                 <Stack.Screen name="CheckReservationTemplate" component={CheckReservationTemplate}
-                              options={{headerShown: false}}/>
-                <Stack.Screen name="AgentMainTemplate" component={AgentMainTemplate} options={{headerShown: false}}/>
+                              options={{headerShown: false}}
+
+                />
+                <Stack.Screen name="AgentMainTemplate" component={AgentMainTemplate} options={{headerShown: false}}
+
+
+                />
                 <Stack.Screen name="ScheduleAcceptTemplate" component={ScheduleAcceptTemplate}
-                              options={{headerShown: false}}/>
+                              options={{headerShown: false}}
+
+                />
                 <Stack.Screen name="ScheduleCheckTemplate" component={ScheduleCheckTemplate}
-                              options={{headerShown: false}}/>
+                              options={{headerShown: false}}
+
+                />
             </Stack.Navigator>
         </NavigationContainer>
 

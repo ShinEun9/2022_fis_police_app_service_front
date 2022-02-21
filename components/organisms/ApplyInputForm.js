@@ -34,13 +34,13 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
                              keyboardType="email-address"
                              handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
-            <View style={styles.Input}>
+            <View style={{flexDirection: "row", alignItems: "center"}}>
                 <Text style={styles.Text}>지문 등록 참여 여부 :</Text>
                 <Select id="c_participation" label="참여 여부 선택" items={[{label: '참여', value: true}, {
                     label: '미참여',
                     value: false
                 }]}
-                        width={`${useWindowDimensions().width * 0.79}`} height="40"
+                        width={useWindowDimensions().width * 0.65}
                         handleChange={handleChange} currentInfo={currentInfo}/>
 
             </View>
@@ -62,9 +62,11 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
 
 const styles = StyleSheet.create({
     Input: {
+        marginBottom: 10,
         flexDirection: "row",
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "orange"
     },
     Text: {
         fontSize: 15,

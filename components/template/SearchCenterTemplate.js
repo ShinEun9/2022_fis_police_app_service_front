@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {View, SafeAreaView, Text} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
+import CustomNavigation from "../CustomNavigation";
 
 
 function SearchCenterTemplate(props) {
@@ -40,13 +41,16 @@ function SearchCenterTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
+            <View style={{flex:0.5}}>
+                <CustomNavigation navigation={props.navigation}/>
+            </View>
+            <View style={{flex: 2, justifyContent: "center", alignItems: 'center'}}>
                 <SearchInputForm currentInfo={currentInfo} handleChange={handleChange} submitFunction={submitFunction}/>
             </View>
-            <View style={{flex: 3, alignItems: "center"}}>
+            <View style={{flex: 7, marginTop: 10, justifyContent: "flex-start", alignItems: "center"}}>
                 {centerList === null ? null :
                     centerList.map((center) => {
-                        return <View style={{marginBottom: 20}}>
+                        return <View style={{marginBottom: 10}}>
                             <CustomRightImageButton onPress={goSomePage} name="right" size={20} color="black"
                                                     content={<View style={{justifyContent: 'space-between'}}>
                                                                 <Text style={{fontSize: 20}}>{center.c_name}</Text>
