@@ -4,9 +4,8 @@ import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
 import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
-
-import CustomModal from "../atom/CustomModal";
 import CustomNavigation from "../CustomNavigation";
+import ConfirmationForm from "../organisms/ConfirmationForm";
 
 
 const screen = Dimensions.get("window");
