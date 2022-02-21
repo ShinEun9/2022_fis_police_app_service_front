@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native'
+import {View, Text, useWindowDimensions} from 'react-native'
 import Select from "../atom/Select";
 import SearchInput from "../atom/SearchInput";
 import CustomInput from "../atom/CustomInput";
@@ -9,7 +9,7 @@ function SearchInputForm({handleChange, currentInfo, submitFunction}) {
     return (
         <>
             <View style={{flexDirection: "row", justifyContent: "center", marginBottom: 10}}>
-                <Select label="시/도 선택" id="sido"
+                <Select label="시/도 선택" id="sido" width={useWindowDimensions().width*0.4} height="50"
                         items={[{label: 'Football', value: 'football'}, {
                             label: 'Baseball',
                             value: 'baseball'
