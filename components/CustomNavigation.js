@@ -16,7 +16,8 @@ function CustomNavigation({navigation, type, title}) {
     }
 
     const onPressSetting = ()=>{
-        console.log("press Setting")
+        let page = "setting"
+        navigation.navigate("JoinInfoTemplate", page )
     }
 
     let element;
@@ -35,7 +36,7 @@ function CustomNavigation({navigation, type, title}) {
             <Text style={{fontSize: 20, fontWeight: "600", flex: 2.8, textAlign: "center"}}>{title}</Text>
             <View style={{flex: 1, alignItems: "flex-end"}}>
                 {type === "titleNavbar" ?
-                    <CustomImageButton onPress={onPressCalendar} name={"gear"} color={"black"} size={30}/>
+                    <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
                     : null}
             </View>
         </View>

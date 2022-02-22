@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, SafeAreaView, ScrollView, StyleSheet, useWindowDimensions} from "react-native";
+import {Text, View, SafeAreaView, ScrollView, StyleSheet, useWindowDimensions, Alert} from "react-native";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
 import CustomImageButton from "../atom/CustomImageButton";
@@ -25,9 +25,24 @@ function ScheduleAcceptTemplate(props) {
     // schedules변수 구조 예시 {2021-02-11: [{schedule1}][{schedule2}], 2022-02-12: Array(1), 2022-02-13: Array(1)
     let schedules = groupByDate;
 
-    const onPress = () => {
-        console.log("hi")
-    }
+
+    const onPress = () =>
+        Alert.alert(
+            "수락하시겠습니까?",
+            "My Alert Msg",
+            [
+                {
+                    text: "취소",
+                    style: "cancel"
+                },
+                { text: "확인", onPress: () =>
+                    {
+                        // api 수락 요청
+                        // visit_date와 accept 보내면 됨.
+                    }
+                }
+            ]
+        );
 
 
     useEffect(() => {
