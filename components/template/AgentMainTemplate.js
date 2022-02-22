@@ -4,30 +4,11 @@ import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
 import CustomNavigation from "../CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
+import {todaySchedule} from "../../dummy-data/todaySchedule";
 
 
 function AgentMainTemplate(props) {
-    const [todaySchedule, setTodaySchedule] = useState([{
-        c_name: "이화유치원",
-        c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트adfadfadadfaadfadfadffadffhashdadfadfkhsddkfdf",
-        c_studentNumber: "38명"
-    }, {
-        c_name: "이화유치원",
-        c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
-        c_studentNumber: "38명"
-    },{
-        c_name: "이화유치원",
-        c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
-        c_studentNumber: "38명"
-    },{
-        c_name: "이화유치원",
-        c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
-        c_studentNumber: "38명"
-    },{
-        c_name: "이화유치원",
-        c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
-        c_studentNumber: "38명"
-    }]);
+    const [schedule, setSchedule] = useState(todaySchedule);
     useEffect(() => {
         // 오늘 일정 받아오기 api 실행
         // setTodaySchedule();
@@ -58,9 +39,9 @@ function AgentMainTemplate(props) {
                 <View style={{alignItems: "flex-start", width: useWindowDimensions().width * 0.9, marginBottom: 5}}>
                     <Text style={{fontSize: 24}}>오늘 일정</Text>
                 </View>
-                <ListContainer onPress={onPress} info={todaySchedule}/>
+                <ListContainer onPress={onPress} info={schedule} minHeight="300" listButtonContent="늦음" />
             </View>
-            <View style={{flex: 5, backgroundColor: "teal", justifyContent: "center", alignItems: "center"}}>
+            <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
                 <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate} name="calendar-check-o"
                                        size={30} color="black"/>
                 <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate} name="calendar"

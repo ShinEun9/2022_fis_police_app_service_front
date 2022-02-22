@@ -4,4 +4,6 @@ export const Style={
     color3: "#ECE6E6",
     color4: "#FCF6F5",
     color5: "#C8C6C6",
+    color6: "#E55039",
+    color7: "#009432"
 }

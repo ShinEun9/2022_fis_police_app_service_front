@@ -121,8 +121,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     buttonText: {
-        fontSize: 20,
-        color: "white"
+        fontSize: 18,
+        color: "white",
+        textAlign: "center"
+
     },
     content: {
         display: "flex",
@@ -138,9 +140,9 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         /* 모달창 크기 조절 */
-        width: screen.width*0.9,
-        height: screen.height*0.9,
-        backgroundColor:"white",
+        width: screen.width * 0.9,
+        height: screen.height * 0.9,
+        backgroundColor: "white",
         borderRadius: 10,
     }
 })
