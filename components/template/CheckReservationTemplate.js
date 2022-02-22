@@ -6,6 +6,7 @@ import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
 import CustomNavigation from "../CustomNavigation";
 import ConfirmationForm from "../organisms/ConfirmationForm";
+import CustomModal from "../atom/CustomModal";
 
 
 const screen = Dimensions.get("window");
@@ -43,8 +44,8 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>현장요원 이름 : 한마루</Text>
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
-                                <CustomButton backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modal={true}  modalContent={<ConfirmationForm/>}/>
+                                <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
+                                              height={35} content={"확인서 열람"}  modalContent={<ConfirmationForm/>}/>
                                 {/*modalContent 알맞은 파일로 변경 필요*/}
 
                             </View>
@@ -59,8 +60,8 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>현장요원 이름 : 웰시코기</Text>
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
-                                <CustomButton backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modal={true} modalContent={<ConfirmationForm/>} />
+                                <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
+                                              height={35} content={"확인서 열람"} modalContent={<ConfirmationForm/>} />
                             </View>
                         </View>
                     </View>
