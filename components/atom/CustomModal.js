@@ -7,14 +7,23 @@ import CustomButton from "./CustomButton";
 
 
 const StyledModalGradeWrapper = styled.View`
-  flex: 1;
+  flex: 1
   width: 320px;
   justify-content: center;
 `;
 const screen = Dimensions.get("window");
 
 
-function CustomModal({modalContent, content, width, height, backgroundColor, onPress}) {
+function CustomModal({
+                         modalContent,
+                         content,
+                         width,
+                         height,
+                         backgroundColor,
+                         modalWidth,
+                         modalHeight,
+                         modalButtonContent
+                     }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -24,6 +33,7 @@ function CustomModal({modalContent, content, width, height, backgroundColor, onP
         console.log("제출")
         setModalVisible(!modalVisible)
     }
+
     return (
         <View>
             <TouchableOpacity onPress={toggleModal} activeOpacity={0.9}>
@@ -42,13 +52,13 @@ function CustomModal({modalContent, content, width, height, backgroundColor, onP
                 }}
                 style={{flex: 1, justifyContent: "center", alignItems: "center"}}
             >
-                <View style={styles.container}>
+                <View style={{...styles.container, width: modalWidth, height: modalHeight}}>
                     <StyledModalGradeWrapper>
                         <View style={styles.content}>{modalContent}</View>
                     </StyledModalGradeWrapper>
                     <View style={styles.customButton}>
                         <CustomButton backgroundColor={Style.color2} onPress={send} width="100" height="40"
-                                      content={"제출"}/>
+                                      content={modalButtonContent}/>
                     </View>
 
                 </View>
@@ -59,21 +69,25 @@ function CustomModal({modalContent, content, width, height, backgroundColor, onP
 
 export default CustomModal;
 
+
 const styles = StyleSheet.create({
+        content:{
+          justifyContent:"center",
+            marginTop:40
+        },
         customButton: {
             display: "flex",
             paddingVertical: 7,
-            marginBottom: 10
+            marginBottom: 15
         },
         container: {
             flexDirection: "column",
             alignItems: "center",
             /* 모달창 크기 조절 */
-            width: screen.width * 0.9,
-            height: screen.height * 0.9,
             backgroundColor: "white",
             borderRadius: 10,
-        }, button: {
+        },
+        button: {
             borderRadius: 10,
             justifyContent: "center",
             alignItems: "center",
