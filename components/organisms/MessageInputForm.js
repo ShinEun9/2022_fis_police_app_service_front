@@ -74,7 +74,7 @@ function MessageInputForm(props) {
                     }}/>
                 </View>
             </View>
-            <CustomButton width="100" height="50" onPress={onPress} content="전송" backgroundColor={Style.color2}/>
+            {/*<CustomButton width="100" height="50" onPress={onPress} content="전송" backgroundColor={Style.color2}/>*/}
         </View>
     );
 }
@@ -84,7 +84,7 @@ export default MessageInputForm;
 const styles = StyleSheet.create({
         container: {
             backgroundColor: Style.color5,
-            width: "80%",
+            width: "100%",
             height: 50,
             flexDirection: "row",
             justifyContent: "space-between",

@@ -47,7 +47,7 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"}  modalContent={<ConfirmationForm/>}/>
+                                              height={35} content={"확인서 열람"}  modalWidth={screen.width*0.9} modalHeight={screen.height*0.87} modalButtonContent={"전송"} modalContent={<ConfirmationForm/>}/>
                                 {/*modalContent 알맞은 파일로 변경 필요*/}
 
                             </View>
@@ -63,7 +63,7 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modalContent={<ConfirmationForm/>} />
+                                              height={35} content={"확인서 열람"} modalWidth={screen.width*0.9} modalHeight={screen.height*0.87} modalButtonContent={"전송"} modalContent={<ConfirmationForm/>} />
                             </View>
                         </View>
                     </View>

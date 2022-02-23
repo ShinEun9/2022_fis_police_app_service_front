@@ -1,7 +1,11 @@
 import React from 'react';
-import {View, Text, useWindowDimensions} from 'react-native';
+import {View, Text, useWindowDimensions, Dimensions} from 'react-native';
 import {Style} from "../../Style";
 import CustomButton from "../atom/CustomButton";
+import CustomModal from "../atom/CustomModal";
+import MessageInputForm from "../organisms/MessageInputForm";
+
+const screen = Dimensions.get("window");
 
 function List({type="buttonList", onPress, listButtonContent, info}) {
     let element;
@@ -23,7 +27,7 @@ function List({type="buttonList", onPress, listButtonContent, info}) {
                 <Text style={{marginBottom: 10}}>{info.c_address}</Text>
                 <Text>{info.estimate_num}명</Text>
             </View>
-            <CustomButton onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent}/>
+            <CustomModal onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent} modalWidth={screen.width*0.9} modalHeight={screen.height*0.4} modalButtonContent={"전송"} modalContent={<MessageInputForm/>}/>
         </View>
     } else if(type==="noButtonList"){
         element = <View style={{
