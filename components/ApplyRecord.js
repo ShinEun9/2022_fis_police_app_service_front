@@ -33,7 +33,7 @@ function ApplyRecord(props) {
                 </View>
 
             </ScrollView>
-            <CustomButton content="확인" width="100" height="50" backgroundColor={Style.color2} onPress={onPress}/>
+            {/*<CustomButton content="확인" width="100" height="50" backgroundColor={Style.color2} onPress={onPress}/>*/}
         </View>
 
     );
@@ -44,9 +44,9 @@ export default ApplyRecord;
 const styles = StyleSheet.create(
     {
         mainContainer: {
-            backgroundColor: Style.color3,
-            width: Dimensions.get("window").width * 0.9,
-            height: Dimensions.get("window").height * 0.5,
+            // backgroundColor: Style.color3,
+            width: Dimensions.get("window").width * 0.83,
+            height: Dimensions.get("window").height * 0.49,
             alignItems: "center",
             paddingHorizontal: 0,
             paddingBottom: 20,

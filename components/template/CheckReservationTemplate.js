@@ -7,6 +7,8 @@ import {Style} from "../../Style";
 import CustomNavigation from "../CustomNavigation";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import CustomModal from "../atom/CustomModal";
+import ApplyRecord from "../ApplyRecord";
+import CustomImageModal from "../atom/CustomImageModal";
 
 
 const screen = Dimensions.get("window");
@@ -77,7 +79,7 @@ function CheckReservationTemplate(props) {
                 <Text style={styles.text}>과거이력</Text>
                 <Text style={styles.text}>과거이력</Text>
                 <View style={styles.button}>
-                    <CustomImageButton name={"plus-square-o"} onPress={checkHistory} size={24} color={"black"}/>
+                    <CustomImageModal name={"plus-square-o"} onPress={checkHistory} size={24} color={"black"} modalContent={<ApplyRecord/>}/>
                 </View>
 
             </View>
