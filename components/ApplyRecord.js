@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, useWindowDimensions, ScrollView, Dimensions} fro
 import CustomButton from "./atom/CustomButton";
 import {Style} from "../Style";
 
-function EmptyPage(props) {
+function ApplyRecord(props) {
     const onPress = () => {
         console.log("pressButton")
     }
@@ -39,7 +39,7 @@ function EmptyPage(props) {
     );
 }
 
-export default EmptyPage;
+export default ApplyRecord;
 
 const styles = StyleSheet.create(
     {
