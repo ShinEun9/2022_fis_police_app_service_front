@@ -26,7 +26,7 @@ function LoginTemplate(props) {
     const goSomePage = () => {
         //로그인 api 요청
 
-        let auth = "agent"
+        let auth = "center"
         if (auth === "center") {
             props.navigation.navigate('CenterMainTemplate', props);
         } else if (auth === "agent") {

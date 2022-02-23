@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Button, useWindowDimensions} from 'react-native'
 import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "./atom/CustomImageButton";
-import {Calendar,CalendarList,Agenda} from 'react-native-calendars'
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
 
 function CustomNavigation({navigation, type, title}) {
     // const [open, setOpen] = useState(false)
@@ -13,22 +13,22 @@ function CustomNavigation({navigation, type, title}) {
     // onPressCalendar와 onPressSetting 함수를 어디서 정의 하는 것이 맞을까?
     // props로 받는 게 맞을까 아니면,,, 여기서 정의하는 게 맞을까? 흠...
     const onPressCalendar = () => {
-        return(
+        return (
             <View>
                 <Calendar/>
             </View>
-            )
+        )
         console.log("press Calendar")
     }
 
-    const onPressSetting = ()=>{
+    const onPressSetting = () => {
         let page = "setting"
-        navigation.navigate("JoinInfoTemplate", page )
+        navigation.navigate("JoinInfoTemplate", page)
     }
 
     let element;
 
-    if (type === "join" || type === "titleNavbar") {
+    if (type === "noGearTitleNavbar" || type === "titleNavbar") {
         element = <View style={{
             width: useWindowDimensions().width,
             height: 50,
@@ -56,10 +56,12 @@ function CustomNavigation({navigation, type, title}) {
             paddingHorizontal: 20
         }}>
 
-            {type==="agentMain" ? <View style={{marginRight: 15}}>
+            {type === "agentMain" ? <View style={{marginRight: 15}}>
                 <CustomImageButton onPress={onPressCalendar} name={"calendar-o"} color="black" size={30}/>
             </View> : null}
-            <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
+            {type === "agentMain" ? null :
+                <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
+            }
 
         </View>
     }

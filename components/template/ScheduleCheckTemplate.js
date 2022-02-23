@@ -44,7 +44,7 @@ function ScheduleCheckTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="titleNavbar" title="확정된 일정 열람하러 가기"/>
+                <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="확정된 일정 열람하러 가기"/>
             </View>
             <View style={{flex: 9, alignItems: "center"}}>
                 <ScrollView>
