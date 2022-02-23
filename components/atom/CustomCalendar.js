@@ -101,12 +101,12 @@ function CustomCalendar(props) {
                 marginBottom: 5
             }}>
                 <FontAwesome name="square" size={20} color={Style.color6}/>
-                <Text style={{marginLeft: 10, color: Style.color1}}>근무일</Text>
+                <Text style={{marginLeft: 10, color: Style.color5}}>근무일</Text>
             </View>
                 <View style={{flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
 
                     <FontAwesome name="square" size={20} color={Style.color2}/>
-                    <Text style={{marginLeft: 10, color: Style.color1}}>근무 예정일</Text>
+                    <Text style={{marginLeft: 10, color: Style.color5}}>근무 예정일</Text>
                 </View>
 
             </View>

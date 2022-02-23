@@ -28,7 +28,7 @@ function DatePicker({id, handleChange, currentInfo}) {
                     height: 40,
                     flexDirection: 'row',
                     borderWidth: "2",
-                    borderColor: `${Style.color1}`,
+                    borderColor: `${Style.color5}`,
                     alignItems: "center",
                     justifyContent: "space-between",
                     paddingHorizontal: 10

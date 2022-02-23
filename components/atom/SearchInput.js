@@ -31,7 +31,7 @@ const styles = StyleSheet.create(
             width: Dimensions.get("window").width * 0.8,
             height: 50,
             padding: 10,
-            borderColor: Style.color1,
+            borderColor: Style.color5,
             paddingBottom: 10,
         },
         inputStyle: {
