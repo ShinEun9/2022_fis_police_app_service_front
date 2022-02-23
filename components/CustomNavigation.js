@@ -3,6 +3,8 @@ import {View, Text, TouchableOpacity, Button, useWindowDimensions} from 'react-n
 import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "./atom/CustomImageButton";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
+import CustomImageModal from "./atom/CustomImageModal";
+import CustomCalendar from "./atom/CustomCalendar";
 
 function CustomNavigation({navigation, type, title}) {
     // const [open, setOpen] = useState(false)
@@ -13,11 +15,7 @@ function CustomNavigation({navigation, type, title}) {
     // onPressCalendar와 onPressSetting 함수를 어디서 정의 하는 것이 맞을까?
     // props로 받는 게 맞을까 아니면,,, 여기서 정의하는 게 맞을까? 흠...
     const onPressCalendar = () => {
-        return (
-            <View>
-                <Calendar/>
-            </View>
-        )
+
         console.log("press Calendar")
     }
 
@@ -57,7 +55,7 @@ function CustomNavigation({navigation, type, title}) {
         }}>
 
             {type === "agentMain" ? <View style={{marginRight: 15}}>
-                <CustomImageButton onPress={onPressCalendar} name={"calendar-o"} color="black" size={30}/>
+                <CustomImageModal onPress={onPressCalendar} name={"calendar-o"} color="black" size={30} modalContent={<CustomCalendar/>}/>
             </View> : null}
             {type === "agentMain" ? null :
                 <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
