@@ -35,14 +35,14 @@ function CustomInput({type = "normal", id, width, height, placeholder, keyboardT
 const styles = StyleSheet.create(
     {
         input: {
-            borderColor: `${Style.color1}`,
+            borderColor: `${Style.color5}`,
             margin: 12,
             borderWidth: 2,
             padding: 10
         },
         input2: {
             borderColor: "transparent",
-            borderBottomColor: `${Style.color1}`,
+            borderBottomColor: `${Style.color5}`,
             margin: 12,
             borderWidth: 2,
             padding: 10,

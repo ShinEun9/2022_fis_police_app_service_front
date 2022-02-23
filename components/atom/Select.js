@@ -21,14 +21,14 @@ function Select({label, id, items, width, handleChange, currentInfo}) {
                     paddingVertical: 10,
                     paddingHorizontal: 10,
                     borderWidth: 2,
-                    borderColor: `${Style.color1}`,
+                    borderColor: `${Style.color5}`,
                     paddingRight: 30,  //to ensure the text is never behind the icon
                 },
                 inputAndroid: {
                     paddingHorizontal: 10,
                     paddingVertical: 8,
                     borderWidth: 0.5,
-                    borderColor: `${Style.color1}`,
+                    borderColor: `${Style.color5}`,
                     borderRadius: 8,
                     color: 'black',
                     paddingRight: 30,  //to ensure the text is never behind the icon
@@ -43,7 +43,7 @@ function Select({label, id, items, width, handleChange, currentInfo}) {
             useNativeAndroidPickerStyle={false}
             textInputProps={{underlineColor: 'yellow'}}
             Icon={() => {
-                return <Ionicons name="md-arrow-down" size={24} color={Style.color1}/>;
+                return <Ionicons name="md-arrow-down" size={24} color={Style.color5}/>;
             }}
         />
 

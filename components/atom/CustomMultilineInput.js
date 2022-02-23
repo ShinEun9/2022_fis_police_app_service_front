@@ -40,7 +40,7 @@ export default CustomMultilineInput
 const styles = StyleSheet.create(
     {
         input: {
-            borderColor: `${Style.color1}`,
+            borderColor: `${Style.color5}`,
             margin: 12,
             borderWidth: 2,
             padding: 10

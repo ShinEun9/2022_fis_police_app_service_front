@@ -83,7 +83,7 @@ function MessageInputForm(props) {
 export default MessageInputForm;
 const styles = StyleSheet.create({
         container: {
-            backgroundColor: Style.color1,
+            backgroundColor: Style.color5,
             width: "80%",
             height: 50,
             flexDirection: "row",

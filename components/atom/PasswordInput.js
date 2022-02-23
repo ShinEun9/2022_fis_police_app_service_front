@@ -47,8 +47,9 @@ function PasswordInput({
 
             />
             <TouchableOpacity onPress={onPress}>
-                {showPassword ? <Ionicons name="md-eye" size={24} color="black"/> :
-                    <Ionicons name="md-eye-off" size={24} color="black"/>}
+                {showPassword ? <Ionicons name="md-eye" size={24} color="#A2A2A2"/> :
+                    <Ionicons name="md-eye-off" size={24} color="#A2A2A2"/>}
+
             </TouchableOpacity>
         </View>;
     }
@@ -67,7 +68,7 @@ const styles = StyleSheet.create(
             alignItems: 'center',
             borderWidth: 1,
             padding: 10,
-            borderColor: `${Style.color1}`,
+            borderColor: `${Style.color5}`,
             paddingBottom: 10,
             borderRadius: 10
         },
@@ -75,7 +76,7 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             borderColor: "transparent",
-            borderBottomColor: `${Style.color1}`,
+            borderBottomColor: `${Style.color5}`,
             margin: 12,
             borderWidth: 2,
             padding: 10,
