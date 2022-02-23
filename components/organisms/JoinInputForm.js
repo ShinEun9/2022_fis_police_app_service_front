@@ -11,10 +11,10 @@ function JoinInputForm({props}) {
         phoneNumber: "",
         email: "",
         user_id: "",
-        user_password: ""
+        user_password: "",
+        c_name: ""
     })
     const onPress = () => {
-
         // 날짜 : 2022/02/18 11:15 AM
         // 작성자 : 신은수
         // 작성내용 :
@@ -28,7 +28,13 @@ function JoinInputForm({props}) {
 
         // 어쨌든 일단은 joinInputForm에서 api 요청 보내도록 함.
         // api 회원 가입 요청
-        props.navigation.navigate('LoginTemplate')
+        if (props.route.params === "setting") {
+            console.log("hi")
+            props.navigation.goBack();
+
+        } else {
+            props.navigation.navigate("LoginTemplate")
+        }
     }
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -38,8 +44,18 @@ function JoinInputForm({props}) {
     }
 
     useEffect(() => {
+        if (props.route.params === "setting") {
+            // 정보는 어디다가 저장하지...?
+            // setCurrentInfo([]);
+        }
+    }, [])
+
+
+    useEffect(() => {
         console.log(currentInfo)
     }, [currentInfo])
+
+
     return (
         <>
             <CustomInput type="line" id="name" width={useWindowDimensions().width * 0.6} height="50" placeholder="이름"
@@ -60,8 +76,14 @@ function JoinInputForm({props}) {
                            handleChange={handleChange}
                            currentInfo={currentInfo}/>
 
+            {props.route.params === "setting" ?
+                <CustomInput type="line" id="c_name" width={useWindowDimensions().width * 0.6} height="50"
+                             placeholder="센터 이름" handleChange={handleChange}
+                             currentInfo={currentInfo}/> : null}
+
             <View style={{marginTop: 30}}>
-                <CustomButton onPress={onPress} content="회원가입" width="100" height="50" backgroundColor={Style.color2}/>
+                <CustomButton onPress={onPress} content={props.route.params === "setting" ? "정보 수정" : "회원가입"}
+                              width="100" height="50" backgroundColor={Style.color2}/>
             </View>
         </>
 

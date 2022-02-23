@@ -15,7 +15,7 @@ export const todaySchedule = [{
     c_ph: "123",
     c_faxNum: null
 }, {
-    schedule_id: 22,
+    schedule_id: 21,
     visit_date: "2022-02-11",
     visit_time: "10:00:00",
     estimate_num: 444,
