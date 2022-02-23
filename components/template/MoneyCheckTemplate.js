@@ -2,6 +2,7 @@ import React from 'react';
 import {SafeAreaView, ScrollView, View} from "react-native";
 import CustomNavigation from "../CustomNavigation";
 import CustomCalendar from "../atom/CustomCalendar";
+import MessageInputForm from "../organisms/MessageInputForm";
 
 function MoneyCheckTemplate(props) {
     return (
@@ -10,7 +11,7 @@ function MoneyCheckTemplate(props) {
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="급여 확인하러 가기"/>
             </View>
             <ScrollView contentContainerStyle={{flex: 9, backgroundColor: "orange", marginBottom: 10}}>
-                <CustomCalendar/>
+                <MessageInputForm />
             </ScrollView>
         </SafeAreaView>);
 }
