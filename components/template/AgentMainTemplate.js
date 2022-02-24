@@ -61,6 +61,10 @@ function AgentMainTemplate(props) {
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert("Modal has been closed.");
+                        setModalVisible(!modalVisible);
+                    }}
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
@@ -108,24 +112,4 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    }
 });
