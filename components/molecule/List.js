@@ -27,7 +27,8 @@ function List({type="buttonList", onPress, listButtonContent, info}) {
                 <Text style={{marginBottom: 10}}>{info.c_address}</Text>
                 <Text>{info.estimate_num}명</Text>
             </View>
-            <CustomModal onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent} modalWidth={screen.width*0.9} modalHeight={screen.height*0.4} modalButtonContent={"전송"} modalContent={<MessageInputForm/>}/>
+            {/*<CustomModal key={info.schedule_id}onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent} modalWidth={screen.width*0.9} modalHeight={screen.height*0.4} modalButtonContent={"전송"} modalContent={<MessageInputForm/>}/>*/}
+            <CustomButton key={info.schedule_id} onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent}/>
         </View>
     } else if(type==="noButtonList"){
         element = <View style={{

@@ -10,7 +10,7 @@ import CustomButton from "../atom/CustomButton";
     작성내용 : 어떤 스케쥴이 선택됐는지 schedule_id를 props로 건네주야하는데 넘 어려워ㅠㅠ
  */
 
-function MessageInputForm(props) {
+function MessageInputForm({setModalVisible}) {
     const [isChecked, setChecked] = useState({lateCenter: false, trafficJam: false, etc: false});
     const [inputValue, setInputValue] = useState("")
     const handleChange = (key, value) => {
@@ -38,6 +38,8 @@ function MessageInputForm(props) {
         }
         console.log(message)
         // api 요청
+
+        setModalVisible(false)
     }
 
     // useEffect(() => {
@@ -74,7 +76,7 @@ function MessageInputForm(props) {
                     }}/>
                 </View>
             </View>
-            {/*<CustomButton width="100" height="50" onPress={onPress} content="전송" backgroundColor={Style.color2}/>*/}
+            <CustomButton width="100" height="50" onPress={onPress} content="전송" backgroundColor={Style.color2}/>
         </View>
     );
 }

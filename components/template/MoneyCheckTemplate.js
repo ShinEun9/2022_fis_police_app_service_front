@@ -2,6 +2,7 @@ import React from 'react';
 import {SafeAreaView, ScrollView, Text, View} from "react-native";
 import CustomNavigation from "../CustomNavigation";
 import ConfirmationModal from "../ConfirmationModal";
+import CustomModalByEunsu from "../CustomModalByEunsu";
 
 function MoneyCheckTemplate(props) {
     return (
@@ -11,7 +12,8 @@ function MoneyCheckTemplate(props) {
             </View>
             <View style={{flex: 9, backgroundColor: "orange", marginBottom: 10}}>
                 <Text>
-                    <ConfirmationModal />
+
+                     <CustomModalByEunsu />
                 </Text>
             </View>
         </SafeAreaView>);
