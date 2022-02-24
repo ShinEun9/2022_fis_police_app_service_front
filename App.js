@@ -11,13 +11,17 @@ import CheckReservationTemplate from "./components/template/CheckReservationTemp
 import AgentMainTemplate from "./components/template/AgentMainTemplate";
 import ScheduleAcceptTemplate from "./components/template/ScheduleAcceptTemplate";
 import ScheduleCheckTemplate from "./components/template/ScheduleCheckTemplate";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
-import CustomNavigation from "./components/CustomNavigation";
-import {Platform, Text} from "react-native";
-
 import MoneyCheckTemplate from "./components/template/MoneyCheckTemplate";
 import OffenderAlertTemplate from "./components/template/OffenderAlertTemplate";
 import StartupSupportTemplate from "./components/template/StartupSupportTemplate";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs([
+    "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+]);
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);
+
 
 const Stack = createStackNavigator();
 
