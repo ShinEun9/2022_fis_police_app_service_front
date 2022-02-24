@@ -7,7 +7,7 @@ import MessageInputForm from "../organisms/MessageInputForm";
 
 const screen = Dimensions.get("window");
 
-function List({type="buttonList", onPress, listButtonContent, info}) {
+function List({ type="buttonList", onPress, listButtonContent, info}) {
     let element;
     if (type === "buttonList") {
         element = <View style={{
@@ -28,7 +28,7 @@ function List({type="buttonList", onPress, listButtonContent, info}) {
                 <Text>{info.estimate_num}명</Text>
             </View>
             {/*<CustomModal key={info.schedule_id}onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent} modalWidth={screen.width*0.9} modalHeight={screen.height*0.4} modalButtonContent={"전송"} modalContent={<MessageInputForm/>}/>*/}
-            <CustomButton key={info.schedule_id} onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent}/>
+            <CustomButton keyValue={info.schedule_id} onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent}/>
         </View>
     } else if(type==="noButtonList"){
         element = <View style={{

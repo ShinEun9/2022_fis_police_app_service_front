@@ -10,6 +10,7 @@ function ScheduleCheckTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState(schedule);
     const [pastSchedule, setPastSchedule] = useState(schedule);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const dataRequest = async () => {
         // confirm/schedule로 get api요청 (방문예정 일정들) =>setTodayAndFutureSchedule
@@ -37,8 +38,9 @@ function ScheduleCheckTemplate(props) {
     let schedules1 = groupByDate(todayAndFutureSchedule);
     let schedules2 = groupByDate(pastSchedule);
 
-    const onPress = () => {
-        console.log("hi")
+    const onPress = (keyValue) => {
+        console.log(keyValue)
+
     }
 
     return (

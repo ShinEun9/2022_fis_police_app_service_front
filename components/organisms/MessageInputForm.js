@@ -10,7 +10,7 @@ import CustomButton from "../atom/CustomButton";
     작성내용 : 어떤 스케쥴이 선택됐는지 schedule_id를 props로 건네주야하는데 넘 어려워ㅠㅠ
  */
 
-function MessageInputForm({setModalVisible}) {
+function MessageInputForm({setModalVisible, selectedScheduleId}) {
     const [isChecked, setChecked] = useState({lateCenter: false, trafficJam: false, etc: false});
     const [inputValue, setInputValue] = useState("")
     const handleChange = (key, value) => {
@@ -28,6 +28,7 @@ function MessageInputForm({setModalVisible}) {
         let message;
         if(lateCenter === false && trafficJam === false && etc===false){
             // alert 창 띄우기
+            return;
         }
         else if (lateCenter === true) {
             message = "이전 시설의 지문등록이 늦어지고 있어요!"
@@ -36,8 +37,10 @@ function MessageInputForm({setModalVisible}) {
         } else if(etc === true){
             message = inputValue;
         }
-        console.log(message)
+        // console.log(message)
         // api 요청
+
+        console.log("nice to meet you", selectedScheduleId)
 
         setModalVisible(false)
     }
@@ -47,7 +50,7 @@ function MessageInputForm({setModalVisible}) {
     // }, [isChecked])
 
     return (
-        <View style={{alignItems: "center", }}>
+        <View style={{alignItems: "center", backgroundColor: "pink" }}>
             <View style={{marginBottom: 40}}>
                 <View style={styles.container}>
                     <Text style={styles.text}>이전 시설의 지문 등록이 늦어지고 있어요!</Text>

@@ -21,6 +21,7 @@ import MessageInputForm from "../organisms/MessageInputForm";
 function AgentMainTemplate(props) {
     const [schedule, setSchedule] = useState(todaySchedule);
     const [modalVisible, setModalVisible] = useState(false);
+    const [selectedSchedule, setSelectedSchedule] = useState();
 
     useEffect(() => {
         // 오늘 일정 받아오기 api 실행
@@ -28,8 +29,9 @@ function AgentMainTemplate(props) {
     }, [])
 
 
-    const onPress = () => {
-        console.log("hi")
+    const onPress = (keyValue) => {
+        setSelectedSchedule(keyValue)
+        setModalVisible(true)
     }
 
     const goScheduleAcceptTemplate = () => {
@@ -52,7 +54,7 @@ function AgentMainTemplate(props) {
                 <View style={{alignItems: "flex-start", width: useWindowDimensions().width * 0.9, marginBottom: 5}}>
                     <Text style={{fontSize: 24}}>오늘 일정</Text>
                 </View>
-                <ListContainer onPress={() => setModalVisible(true)} info={schedule} minHeight="300"
+                <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                listButtonContent="늦음"/>
 
                 <Modal
@@ -62,7 +64,7 @@ function AgentMainTemplate(props) {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <MessageInputForm setModalVisible={setModalVisible}/>
+                            <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>
                         </View>
                     </View>
                 </Modal>
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        padding: 20,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
