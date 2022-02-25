@@ -3,19 +3,21 @@ import {
     Text,
     SafeAreaView,
     View,
-    findNodeHandle,
     useWindowDimensions,
-    Modal,
     Alert,
     StyleSheet,
-    Pressable
 } from "react-native";
+import Modal from "react-native-modal";
+
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
 import CustomNavigation from "../CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
 import {todaySchedule} from "../../dummy-data/todaySchedule";
 import MessageInputForm from "../organisms/MessageInputForm";
+import CustomButton from "../atom/CustomButton";
+import {Style} from "../../Style";
+import styled from "styled-components/native";
 
 
 function AgentMainTemplate(props) {
@@ -57,21 +59,36 @@ function AgentMainTemplate(props) {
                 <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                listButtonContent="늦음"/>
 
+                {/*<Modal*/}
+                {/*    isVisible={modalVisible}*/}
+                {/*    useNativeDriver={true}*/}
+                {/*    onBackdropPress={()=>{setModalVisible(false)}}*/}
+                {/*    hideModalContentWhileAnimating={true}*/}
+                {/*>*/}
+                {/*    <View style={styles.centeredView}>*/}
+                {/*        <View style={styles.modalView}>*/}
+                {/*            <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>*/}
+                {/*        </View>*/}
+
+                {/*        */}
+                {/*    </View>*/}
+                {/*</Modal>*/}
+
+
                 <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                        setModalVisible(!modalVisible);
+                    isVisible={modalVisible}
+                    useNativeDriver={true}
+                    hideModalContentWhileAnimating={true}
+                    onBackdropPress={() => {
+                        setModalVisible(false)
                     }}
+                    style={{flex: 1, justifyContent: "center", alignItems: "center"}}
                 >
-                    <View style={styles.centeredView}>
-                        <View style={styles.modalView}>
-                            <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>
-                        </View>
+                    <View style={{...styles.container, width: useWindowDimensions().width * 0.9, height: 300}}>
+                        <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>
                     </View>
                 </Modal>
+
 
             </View>
             <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
@@ -90,26 +107,15 @@ function AgentMainTemplate(props) {
 
 export default AgentMainTemplate;
 
+
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 20,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
+        container: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            borderRadius: 10,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
-});
+
+    }
+)

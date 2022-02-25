@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-function Timepicker(width) {
+function Timepicker({id, currentInfo, handleChange}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [time, setTime] = useState(null);
-    useEffect(() => {
-        console.log(time)
-    }, [time])
+
+    // useEffect(() => {
+    //     console.log(time)
+    // }, [time])
+
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -24,7 +26,6 @@ function Timepicker(width) {
     const getFormattedTime = (time) => {
         let a = time.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})
         return a;
-
     }
 
     return (
@@ -41,7 +42,7 @@ function Timepicker(width) {
                     paddingHorizontal: 10
                 }}>
                     <Text>
-                        {time === null ? "시간 선택" : getFormattedTime(time)}
+                        {currentInfo[id] === null ? "시간 선택" : getFormattedTime(currentInfo[id])}
                     </Text>
                     <View
                         style={{
@@ -62,8 +63,12 @@ function Timepicker(width) {
                 locale="ko"
                 isVisible={isDatePickerVisible}
                 mode="time"
-                date={time===null?new Date():time}
-                onConfirm={handleConfirm}
+                date={currentInfo[id] === null ? new Date() : currentInfo[id]}
+                onConfirm={(time) => {
+                    console.log(time);
+                    handleChange(id, time);
+                    hideDatePicker();
+                }}
                 onCancel={hideDatePicker}/>
         </View>)
 

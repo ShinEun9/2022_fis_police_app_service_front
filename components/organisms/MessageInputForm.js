@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native'
+import {View, Text, StyleSheet, TextInput, useWindowDimensions} from 'react-native'
 import {Style} from "../../Style";
 import Checkbox from 'expo-checkbox';
 import CustomButton from "../atom/CustomButton";
@@ -28,7 +28,6 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
         let message;
         if(lateCenter === false && trafficJam === false && etc===false){
             // alert 창 띄우기
-            return;
         }
         else if (lateCenter === true) {
             message = "이전 시설의 지문등록이 늦어지고 있어요!"
@@ -50,7 +49,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
     // }, [isChecked])
 
     return (
-        <View style={{alignItems: "center", backgroundColor: "pink" }}>
+        <View style={{alignItems: "center", backgroundColor: "pink", width: useWindowDimensions().width*0.8}}>
             <View style={{marginBottom: 40}}>
                 <View style={styles.container}>
                     <Text style={styles.text}>이전 시설의 지문 등록이 늦어지고 있어요!</Text>

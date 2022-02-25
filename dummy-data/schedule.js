@@ -11,7 +11,8 @@ export const schedule = [{
     c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트 103동 102호",
     c_zipcode: null,
     c_ph: "123",
-    c_faxNum: null
+    c_faxNum: null,
+    complete: "incomplete"
 }, {
     schedule_id: 19,
     visit_date: "2022-02-11",
@@ -25,7 +26,9 @@ export const schedule = [{
     c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
     c_zipcode: null,
     c_ph: "123",
-    c_faxNum: null
+    c_faxNum: null,
+    complete: "wating"
+
 }, {
     schedule_id: 21,
     visit_date: "2022-02-11",
@@ -39,7 +42,9 @@ export const schedule = [{
     c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
     c_zipcode: null,
     c_ph: "123",
-    c_faxNum: null
+    c_faxNum: null,
+    complete: "complete"
+
 },{
     schedule_id: 22,
     visit_date: "2022-02-11",
@@ -67,7 +72,9 @@ export const schedule = [{
     c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
     c_zipcode: null,
     c_ph: "123",
-    c_faxNum: null
+    c_faxNum: null,
+    complete: "complete"
+
 },{
     schedule_id: 24,
     visit_date: "2022-02-13",
@@ -81,7 +88,9 @@ export const schedule = [{
     c_address: "서울특별시 용산구 이촌로 100-8 동아그린아파트",
     c_zipcode: null,
     c_ph: "123",
-    c_faxNum: null
+    c_faxNum: null,
+    complete: "incomplete"
+
 },
     {
         schedule_id: 25,

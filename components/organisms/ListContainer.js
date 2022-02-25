@@ -32,6 +32,7 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
             </ScrollView>
         </View>
     } else if (type === "noButtonListContainer") {
+
         element = <View style={{
             backgroundColor: `${Style.color3}`,
             padding: 10,
@@ -43,8 +44,23 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
             justifyContent: "center"
         }}>
             <ScrollView>
-                {info.map((item) => <List key={item.schedule_id} onPress={onPress} listButtonContent={listButtonContent}
-                                          info={item}/>)}
+                {info.map((item) => {
+                        let a;
+                        if (item.complete === "complete") {
+                            a = "확인서 열람"
+                        } else if (item.complete === "incomplete") {
+                            a = "확인서 작성"
+                        } else {
+                            a = "확인 대기중"
+                        }
+
+                        return <List key={item.schedule_id} onPress={onPress}
+                                     listButtonContent={listButtonContent === "늦음" ? "늦음" : a}
+                                     info={item}/>
+                    }
+                )}
+
+
             </ScrollView>
         </View>
     }
