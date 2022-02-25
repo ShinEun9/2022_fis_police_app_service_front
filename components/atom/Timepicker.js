@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {Style} from "../../Style";
+import {AntDesign, FontAwesome} from "@expo/vector-icons";
 
 function Timepicker({id, currentInfo, handleChange}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [time, setTime] = useState(null);
-
-    // useEffect(() => {
-    //     console.log(time)
-    // }, [time])
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -18,10 +15,6 @@ function Timepicker({id, currentInfo, handleChange}) {
         setDatePickerVisibility(false);
     };
 
-    const handleConfirm = (time) => {
-        setTime(time);
-        hideDatePicker();
-    };
 
     const getFormattedTime = (time) => {
         let a = time.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})
@@ -35,28 +28,16 @@ function Timepicker({id, currentInfo, handleChange}) {
                     width: 233,
                     height: 40,
                     flexDirection: 'row',
-                    borderWidth: "1",
-                    borderColor: "gray",
+                    borderWidth: "2",
+                    borderColor:  Style.color5,
                     alignItems: "center",
                     justifyContent: "space-between",
                     paddingHorizontal: 10
                 }}>
-                    <Text>
+                    <Text style={{color: currentInfo[id] === null ? Style.color5: "black"}}>
                         {currentInfo[id] === null ? "시간 선택" : getFormattedTime(currentInfo[id])}
                     </Text>
-                    <View
-                        style={{
-                            backgroundColor: 'transparent',
-                            borderTopWidth: 10,
-                            borderTopColor: 'gray',
-                            borderRightWidth: 10,
-                            borderRightColor: 'transparent',
-                            borderLeftWidth: 10,
-                            borderLeftColor: 'transparent',
-                            width: 0,
-                            height: 0,
-                        }}
-                    />
+                    <AntDesign name="clockcircle" size={20} color={Style.color5} />
                 </View>
             </TouchableOpacity>
             <DateTimePickerModal

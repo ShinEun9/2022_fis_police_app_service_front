@@ -33,10 +33,10 @@ function DatePicker({id, handleChange, currentInfo}) {
                     justifyContent: "space-between",
                     paddingHorizontal: 10
                 }}>
-                    <Text>
+                    <Text style={{color: currentInfo.c_date === null ? Style.color5 : "black"}}>
                         {currentInfo.c_date === null ? "날짜 선택" : `${getFormattedDate(currentInfo.c_date)}`}
                     </Text>
-                    <AntDesign name="calendar" size={24} color="black"/>
+                    <AntDesign name="calendar" size={24} color={Style.color5}/>
                 </View>
             </TouchableOpacity>
             <DateTimePickerModal
