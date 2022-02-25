@@ -3,29 +3,15 @@ import {StyleSheet, TextInput} from 'react-native';
 import {Style} from "../../Style";
 
 
-function CustomMultilineInput({type, width, height, placeholder}) {
-    const [values, setValues] = React.useState({firstName: '', lastName: ''});
-    useEffect(() => {
-        console.log(values);
-    }, [values])
+function CustomMultilineInput({id, width, height, placeholder, handleChange, currentInfo}) {
 
-
-    // input handleChange 함수
-    const handleChange = (name, value) => {
-        setValues({
-            ...values,
-            [name]: value
-        })
-    }
-
-
-    //  select handleChange 함수
     return (
 
         <TextInput
+            id={id}
             style={{...styles.input, width: parseInt(width), height: parseInt(height)}}
-            onChangeText={(value) => handleChange('firstName', value)}
-            value={values.firstName}
+            onChangeText={(value) => handleChange(id, value)}
+            value={currentInfo[id]}
             placeholder={placeholder}
             multiline
         />

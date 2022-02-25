@@ -3,13 +3,21 @@ import {Text, SafeAreaView, View, Alert, Pressable, StyleSheet, ScrollView, useW
 import CustomNavigation from "../CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
-import {schedule} from "../../dummy-data/schedule";
-import {week} from "../../dummy-data/week";
+import {schedule} from "../../store/dummy-data/schedule";
+import {week} from "../../store/dummy-data/week";
+import Modal from "react-native-modal";
+import MessageInputForm from "../organisms/MessageInputForm";
+import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationForm from "../organisms/ConfirmationForm";
 
 function ScheduleCheckTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState(schedule);
     const [pastSchedule, setPastSchedule] = useState(schedule);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    // 확인서 작성 모달을 띄울지 확인서열람 모달을 띄울지 정하는 state
+    const [whichModal, setWhichModal] = useState()
 
     const dataRequest = async () => {
         // confirm/schedule로 get api요청 (방문예정 일정들) =>setTodayAndFutureSchedule
@@ -37,8 +45,14 @@ function ScheduleCheckTemplate(props) {
     let schedules1 = groupByDate(todayAndFutureSchedule);
     let schedules2 = groupByDate(pastSchedule);
 
-    const onPress = () => {
-        console.log("hi")
+    const onPress = (keyValue) => {
+        console.log(keyValue);
+        todayAndFutureSchedule.map((item)=>{if(item.schedule_id===keyValue){
+            setWhichModal(item.complete);
+        }})
+
+        setModalVisible(true);
+
     }
 
     return (
@@ -66,7 +80,7 @@ function ScheduleCheckTemplate(props) {
                                     fontSize: 16
                                 }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
                             </View>
-                            <ListContainer onPress={onPress} info={item[1]} listButtonContent="확인서 열람"/>
+                            <ListContainer onPress={onPress} info={item[1]} />
                         </View>
                     })}
 
@@ -88,6 +102,19 @@ function ScheduleCheckTemplate(props) {
                         </View>
                     })}
                 </ScrollView>
+                <Modal
+                    isVisible={modalVisible}
+                    useNativeDriver={true}
+                    hideModalContentWhileAnimating={true}
+                    onBackdropPress={() => {
+                        setModalVisible(false)
+                    }}
+                    style={{flex: 1, justifyContent: "center", alignItems: "center", }}
+                >
+                    <View style={{...styles.container, width: useWindowDimensions().width*0.95, height: "auto"}}>
+                        {whichModal==="complete"?<ConfirmationModal setModalVisible={setModalVisible}/>: <ConfirmationForm setModalVisible={setModalVisible} />}
+                    </View>
+                </Modal>
             </View>
         </SafeAreaView>
     );
@@ -95,3 +122,15 @@ function ScheduleCheckTemplate(props) {
 
 export default ScheduleCheckTemplate;
 
+const styles = StyleSheet.create({
+        container: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            borderRadius: 10,
+            paddingVertical: 20
+        },
+
+    }
+)

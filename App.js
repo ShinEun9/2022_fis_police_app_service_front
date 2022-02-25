@@ -21,6 +21,8 @@ LogBox.ignoreLogs([
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
 ]);
+LogBox.ignoreLogs(['Remote debugger']);
+
 
 
 const Stack = createStackNavigator();

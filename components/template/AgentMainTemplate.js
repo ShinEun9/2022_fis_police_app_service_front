@@ -1,22 +1,39 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, findNodeHandle, useWindowDimensions, Modal, Alert, StyleSheet} from "react-native";
+import {
+    Text,
+    SafeAreaView,
+    View,
+    useWindowDimensions,
+    Alert,
+    StyleSheet,
+} from "react-native";
+import Modal from "react-native-modal";
+
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
 import CustomNavigation from "../CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
-import {todaySchedule} from "../../dummy-data/todaySchedule";
+import {todaySchedule} from "../../store/dummy-data/todaySchedule";
+import MessageInputForm from "../organisms/MessageInputForm";
+import CustomButton from "../atom/CustomButton";
+import {Style} from "../../Style";
+import styled from "styled-components/native";
 
 
 function AgentMainTemplate(props) {
     const [schedule, setSchedule] = useState(todaySchedule);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedSchedule, setSelectedSchedule] = useState();
+
     useEffect(() => {
         // 오늘 일정 받아오기 api 실행
         // setTodaySchedule();
     }, [])
 
 
-    const onPress = () => {
-        console.log("hi")
+    const onPress = (keyValue) => {
+        setSelectedSchedule(keyValue)
+        setModalVisible(true)
     }
 
     const goScheduleAcceptTemplate = () => {
@@ -25,7 +42,7 @@ function AgentMainTemplate(props) {
     const goScheduleCheckTemplate = () => {
         props.navigation.navigate('ScheduleCheckTemplate')
     }
-    const goMoneyCheckTemplate = () =>{
+    const goMoneyCheckTemplate = () => {
         props.navigation.navigate('MoneyCheckTemplate')
 
     }
@@ -39,7 +56,40 @@ function AgentMainTemplate(props) {
                 <View style={{alignItems: "flex-start", width: useWindowDimensions().width * 0.9, marginBottom: 5}}>
                     <Text style={{fontSize: 24}}>오늘 일정</Text>
                 </View>
-                <ListContainer onPress={onPress} info={schedule} minHeight="300" listButtonContent="늦음" />
+                <ListContainer onPress={onPress} info={schedule} minHeight="300"
+                               listButtonContent="늦음"/>
+
+                {/*<Modal*/}
+                {/*    isVisible={modalVisible}*/}
+                {/*    useNativeDriver={true}*/}
+                {/*    onBackdropPress={()=>{setModalVisible(false)}}*/}
+                {/*    hideModalContentWhileAnimating={true}*/}
+                {/*>*/}
+                {/*    <View style={styles.centeredView}>*/}
+                {/*        <View style={styles.modalView}>*/}
+                {/*            <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>*/}
+                {/*        </View>*/}
+
+                {/*        */}
+                {/*    </View>*/}
+                {/*</Modal>*/}
+
+
+                <Modal
+                    isVisible={modalVisible}
+                    useNativeDriver={true}
+                    hideModalContentWhileAnimating={true}
+                    onBackdropPress={() => {
+                        setModalVisible(false)
+                    }}
+                    style={{flex: 1, justifyContent: "center", alignItems: "center"}}
+                >
+                    <View style={{...styles.container, width: useWindowDimensions().width * 0.9, height: 300}}>
+                        <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>
+                    </View>
+                </Modal>
+
+
             </View>
             <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
                 <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate} name="calendar-check-o"
@@ -57,46 +107,15 @@ function AgentMainTemplate(props) {
 
 export default AgentMainTemplate;
 
+
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
+        container: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            borderRadius: 10,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
+
     }
-});
+)

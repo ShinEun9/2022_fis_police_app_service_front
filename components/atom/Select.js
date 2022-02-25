@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import {Ionicons} from '@expo/vector-icons';
+import {FontAwesome, Ionicons} from '@expo/vector-icons';
 import {Style} from "../../Style";
 
 function Select({label, id, items, width, handleChange, currentInfo}) {
@@ -43,7 +43,7 @@ function Select({label, id, items, width, handleChange, currentInfo}) {
             useNativeAndroidPickerStyle={false}
             textInputProps={{underlineColor: 'yellow'}}
             Icon={() => {
-                return <Ionicons name="md-arrow-down" size={24} color={Style.color5}/>;
+                return <FontAwesome name="angle-down" size={24} color={Style.color5} />
             }}
         />
 
