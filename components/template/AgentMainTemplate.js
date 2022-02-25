@@ -13,7 +13,7 @@ import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
 import CustomNavigation from "../CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
-import {todaySchedule} from "../../dummy-data/todaySchedule";
+import {todaySchedule} from "../../store/dummy-data/todaySchedule";
 import MessageInputForm from "../organisms/MessageInputForm";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";

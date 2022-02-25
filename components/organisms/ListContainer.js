@@ -5,7 +5,7 @@ import {Style} from "../../Style";
 import CustomButton from "../atom/CustomButton";
 import button from "react-native-web/dist/exports/Button";
 
-function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, listButtonContent, info}) {
+function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, listButtonContent, info, keyValue}) {
     let element;
 
     if (type === "buttonListContainer") {
@@ -22,10 +22,10 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
                 {info.map((item) => <List key={item.schedule_id} onPress={onPress} info={item} type="noButtonList"/>)}
                 <View style={{backgroundColor: "pink", flexDirection: "row", justifyContent: "flex-end"}}>
                     <View style={{marginRight: 5}}>
-                        <CustomButton onPress={onPress} backgroundColor={Style.color2} width="60" height="50"
+                        <CustomButton keyValue={["accept",keyValue]} onPress={onPress} backgroundColor={Style.color2} width="60" height="50"
                                       content={"수락"}/>
                     </View>
-                    <CustomButton onPress={onPress} backgroundColor={Style.color6} width="60" height="50"
+                    <CustomButton keyValue={["accept",keyValue]} onPress={onPress} backgroundColor={Style.color6} width="60" height="50"
                                   content={"거절"}/>
                 </View>
 

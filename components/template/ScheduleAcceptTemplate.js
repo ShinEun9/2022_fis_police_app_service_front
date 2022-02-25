@@ -4,8 +4,8 @@ import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
 import CustomImageButton from "../atom/CustomImageButton";
 import CustomNavigation from "../CustomNavigation";
-import {schedule} from "../../dummy-data/schedule";
-import {week} from "../../dummy-data/week";
+import {schedule} from "../../store/dummy-data/schedule";
+import {week} from "../../store/dummy-data/week";
 
 function ScheduleAcceptTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
@@ -26,23 +26,53 @@ function ScheduleAcceptTemplate(props) {
     let schedules = groupByDate;
 
 
-    const onPress = () =>
-        Alert.alert(
-            "수락하시겠습니까?",
-            "My Alert Msg",
-            [
-                {
-                    text: "취소",
-                    style: "cancel"
-                },
-                { text: "확인", onPress: () =>
+    const onPress = (keyValue) => {
+        let schedule_id = []
+        console.log(Object.entries(schedules)[keyValue[1]][1])
+        Object.entries(schedules)[keyValue[1]][1].map((schedule)=>{
+            console.log(schedule.schedule_id);
+            schedule_id.push(schedule.schedule_id)
+        })
+        if(keyValue[0]==="accept"){
+            Alert.alert(
+                "수락하시겠습니까?",
+                "My Alert Msg",
+                [
                     {
-                        // api 수락 요청
-                        // visit_date와 accept 보내면 됨.
+                        text: "취소",
+                        style: "cancel"
+                    },
+                    {
+                        text: "확인", onPress: () => {
+                            // api 수락 요청
+                            // visit_date와 accept 보내면 됨.
+                            console.log(schedule_id)
+                        }
                     }
-                }
-            ]
-        );
+                ]
+            );
+        }else{
+            Alert.alert(
+                "거절 하시겠습니까?",
+                "My Alert Msg",
+                [
+                    {
+                        text: "취소",
+                        style: "cancel"
+                    },
+                    {
+                        text: "확인", onPress: () => {
+                            // api 수락 요청
+                            // visit_date와 accept 보내면 됨.
+                            console.log(schedule_id)
+
+                        }
+                    }
+                ]
+            );
+        }
+
+    }
 
 
     useEffect(() => {
@@ -54,7 +84,7 @@ function ScheduleAcceptTemplate(props) {
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="내 일정 수락하러 가기"/>
-           </View>
+            </View>
             <View style={{flex: 9, alignItems: "center"}}>
                 <ScrollView>
 
@@ -64,10 +94,18 @@ function ScheduleAcceptTemplate(props) {
 
                     {Object.entries(schedules).map((item, index) => {
                         return <View key={index} style={{alignItems: "flex-start"}}>
-                            <View style={{backgroundColor: Style.color2, borderTopRightRadius: 10, borderTopLeftRadius:10, padding: 10}}>
-                                <Text style={{color: "white", fontSize: 16}}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
+                            <View style={{
+                                backgroundColor: Style.color2,
+                                borderTopRightRadius: 10,
+                                borderTopLeftRadius: 10,
+                                padding: 10
+                            }}>
+                                <Text style={{
+                                    color: "white",
+                                    fontSize: 16
+                                }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
                             </View>
-                            <ListContainer onPress={onPress} info={item[1]} type="buttonListContainer"/>
+                            <ListContainer onPress={onPress} info={item[1]} type="buttonListContainer" keyValue={index}/>
                         </View>
                     })}
                 </ScrollView>

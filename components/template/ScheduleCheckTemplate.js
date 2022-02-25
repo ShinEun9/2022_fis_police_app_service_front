@@ -3,8 +3,8 @@ import {Text, SafeAreaView, View, Alert, Pressable, StyleSheet, ScrollView, useW
 import CustomNavigation from "../CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
-import {schedule} from "../../dummy-data/schedule";
-import {week} from "../../dummy-data/week";
+import {schedule} from "../../store/dummy-data/schedule";
+import {week} from "../../store/dummy-data/week";
 import Modal from "react-native-modal";
 import MessageInputForm from "../organisms/MessageInputForm";
 import ConfirmationModal from "../ConfirmationModal";
