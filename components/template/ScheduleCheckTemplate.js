@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, Alert, Pressable, StyleSheet, ScrollView, useWindowDimensions} from "react-native";
+import {
+    Text,
+    SafeAreaView,
+    View,
+    Alert,
+    Pressable,
+    StyleSheet,
+    ScrollView,
+    useWindowDimensions,
+    Dimensions, Button
+} from "react-native";
 import CustomNavigation from "../CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
@@ -14,11 +24,12 @@ function ScheduleCheckTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState(schedule);
     const [pastSchedule, setPastSchedule] = useState(schedule);
-    const [modalVisible, setModalVisible] = useState(false);
 
+
+    // 모달을 띄울지 말지 true false로 정하는 state
+    const [modalVisible, setModalVisible] = useState(false);
     // 확인서 작성 모달을 띄울지 확인서열람 모달을 띄울지 정하는 state
     const [whichModal, setWhichModal] = useState()
-
     const dataRequest = async () => {
         // confirm/schedule로 get api요청 (방문예정 일정들) =>setTodayAndFutureSchedule
         // confirm으로 get api요청 (과거 방문 이력들 api요청) =>setPastSchedule
@@ -47,20 +58,23 @@ function ScheduleCheckTemplate(props) {
 
     const onPress = (keyValue) => {
         console.log(keyValue);
-        todayAndFutureSchedule.map((item)=>{if(item.schedule_id===keyValue){
-            setWhichModal(item.complete);
-        }})
+        todayAndFutureSchedule.map((item) => {
+            if (item.schedule_id === keyValue) {
+                setWhichModal(item.complete);
+            }
+        })
 
         setModalVisible(true);
 
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1,}}>
+            <View style={{flex: 1, zIndex: 1, position: "relative"}}>
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="확정된 일정 열람하러 가기"/>
+
             </View>
-            <View style={{flex: 9, alignItems: "center"}}>
+            <View style={{flex: 9, alignItems: "center", zIndex:0}}>
                 <ScrollView>
                     <Text style={{fontSize: 24, marginBottom: 15}}>예정일정</Text>
 
@@ -80,7 +94,7 @@ function ScheduleCheckTemplate(props) {
                                     fontSize: 16
                                 }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
                             </View>
-                            <ListContainer onPress={onPress} info={item[1]} />
+                            <ListContainer onPress={onPress} info={item[1]}/>
                         </View>
                     })}
 
@@ -109,13 +123,15 @@ function ScheduleCheckTemplate(props) {
                     onBackdropPress={() => {
                         setModalVisible(false)
                     }}
-                    style={{flex: 1, justifyContent: "center", alignItems: "center", }}
+                    style={{flex: 1, justifyContent: "center", alignItems: "center",}}
                 >
-                    <View style={{...styles.container, width: useWindowDimensions().width*0.95, height: "auto"}}>
-                        {whichModal==="complete"?<ConfirmationModal setModalVisible={setModalVisible}/>: <ConfirmationForm setModalVisible={setModalVisible} />}
+                    <View style={{...styles.container, width: useWindowDimensions().width * 0.95, height: "auto"}}>
+                        {whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}/> :
+                            <ConfirmationForm setModalVisible={setModalVisible}/>}
                     </View>
                 </Modal>
             </View>
+
         </SafeAreaView>
     );
 }

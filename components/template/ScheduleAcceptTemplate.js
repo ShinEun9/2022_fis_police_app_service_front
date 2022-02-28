@@ -82,10 +82,10 @@ function ScheduleAcceptTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, zIndex: 1}}>
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="내 일정 수락하러 가기"/>
             </View>
-            <View style={{flex: 9, alignItems: "center"}}>
+            <View style={{flex: 9, alignItems: "center", zIndex: 0}}>
                 <ScrollView>
 
                     {/*schedules를 객체에서 배열로 만들어야 함.(map 함수 쓰기 위해서)*/}
