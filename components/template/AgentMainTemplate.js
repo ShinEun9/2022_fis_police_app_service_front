@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet,
+    StyleSheet, Dimensions,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -18,12 +18,57 @@ import MessageInputForm from "../organisms/MessageInputForm";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 import styled from "styled-components/native";
+import * as Location from "expo-location";
+import position from "react-native-web/dist/exports/Touchable/Position";
 
+const screen = Dimensions.get("window");
+const ASPECT_RATIO = screen.width / screen.height;
+let LATITUDE_DELTA = 0.02;
+let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+let newLocation={}
+let location=[]
 function AgentMainTemplate(props) {
     const [schedule, setSchedule] = useState(todaySchedule);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
+    const [alocation, setaLocation] = useState();
+    const [ok,setOk]=useState(true);
+    const[latitude,setLatitude] = useState();
+    const [longitude,setLongitude] = useState();
+
+    const ask = async (options, callback)=>{
+        const {granted} = await Location.requestForegroundPermissionsAsync();
+        if(!granted){
+            setOk(false);
+        }
+        const {coords:{latitude,longitude}}= await Location.getCurrentPositionAsync({distanceInterval:2})
+        newLocation={
+            latitude:latitude,
+            longitude:longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        }
+        setaLocation(newLocation)
+    }
+    useEffect(() => {
+        ask();
+    }, []); // 위치가 바뀔 때 마다,,,,,받아와야 되는데,,,,,, 이게 가능한가????/아랭너란어라ㅣ
+
+    useEffect((options, callback)=> {
+        Location.watchPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+            timeInterval: 1,
+            distanceInterval: 1
+        }, position => {
+            const {latitude, longitude} = position.coords;
+            setLatitude(latitude)
+            setLongitude(longitude)
+        })
+    })
+    console.log("바뀌는 위치")
+    console.log(latitude)
+    console.log(longitude)
 
     useEffect(() => {
         // 오늘 일정 받아오기 api 실행
