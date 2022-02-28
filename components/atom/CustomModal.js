@@ -7,6 +7,7 @@ import CustomButton from "./CustomButton";
 
 
 const StyledModalGradeWrapper = styled.View`
+
   flex: 1
   width: 350px;
   justify-content: center;
@@ -71,10 +72,11 @@ export default CustomModal;
 
 
 const styles = StyleSheet.create({
-        content:{
-            display: 'flex',
-          justifyContent:"center",
-            marginTop:40,
+
+        content: {
+            justifyContent: "center",
+            marginTop: 40
+
         },
         customButton: {
             display: "flex",

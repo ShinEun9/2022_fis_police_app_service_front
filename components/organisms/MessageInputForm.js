@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native'
+import {View, Text, StyleSheet, TextInput, useWindowDimensions} from 'react-native'
 import {Style} from "../../Style";
 import Checkbox from 'expo-checkbox';
 import CustomButton from "../atom/CustomButton";
@@ -10,7 +10,7 @@ import CustomButton from "../atom/CustomButton";
     작성내용 : 어떤 스케쥴이 선택됐는지 schedule_id를 props로 건네주야하는데 넘 어려워ㅠㅠ
  */
 
-function MessageInputForm(props) {
+function MessageInputForm({setModalVisible, selectedScheduleId}) {
     const [isChecked, setChecked] = useState({lateCenter: false, trafficJam: false, etc: false});
     const [inputValue, setInputValue] = useState("")
     const handleChange = (key, value) => {
@@ -36,8 +36,12 @@ function MessageInputForm(props) {
         } else if(etc === true){
             message = inputValue;
         }
-        console.log(message)
+        // console.log(message)
         // api 요청
+
+        console.log("nice to meet you", selectedScheduleId)
+
+        setModalVisible(false)
     }
 
     // useEffect(() => {
@@ -45,7 +49,7 @@ function MessageInputForm(props) {
     // }, [isChecked])
 
     return (
-        <View style={{alignItems: "center", }}>
+        <View style={{alignItems: "center", backgroundColor: "pink", width: useWindowDimensions().width*0.8}}>
             <View style={{marginBottom: 40}}>
                 <View style={styles.container}>
                     <Text style={styles.text}>이전 시설의 지문 등록이 늦어지고 있어요!</Text>
@@ -74,7 +78,7 @@ function MessageInputForm(props) {
                     }}/>
                 </View>
             </View>
-            {/*<CustomButton width="100" height="50" onPress={onPress} content="전송" backgroundColor={Style.color2}/>*/}
+            <CustomButton width="100" height="50" onPress={onPress} content="전송" backgroundColor={Style.color2}/>
         </View>
     );
 }

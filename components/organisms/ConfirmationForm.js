@@ -1,25 +1,32 @@
-import React, {useState} from 'react';
-import {View, Text, useWindowDimensions, StyleSheet} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {View, Text, useWindowDimensions, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
 import CustomInput from "../atom/CustomInput";
 import CustomMultilineInput from "../atom/CustomMultilineInput";
 import Timepicker from "../atom/Timepicker";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
+import CustomImageButton from "../atom/CustomImageButton";
+import {FontAwesome} from "@expo/vector-icons";
 
-function ConfirmationForm() {
+function ConfirmationForm({setModalVisible}) {
 
     const [currentInfo,setCurrentInfo]=useState({
         c_name:"",
         c_address:"",
         c_ph:"",
-        c_newP:"",
-        c_oldP:"",
-        c_sign:"",
+        new_child:"",
+        olde_child:"",
+        senile:"",
+        visit_time: null,
+        end_time:null,
+        disabled:"",
+        etc:"",
         c_agentCheck:"",
         c_centerCheck:""
     })
     const onPress=()=>{
-        console.log("send")
+        setModalVisible(false);
+
     }
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -27,8 +34,15 @@ function ConfirmationForm() {
             [name]: value
         })
     }
+
+    useEffect(()=>{
+        console.log(currentInfo);
+    },[currentInfo])
     return (
-        <View style={styles.container}>
+        <ScrollView style={{width: "100%", paddingHorizontal:20}}>
+            <TouchableOpacity style={{alignItems:"flex-end"}} onPress={()=>{setModalVisible(false)}} >
+                <FontAwesome name={"close"} size={30} color={"gray"}/>
+            </TouchableOpacity>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 이름 :</Text>
                 <CustomInput id="c_name" width={`${useWindowDimensions().width * 0.6}`} height="40"
@@ -47,29 +61,39 @@ function ConfirmationForm() {
             <View style={styles.Input}>
                 <Text style={styles.Text}>방문 시간 :</Text>
                 <View style={styles.timepicker}>
-                    <Timepicker />
+                    <Timepicker id="visit_time" handleChange={handleChange} currentInfo={currentInfo}/>
                 </View>
 
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>종료 시간 :</Text>
                 <View style={styles.timepicker}>
-                    <Timepicker/>
+                    <Timepicker id="end_time" handleChange={handleChange} currentInfo={currentInfo}/>
                 </View>
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>신규 인원 :</Text>
-                <CustomInput id="c_newP" width={`${useWindowDimensions().width * 0.6}`} height="40"
+                <CustomInput id="new_child" width={`${useWindowDimensions().width * 0.6}`} height="40"
                              keyboardType="phone-pad" handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>기존 인원 :</Text>
-                <CustomInput id="c_oldP" width={`${useWindowDimensions().width * 0.6}`} height="40"
+                <CustomInput id="olde_child" width={`${useWindowDimensions().width * 0.6}`} height="40"
+                             keyboardType="phone-pad" handleChange={handleChange} currentInfo={currentInfo}/>
+            </View>
+            <View style={styles.Input}>
+                <Text style={styles.Text}>치매:</Text>
+                <CustomInput id="senile" width={`${useWindowDimensions().width * 0.6}`} height="40"
+                             keyboardType="phone-pad" handleChange={handleChange} currentInfo={currentInfo}/>
+            </View>
+            <View style={styles.Input}>
+                <Text style={styles.Text}>장애:</Text>
+                <CustomInput id="disabled" width={`${useWindowDimensions().width * 0.6}`} height="40"
                              keyboardType="phone-pad" handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>특이 사항 :</Text>
-                <CustomMultilineInput id="c_sign"width={`${useWindowDimensions().width * 0.6}`} height="40"
+                <CustomMultilineInput id="etc"width={`${useWindowDimensions().width * 0.6}`} height="40"
                                       handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
@@ -83,9 +107,9 @@ function ConfirmationForm() {
                              handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Button}>
-                {/*<CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={"제출"}/>*/}
+                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={"제출"}/>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
