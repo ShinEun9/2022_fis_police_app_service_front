@@ -53,22 +53,21 @@ function AgentMainTemplate(props) {
     }
     useEffect(() => {
         ask();
-    }, []); // 위치가 바뀔 때 마다,,,,,받아와야 되는데,,,,,, 이게 가능한가????/아랭너란어라ㅣ
+    }, []); // 처음 로딩했을 때 권한 요청 & 처음 위치 get
 
     useEffect((options, callback)=> {
         Location.watchPositionAsync({
             accuracy: Location.Accuracy.Balanced,
-            timeInterval: 1,
+            timeInterval: 300,
             distanceInterval: 1
         }, position => {
             const {latitude, longitude} = position.coords;
             setLatitude(latitude)
             setLongitude(longitude)
         })
-    })
-    console.log("바뀌는 위치")
-    console.log(latitude)
-    console.log(longitude)
+        console.log("send")
+    },)// 시간 간격마다 사용자의 위치 변화 추적 근데 안됨,,,,,,왜!!!!!! https://velog.io/@flowersayo/React-NativeExpo%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-GPS-%EC%9C%84%EC%B9%98%EC%B6%94%EC%A0%81-%EB%9F%AC%EB%8B%9D-%ED%8A%B8%EB%9E%98%ED%82%B9-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0
+
 
     useEffect(() => {
         // 오늘 일정 받아오기 api 실행
