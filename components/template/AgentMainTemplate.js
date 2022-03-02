@@ -15,20 +15,38 @@ import CustomNavigation from "../CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
 import {todaySchedule} from "../../store/dummy-data/todaySchedule";
 import MessageInputForm from "../organisms/MessageInputForm";
-import CustomButton from "../atom/CustomButton";
-import {Style} from "../../Style";
-import styled from "styled-components/native";
+import axios from "axios"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-function AgentMainTemplate(props) {
-    const [schedule, setSchedule] = useState(todaySchedule);
+function AgentMainTemplate({props, setLogin}) {
+    const [schedule, setSchedule] = useState([]);
+    // const [schedule, setSchedule] = useState(todaySchedule);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
 
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token")
+        return t
+    }
+
+    const getTodaySchedule = async (token) => {
+        await axios.get(`http://localhost:8080/app/schedule/today`,
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res);
+                setSchedule(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     useEffect(() => {
-        // 오늘 일정 받아오기 api 실행
-        // setTodaySchedule();
-    }, [])
+        getToken().then((res)=>{
+            console.log(res);
+            getTodaySchedule(res)
+        })
+    }, []);
 
 
     const onPress = (keyValue) => {
@@ -50,30 +68,18 @@ function AgentMainTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="agentMain"/>
+                <CustomNavigation navigation={props.navigation} type="agentMain" setLogin={setLogin}/>
             </View>
             <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
-                <View style={{alignItems: "flex-start", width: useWindowDimensions().width * 0.9, marginBottom: 5}}>
+                <View style={{
+                    alignItems: "flex-start",
+                    width: useWindowDimensions().width * 0.9,
+                    marginBottom: 5
+                }}>
                     <Text style={{fontSize: 24}}>오늘 일정</Text>
                 </View>
                 <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                listButtonContent="늦음"/>
-
-                {/*<Modal*/}
-                {/*    isVisible={modalVisible}*/}
-                {/*    useNativeDriver={true}*/}
-                {/*    onBackdropPress={()=>{setModalVisible(false)}}*/}
-                {/*    hideModalContentWhileAnimating={true}*/}
-                {/*>*/}
-                {/*    <View style={styles.centeredView}>*/}
-                {/*        <View style={styles.modalView}>*/}
-                {/*            <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>*/}
-                {/*        </View>*/}
-
-                {/*        */}
-                {/*    </View>*/}
-                {/*</Modal>*/}
-
 
                 <Modal
                     isVisible={modalVisible}
@@ -85,16 +91,18 @@ function AgentMainTemplate(props) {
                     style={{flex: 1, justifyContent: "center", alignItems: "center"}}
                 >
                     <View style={{...styles.container, width: useWindowDimensions().width * 0.9, height: 300}}>
-                        <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>
+                        <MessageInputForm setModalVisible={setModalVisible}
+                                          selectedScheduleId={selectedSchedule}/>
                     </View>
                 </Modal>
-
-
             </View>
+
             <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
-                <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate} name="calendar-check-o"
+                <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate}
+                                       name="calendar-check-o"
                                        size={30} color="black"/>
-                <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate} name="calendar"
+                <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate}
+                                       name="calendar"
                                        size={30} color="black"/>
                 <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
                                        color="black"/>

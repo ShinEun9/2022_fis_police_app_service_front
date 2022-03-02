@@ -19,10 +19,12 @@ import Modal from "react-native-modal";
 import MessageInputForm from "../organisms/MessageInputForm";
 import ConfirmationModal from "../ConfirmationModal";
 import ConfirmationForm from "../organisms/ConfirmationForm";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ScheduleCheckTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
-    const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState(schedule);
+    const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
     const [pastSchedule, setPastSchedule] = useState(schedule);
 
 
@@ -30,14 +32,34 @@ function ScheduleCheckTemplate(props) {
     const [modalVisible, setModalVisible] = useState(false);
     // 확인서 작성 모달을 띄울지 확인서열람 모달을 띄울지 정하는 state
     const [whichModal, setWhichModal] = useState()
-    const dataRequest = async () => {
+
+
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token")
+        return t
+    }
+
+    const getData = async (token) => {
         // confirm/schedule로 get api요청 (방문예정 일정들) =>setTodayAndFutureSchedule
         // confirm으로 get api요청 (과거 방문 이력들 api요청) =>setPastSchedule
+
+        await axios.get(`http://localhost:8080/app/schedule/agent`,
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res.data)
+                setTodayAndFutureSchedule(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
     }
 
     // 첫 화면에서 보여줄 데이터 페칭
     useEffect(() => {
-        dataRequest();
+      getToken().then((token)=>{
+          getData(token)
+      })
     }, [])
 
 
