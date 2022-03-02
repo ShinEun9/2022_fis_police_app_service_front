@@ -6,13 +6,15 @@ import CustomImageButton from "../atom/CustomImageButton";
 import CustomNavigation from "../CustomNavigation";
 import {schedule} from "../../store/dummy-data/schedule";
 import {week} from "../../store/dummy-data/week";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 function ScheduleAcceptTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
-    const [todaySchedule, setTodaySchedule] = useState(schedule);
+    const [incompleteSchedule, setIncompleteSchedule] = useState([]);
 
     // 날짜 별로 그룹핑 하는 함수 groupByDate
-    const groupByDate = todaySchedule.sort(function (a, b) {
+    const groupByDate = incompleteSchedule.sort(function (a, b) {
         return new Date(a.visit_date) - new Date(b.visit_date)
     }).reduce((group, schedule) => {
         const {visit_date} = schedule;
@@ -25,15 +27,59 @@ function ScheduleAcceptTemplate(props) {
     // schedules변수 구조 예시 {2021-02-11: [{schedule1}][{schedule2}], 2022-02-12: Array(1), 2022-02-13: Array(1)
     let schedules = groupByDate;
 
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token")
+        return t
+    }
+
+    const getIncompleteSchedule = async (token) => {
+        await axios.get(`http://localhost:8080/app/schedule/incomplete`,
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res)
+                setIncompleteSchedule(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+                // 토큰이 만료되었다. 로그아웃을 하겠다.
+            })
+    }
+
+    useEffect(() => {
+        // 오늘 일정 받아오기 api 실행
+        getToken().then((res)=>{
+            console.log(res);
+            getIncompleteSchedule(res);
+        })
+
+        // setTodaySchedule();
+    }, [])
+
+    const acceptRequest = async (token,schedule_id, accept)=>{
+        await axios.post(`http://localhost:8080/app/schedule/accept`,
+            {schedule_id, accept},
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res);
+                getToken().then((res)=>{
+                    getIncompleteSchedule(res);
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
 
     const onPress = (keyValue) => {
         let schedule_id = []
         console.log(Object.entries(schedules)[keyValue[1]][1])
         Object.entries(schedules)[keyValue[1]][1].map((schedule)=>{
-            console.log(schedule.schedule_id);
             schedule_id.push(schedule.schedule_id)
         })
+
+        console.log(schedule_id);
         if(keyValue[0]==="accept"){
+            // console.log(schedule_id)
             Alert.alert(
                 "수락하시겠습니까?",
                 "My Alert Msg",
@@ -45,8 +91,10 @@ function ScheduleAcceptTemplate(props) {
                     {
                         text: "확인", onPress: () => {
                             // api 수락 요청
-                            // visit_date와 accept 보내면 됨.
-                            console.log(schedule_id)
+                           getToken().then((token)=>{
+                               acceptRequest(token, schedule_id,"accept" )
+                           })
+
                         }
                     }
                 ]
@@ -74,11 +122,6 @@ function ScheduleAcceptTemplate(props) {
 
     }
 
-
-    useEffect(() => {
-        // 오늘 일정 받아오기 api 실행
-        // setTodaySchedule();
-    }, [])
 
     return (
         <SafeAreaView style={{flex: 1}}>

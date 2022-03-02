@@ -3,9 +3,12 @@ import {SafeAreaView, View, Button, useWindowDimensions} from "react-native";
 import LoginInputForm from '../organisms/LoginInputForm'
 import logo from '../media/logo.png'
 import {Image} from "react-native";
+import axios from "axios";
+import {StackActions} from "react-navigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function LoginTemplate(props) {
-    const [currentInfo, setCurrentInfo] = React.useState({user_id: "", user_password: ""});
+function LoginTemplate({props, setLogin}) {
+    const [currentInfo, setCurrentInfo] = React.useState({u_nickname: "", u_pwd: ""});
 
     // input handleChange 함수
     const handleChange = (name, value) => {
@@ -23,16 +26,23 @@ function LoginTemplate(props) {
         props.navigation.navigate('AuthSelectTemplate', props);
     }
 
-    const goSomePage = () => {
+    const setAsyncStorage = async(key, value)=>{
+        await AsyncStorage.setItem(key, value)
+    }
+
+    const goSomePage = async () => {
         //로그인 api 요청
-
-        let auth = "agent"
-        if (auth === "center") {
-            props.navigation.navigate('CenterMainTemplate', props);
-        } else if (auth === "agent") {
-            props.navigation.navigate('AgentMainTemplate', props);
-        }
-
+        await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
+            .then((res) => {
+                console.log(res.data)
+                if (res.data.u_auth === "AGENT") {
+                    setAsyncStorage("@u_auth","AGENT")
+                    setAsyncStorage("@token",res.data.token);
+                    setLogin("AGENT")
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
     }
     return (
         <SafeAreaView style={{
@@ -44,7 +54,7 @@ function LoginTemplate(props) {
             <View style={{flex: 1.5, justifyContent: "flex-end",}}>
                 <Image source={logo} style={{width: 180, height: 140}}/>
             </View>
-            <View style={{ flex:2, alignItems: "center",justifyContent: "center"}}>
+            <View style={{flex: 2, alignItems: "center", justifyContent: "center"}}>
                 <LoginInputForm onPress={goSomePage} handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={{flex: 1}}>

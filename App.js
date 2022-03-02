@@ -14,7 +14,11 @@ import ScheduleCheckTemplate from "./components/template/ScheduleCheckTemplate";
 import MoneyCheckTemplate from "./components/template/MoneyCheckTemplate";
 import OffenderAlertTemplate from "./components/template/OffenderAlertTemplate";
 import StartupSupportTemplate from "./components/template/StartupSupportTemplate";
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useEffect} from "react";
+import MainPage from "./components/MainPage";
+
 LogBox.ignoreLogs([
     "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
 ]);
@@ -24,17 +28,14 @@ LogBox.ignoreLogs([
 LogBox.ignoreLogs(['Remote debugger']);
 
 
-
 const Stack = createStackNavigator();
 
 function App() {
-
-    let auth = "";
-
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName={auth === "" ? "LoginTemplate" : auth === "Agent" ? "AgentMainTemplate" : "CenterMainTemplate"}
+                // initialRouteName={auth === "" ? "LoginTemplate" : auth === "Agent" ? "AgentMainTemplate" : "CenterMainTemplate"}
+                initialRouteName="MainPage"
                 // screenOptions={{
                 //     cardStyle: {backgroundColor: '#ffffff'},
                 //     headerStyle: {
@@ -64,6 +65,7 @@ function App() {
                 //     headerBackTitleVisible: false
                 // }}
             >
+                <Stack.Screen name="MainPage" component={MainPage} options={{headerShown: false}}/>
                 <Stack.Screen name="LoginTemplate" component={LoginTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="AuthSelectTemplate" component={AuthSelectTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="SearchCenterTemplate" component={SearchCenterTemplate}
@@ -76,7 +78,8 @@ function App() {
                               options={{headerShown: false}}/>
                 <Stack.Screen name="StartupSupportTemplate" component={StartupSupportTemplate}
                               options={{headerShown: false}}/>
-                <Stack.Screen name="OffenderAlertTemplate" component={OffenderAlertTemplate} options={{headerShown: false}}/>
+                <Stack.Screen name="OffenderAlertTemplate" component={OffenderAlertTemplate}
+                              options={{headerShown: false}}/>
 
                 <Stack.Screen name="AgentMainTemplate" component={AgentMainTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="ScheduleAcceptTemplate" component={ScheduleAcceptTemplate}
