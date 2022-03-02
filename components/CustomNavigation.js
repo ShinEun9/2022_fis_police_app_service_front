@@ -9,7 +9,7 @@ import Modal from "react-native-modal";
 import ConfirmationModal from "./ConfirmationModal";
 import ConfirmationForm from "./organisms/ConfirmationForm";
 
-function CustomNavigation({navigation, type, title}) {
+function CustomNavigation({navigation, type, title, setLogin}) {
     const [openNavigation, setOpenNavigation] = useState(false);
 
     const handleOpenNavigation = () => {
@@ -60,8 +60,10 @@ function CustomNavigation({navigation, type, title}) {
                     <View style={{flex: 1, alignItems: "flex-end"}}>
                         {type === "titleNavbar" ?
                             <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
-                            : null}
+                            : null
+                        }
                     </View>
+
                 </View>
                 {/*{*/}
                 {/*    openNavigation ?*/}
@@ -98,6 +100,7 @@ function CustomNavigation({navigation, type, title}) {
                 <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
             }
 
+            <CustomImageButton onPress={()=>{setLogin(null)}}name="sign-out" color={"black"} size={30} />
         </View>
     }
 

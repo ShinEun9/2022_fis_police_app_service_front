@@ -18,7 +18,7 @@ import MessageInputForm from "../organisms/MessageInputForm";
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function AgentMainTemplate({props}) {
+function AgentMainTemplate({props, setLogin}) {
     const [schedule, setSchedule] = useState([]);
     // const [schedule, setSchedule] = useState(todaySchedule);
     const [modalVisible, setModalVisible] = useState(false);
@@ -68,7 +68,7 @@ function AgentMainTemplate({props}) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="agentMain"/>
+                <CustomNavigation navigation={props.navigation} type="agentMain" setLogin={setLogin}/>
             </View>
             <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
                 <View style={{
@@ -80,22 +80,6 @@ function AgentMainTemplate({props}) {
                 </View>
                 <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                listButtonContent="늦음"/>
-
-                {/*<Modal*/}
-                {/*    isVisible={modalVisible}*/}
-                {/*    useNativeDriver={true}*/}
-                {/*    onBackdropPress={()=>{setModalVisible(false)}}*/}
-                {/*    hideModalContentWhileAnimating={true}*/}
-                {/*>*/}
-                {/*    <View style={styles.centeredView}>*/}
-                {/*        <View style={styles.modalView}>*/}
-                {/*            <MessageInputForm setModalVisible={setModalVisible} selectedScheduleId={selectedSchedule}/>*/}
-                {/*        </View>*/}
-
-                {/*        */}
-                {/*    </View>*/}
-                {/*</Modal>*/}
-
 
                 <Modal
                     isVisible={modalVisible}
@@ -111,9 +95,8 @@ function AgentMainTemplate({props}) {
                                           selectedScheduleId={selectedSchedule}/>
                     </View>
                 </Modal>
-
-
             </View>
+
             <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
                 <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate}
                                        name="calendar-check-o"
