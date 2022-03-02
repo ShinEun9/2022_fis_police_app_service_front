@@ -46,7 +46,7 @@ function ConfirmationModal(props) {
                 </Text>
                 <View style={{ borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight:100}}>
                     <Text>
-                        지상은 바보 지상은 바보 지상은 바adkfadjf;akdjf;kadjfk;adjf;
+                        신은수 바보 신은수 멍청ㅇ이이이ㅣ이이ㅣ이아리아리아미ㅏ이ㅏ리마ㅣlkadlfkdsfkdsldlf
                     </Text>
                 </View>
 

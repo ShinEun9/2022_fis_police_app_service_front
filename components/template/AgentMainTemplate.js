@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet,
+    StyleSheet, Dimensions,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -15,14 +15,68 @@ import CustomNavigation from "../CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
 import {todaySchedule} from "../../store/dummy-data/todaySchedule";
 import MessageInputForm from "../organisms/MessageInputForm";
+
+import CustomButton from "../atom/CustomButton";
+import {Style} from "../../Style";
+import styled from "styled-components/native";
+import * as Location from "expo-location";
+import position from "react-native-web/dist/exports/Touchable/Position";
+
+const screen = Dimensions.get("window");
+const ASPECT_RATIO = screen.width / screen.height;
+let LATITUDE_DELTA = 0.02;
+let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+let newLocation={}
+let location=[]
+function AgentMainTemplate(props) {
+    const [schedule, setSchedule] = useState(todaySchedule);
+
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function AgentMainTemplate({props, setLogin}) {
     const [schedule, setSchedule] = useState([]);
     // const [schedule, setSchedule] = useState(todaySchedule);
+
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
+    const [alocation, setaLocation] = useState();
+    const [ok,setOk]=useState(true);
+    const[latitude,setLatitude] = useState();
+    const [longitude,setLongitude] = useState();
+
+    const ask = async (options, callback)=>{
+        const {granted} = await Location.requestForegroundPermissionsAsync();
+        if(!granted){
+            setOk(false);
+        }
+        const {coords:{latitude,longitude}}= await Location.getCurrentPositionAsync({distanceInterval:2})
+        newLocation={
+            latitude:latitude,
+            longitude:longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        }
+        setaLocation(newLocation)
+    }
+    useEffect(() => {
+        ask();
+    }, []); // 처음 로딩했을 때 권한 요청 & 처음 위치 get
+
+    useEffect((options, callback)=> {
+        Location.watchPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+            timeInterval: 300,
+            distanceInterval: 1
+        }, position => {
+            const {latitude, longitude} = position.coords;
+            setLatitude(latitude)
+            setLongitude(longitude)
+        })
+        console.log("send")
+    },)// 시간 간격마다 사용자의 위치 변화 추적 근데 안됨,,,,,,왜!!!!!! https://velog.io/@flowersayo/React-NativeExpo%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-GPS-%EC%9C%84%EC%B9%98%EC%B6%94%EC%A0%81-%EB%9F%AC%EB%8B%9D-%ED%8A%B8%EB%9E%98%ED%82%B9-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0
+
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")

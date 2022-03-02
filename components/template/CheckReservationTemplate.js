@@ -9,6 +9,7 @@ import ConfirmationForm from "../organisms/ConfirmationForm";
 import CustomModal from "../atom/CustomModal";
 import ApplyRecord from "../ApplyRecord";
 import CustomImageModal from "../atom/CustomImageModal";
+import ConfirmationModal from "../ConfirmationModal";
 
 
 const screen = Dimensions.get("window");
@@ -47,7 +48,7 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"}  modalWidth={screen.width*0.9} modalHeight={screen.height*0.87} modalButtonContent={"전송"} modalContent={<ConfirmationForm/>}/>
+                                              height={35} content={"확인서 열람"}  modalWidth={screen.width*0.93} modalHeight={screen.height*0.8} modalButtonContent={"확인"} modalContent={<ConfirmationModal/>}/>
                                 {/*modalContent 알맞은 파일로 변경 필요*/}
 
                             </View>
@@ -63,7 +64,7 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modalWidth={screen.width*0.9} modalHeight={screen.height*0.87} modalButtonContent={"전송"} modalContent={<ConfirmationForm/>} />
+                                              height={35} content={"확인서 열람"} modalWidth={screen.width*0.93} modalHeight={screen.height*0.8} modalButtonContent={"확인"} modalContent={<ConfirmationModal/>} />
                             </View>
                         </View>
                     </View>
@@ -105,10 +106,10 @@ const styles = StyleSheet.create({
         flex: 3,
     },
     agent: {
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "row",
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
     },
     history: {
         flex: 2.9,
