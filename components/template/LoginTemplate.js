@@ -32,8 +32,10 @@ function LoginTemplate({props, setLogin}) {
 
     const goSomePage = async () => {
         //로그인 api 요청
+        console.log("hi")
         await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
             .then((res) => {
+                console.log("hi1")
                 console.log(res.data)
                 if (res.data.u_auth === "AGENT") {
                     setAsyncStorage("@u_auth","AGENT")
