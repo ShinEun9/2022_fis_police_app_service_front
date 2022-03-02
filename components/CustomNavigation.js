@@ -8,6 +8,7 @@ import CustomCalendar from "./atom/CustomCalendar";
 import Modal from "react-native-modal";
 import ConfirmationModal from "./ConfirmationModal";
 import ConfirmationForm from "./organisms/ConfirmationForm";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function CustomNavigation({navigation, type, title, setLogin}) {
     const [openNavigation, setOpenNavigation] = useState(false);
@@ -100,7 +101,13 @@ function CustomNavigation({navigation, type, title, setLogin}) {
                 <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
             }
 
-            <CustomImageButton onPress={()=>{setLogin(null)}}name="sign-out" color={"black"} size={30} />
+            <View style={{marginLeft: 10}}>
+                <CustomImageButton onPress={async()=>{
+                    await AsyncStorage.removeItem("@u_auth")
+                    await AsyncStorage.removeItem("@token")
+                    setLogin(null);
+                }}name="sign-out" color={"black"} size={30} />
+            </View>
         </View>
     }
 

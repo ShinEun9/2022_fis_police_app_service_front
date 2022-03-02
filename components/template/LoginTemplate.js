@@ -39,6 +39,10 @@ function LoginTemplate({props, setLogin}) {
                     setAsyncStorage("@u_auth","AGENT")
                     setAsyncStorage("@token",res.data.token);
                     setLogin("AGENT")
+                }else if(res.data.u_auth === "OFFICIAL"){
+                    setAsyncStorage("@u_auth","OFFICIAL")
+                    setAsyncStorage("@token",res.data.token);
+                    setLogin("OFFICIAL")
                 }
             }).catch((err) => {
                 console.log(err)
