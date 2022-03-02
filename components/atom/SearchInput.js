@@ -3,10 +3,10 @@ import {Dimensions, StyleSheet, TextInput, useWindowDimensions, View} from "reac
 import {Ionicons} from "@expo/vector-icons";
 import {Style} from "../../Style";
 
-function SearchInput({id, submitFunction, handleChange, currentInfo, placeholder}) {
+function SearchInput({id,width, submitFunction, handleChange, currentInfo, placeholder}) {
 
     return (
-        <View style={styles.passwordContainer}>
+        <View style={{...styles.passwordContainer, width: width}}>
             <TextInput
                 id={id}
                 value={currentInfo[id]}

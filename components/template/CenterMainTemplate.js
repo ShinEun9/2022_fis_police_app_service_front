@@ -4,7 +4,7 @@ import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import CustomNavigation from "../CustomNavigation";
 import {Style} from "../../Style";
 
-function CenterMainTemplate(props) {
+function CenterMainTemplate({props, setLogin}) {
     // 코드 개선 필요(4개의 함수가 있을 필요는 없잖아ㅠㅠㅠㅠ 방법을 모르겠음)
     const goApplyCenterTemplate = () => {
         props.navigation.navigate("ApplyCenterTemplate")
@@ -23,7 +23,7 @@ function CenterMainTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 0.5}}>
-                <CustomNavigation navigation={props.navigation} type="centerMain" />
+                <CustomNavigation navigation={props.navigation} type="centerMain" setLogin={setLogin} />
             </View>
 
             <View style={{flex: 4, justifyContent: "center", alignItems: "center" }}>

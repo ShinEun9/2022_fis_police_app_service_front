@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, TextInput, useWindowDimensions} from 'react-nati
 import {Style} from "../../Style";
 import Checkbox from 'expo-checkbox';
 import CustomButton from "../atom/CustomButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 /*
     날짜 : 2022/02/23 11:23 AM
@@ -23,6 +25,26 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
         })
     }
 
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token")
+        return t
+    }
+
+    const sendMessageRequest = async(token, message)=>{
+        await axios.post(`http://localhost:8080/app/schedule/late`,
+            {schedule_id: selectedScheduleId, late_comment: message},
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res)
+                // 성공했다고 alert 띄우기
+            })
+            .catch((err) => {
+                console.log(err)
+                // 실패했다고 alert 띄우기
+            })
+    }
+
+
     const onPress = () => {
         const {lateCenter, trafficJam, etc} = isChecked
         let message;
@@ -36,20 +58,19 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
         } else if(etc === true){
             message = inputValue;
         }
-        // console.log(message)
-        // api 요청
 
-        console.log("nice to meet you", selectedScheduleId)
+        // api 요청
+        getToken().then((token)=>{
+            sendMessageRequest(token, message)
+        })
+
 
         setModalVisible(false)
     }
 
-    // useEffect(() => {
-    //     console.log(isChecked)
-    // }, [isChecked])
 
     return (
-        <View style={{alignItems: "center", backgroundColor: "pink", width: useWindowDimensions().width*0.8}}>
+        <View style={{alignItems: "center", width: useWindowDimensions().width*0.8}}>
             <View style={{marginBottom: 40}}>
                 <View style={styles.container}>
                     <Text style={styles.text}>이전 시설의 지문 등록이 늦어지고 있어요!</Text>
