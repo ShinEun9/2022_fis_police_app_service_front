@@ -10,7 +10,7 @@ function JoinInfoTemplate(props) {
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title={props.route.params==="setting"?"설정페이지":"회원가입"}/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>
-                <JoinInputForm props={props}/>
+                <JoinInputForm props={props} center_id={props.route.params}/>
             </View>
         </SafeAreaView>
     );

@@ -25,10 +25,11 @@ function SearchCenterTemplate(props) {
 
     const searchRequest = async (token) => {
         let {c_name} = currentInfo;
+        console.log(c_name)
         let c_address, c_ph;
-        await axios.get(`http://localhost:8080/center/search?c_name=${c_name}&c_address=${c_address}&c_ph=${c_ph}`, {withCredentials: true})
+        await axios.get(`http://localhost:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
             .then((res) => {
-                console.log(res)
+                setCenterList(res.data.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -44,9 +45,9 @@ function SearchCenterTemplate(props) {
 
 
     }
-    const goSomePage = () => {
-        // 선택한 시설의 정보를 어떻게 저장하지...? 리코일?
-        props.navigation.navigate('JoinInfoTemplate', props)
+    const goSomePage = (keyValue) => {
+
+        props.navigation.navigate('JoinInfoTemplate', keyValue)
     }
 
     return (
@@ -54,16 +55,16 @@ function SearchCenterTemplate(props) {
             <View style={{flex: 0.5}}>
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title={"회원가입"}/>
             </View>
-            <View style={{flex: 2, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
+            <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
                 <SearchInputForm currentInfo={currentInfo} handleChange={handleChange}
                                  submitFunction={submitFunction}/>
             </View>
             <View style={{flex: 7, marginTop: 10, justifyContent: "flex-start", alignItems: "center"}}>
                 {centerList === null ? null :
                     centerList.map((center) => {
-                        return <View style={{marginBottom: 10}}>
-                            <CustomRightImageButton onPress={goSomePage} name="right" size={20} color="black"
-                                                    content={<View style={{justifyContent: 'space-between'}}>
+                        return <View key={center.center_id}style={{marginBottom: 15}}>
+                            <CustomRightImageButton keyValue={center.center_id} onPress={goSomePage} name="right" size={20} color="black"
+                                                    content={<View style={{height: "100%", justifyContent: 'space-between'}}>
                                                         <Text style={{fontSize: 20}}>{center.c_name}</Text>
                                                         <Text>{center.c_address.substr(0, 25)}...</Text>
                                                         <Text>{center.c_ph}</Text>

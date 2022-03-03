@@ -2,9 +2,9 @@ import React from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
-function CustomRightImageButton({onPress, name, size, content, color}) {
+function CustomRightImageButton({keyValue, onPress, name, size, content, color}) {
     return (
-        <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+        <TouchableOpacity onPress={()=>{onPress(keyValue)}} activeOpacity={0.8}>
             <View style={styles.button}>
                 <Text style={{fontSize: 25}}>{content}</Text>
                 <AntDesign name={name} size={size} color={color}></AntDesign>
