@@ -15,31 +15,31 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
         <View style={{alignItems: "center"}}>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 이름 :</Text>
-                <CustomInput id="c_name" width={`${useWindowDimensions().width * 0.74}`} height="40"
+                <CustomInput id="h_name" width={`${useWindowDimensions().width * 0.74}`} height="40"
                              handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 주소 :</Text>
-                <CustomMultilineInput width={`${useWindowDimensions().width * 0.74}`} height="40"
+                <CustomMultilineInput id="h_address" width={`${useWindowDimensions().width * 0.74}`} height="40"
                                       handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 전화번호 :</Text>
-                <CustomInput id="c_ph" width={`${useWindowDimensions().width * 0.675}`} height="40"
+                <CustomInput id="h_ph" width={`${useWindowDimensions().width * 0.675}`} height="40"
                              keyboardType="phone-pad" handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>이메일 :</Text>
-                <CustomInput id="c_email" width={`${useWindowDimensions().width * 0.79}`} height="40"
+                <CustomInput id="h_mail" width={`${useWindowDimensions().width * 0.79}`} height="40"
                              keyboardType="email-address"
                              handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={{flexDirection: "row"}}>
                 <Text style={styles.Text}>지문 등록 참여 여부 :</Text>
                 <View style={{display: "flex",justifyContent: "center",marginLeft:10}}>
-                    <Select id="c_participation" label="참여 여부 선택" items={[{label: '참여', value: true}, {
+                    <Select id="accept" label="참여 여부 선택" items={[{label: '참여', value: "accept"}, {
                         label: '미참여',
-                        value: false
+                        value: "reject"
                     }]}
 
                             width={useWindowDimensions().width * 0.60}
@@ -52,7 +52,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
             <View style={styles.Input}>
                 <Text style={styles.Text}>지문 등록 희망 날짜 :</Text>
                 <View style={styles.datePicker}>
-                    <DatePicker id="c_date" handleChange={handleChange} currentInfo={currentInfo}/>
+                    <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo}/>
                 </View>
             </View>
             <View style={styles.Button}>

@@ -21,6 +21,9 @@ import {Style} from "../../Style";
 import styled from "styled-components/native";
 import * as Location from "expo-location";
 import position from "react-native-web/dist/exports/Touchable/Position";
+import axios from "axios"
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
@@ -29,11 +32,7 @@ let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let newLocation={}
 let location=[]
-function AgentMainTemplate(props) {
-    const [schedule, setSchedule] = useState(todaySchedule);
 
-import axios from "axios"
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function AgentMainTemplate({props, setLogin}) {
     const [schedule, setSchedule] = useState([]);
