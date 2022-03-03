@@ -25,9 +25,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 function ScheduleCheckTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
-    const [pastSchedule, setPastSchedule] = useState(schedule);
-
-
+    const [pastSchedule, setPastSchedule] = useState([]);
+    const [selectedScheduleInfo, setSelectedScheduleInfo] = useState([]);
     // 모달을 띄울지 말지 true false로 정하는 state
     const [modalVisible, setModalVisible] = useState(false);
     // 확인서 작성 모달을 띄울지 확인서열람 모달을 띄울지 정하는 state
@@ -39,27 +38,35 @@ function ScheduleCheckTemplate(props) {
         return t
     }
 
-    const getData = async (token) => {
-        // confirm/schedule로 get api요청 (방문예정 일정들) =>setTodayAndFutureSchedule
-        // confirm으로 get api요청 (과거 방문 이력들 api요청) =>setPastSchedule
-
+    const getFutureData = async (token) => {
         await axios.get(`http://localhost:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res.data)
-                setTodayAndFutureSchedule(res.data)
+                getPastData(token, res.data)
             })
             .catch((err) => {
                 console.log(err)
             })
+    }
 
+    const getPastData = async (token, futureData) => {
+        await axios.get(`http://localhost:8080/app/schedule/old`,
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                // console.log(res.data)
+                setTodayAndFutureSchedule(futureData)
+                setPastSchedule(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     // 첫 화면에서 보여줄 데이터 페칭
     useEffect(() => {
-      getToken().then((token)=>{
-          getData(token)
-      })
+        getToken().then((token) => {
+            getFutureData(token)
+        })
     }, [])
 
 
@@ -79,15 +86,16 @@ function ScheduleCheckTemplate(props) {
     let schedules2 = groupByDate(pastSchedule);
 
     const onPress = (keyValue) => {
-        console.log(keyValue);
-        todayAndFutureSchedule.map((item) => {
-            if (item.schedule_id === keyValue) {
-                setWhichModal(item.complete);
+        let tmp = [];
+        tmp = [...todayAndFutureSchedule, ...pastSchedule];
+        for (let i = 0; i < tmp.length; i++) {
+            if (tmp[i].schedule_id === keyValue) {
+                setSelectedScheduleInfo(tmp[i]);
+                setWhichModal(tmp[i].complete);
+                break;
             }
-        })
-
+        }
         setModalVisible(true);
-
     }
 
     return (
@@ -96,9 +104,10 @@ function ScheduleCheckTemplate(props) {
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="확정된 일정 열람하러 가기"/>
 
             </View>
-            <View style={{flex: 9, alignItems: "center", zIndex:0}}>
-                <ScrollView>
-                    <Text style={{fontSize: 24, marginBottom: 15}}>예정일정</Text>
+            <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
+                <ScrollView style={{width: useWindowDimensions().width * 0.96}}
+                            contentContainerStyle={{alignItems: "center"}}>
+                    <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
 
                     {/*schedules를 객체에서 배열로 만들Ï어야 함.(map 함수 쓰기 위해서)*/}
                     {/*Object.entries(schedules)하면은 구조가 [array(2), array(2), array(2)]*/}
@@ -120,7 +129,7 @@ function ScheduleCheckTemplate(props) {
                         </View>
                     })}
 
-                    <Text style={{fontSize: 24, marginTop: 30, marginBottom: 15}}>과거 일정</Text>
+                    <Text style={{fontSize: 24, marginTop: 30, marginBottom: 15, alignSelf: "flex-start"}}>과거 일정</Text>
                     {Object.entries(schedules2).map((item, index) => {
                         return <View key={index} style={{alignItems: "flex-start"}}>
                             <View style={{
@@ -148,8 +157,11 @@ function ScheduleCheckTemplate(props) {
                     style={{flex: 1, justifyContent: "center", alignItems: "center",}}
                 >
                     <View style={{...styles.container, width: useWindowDimensions().width * 0.95, height: "auto"}}>
-                        {whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}/> :
-                            <ConfirmationForm setModalVisible={setModalVisible}/>}
+                        {/*{whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}*/}
+                        {/*                                                schedule_id={selectedScheduleInfo.schedule_id}/> :*/}
+                        {/*    <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo}/>}*/}
+
+                        <ConfirmationModal setModalVisible={setModalVisible} schedule_id={selectedScheduleInfo.schedule_id}/>
                     </View>
                 </Modal>
             </View>
