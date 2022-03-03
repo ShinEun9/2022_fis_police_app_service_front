@@ -157,11 +157,10 @@ function ScheduleCheckTemplate(props) {
                     style={{flex: 1, justifyContent: "center", alignItems: "center",}}
                 >
                     <View style={{...styles.container, width: useWindowDimensions().width * 0.95, height: "auto"}}>
-                        {/*{whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}*/}
-                        {/*                                                schedule_id={selectedScheduleInfo.schedule_id}/> :*/}
-                        {/*    <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo}/>}*/}
+                        {whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}
+                                                                        schedule_id={selectedScheduleInfo.schedule_id}/> :
+                            <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo}/>}
 
-                        <ConfirmationModal setModalVisible={setModalVisible} schedule_id={selectedScheduleInfo.schedule_id}/>
                     </View>
                 </Modal>
             </View>

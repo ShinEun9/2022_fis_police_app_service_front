@@ -19,7 +19,7 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
         visit_date: null,
         visit_time: null,
         new_child: "",
-        olde_child: "",
+        old_child: "",
         senile: "",
         disabled: "",
         etc: "",
@@ -45,11 +45,17 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
         return t;
     }
 
-
     const sendRequest = async (token) => {
+        const {new_child, old_child, senile, disabled, etc} = currentInfo
+        let info = {
+            new_child, old_child, senile, disabled, etc
+        }
+        console.log("안되면 화날듯", info)
+
         const {schedule_id} = defaultValue;
         const {visit_time} = currentInfo
-        await axios.post(`http://localhost:8080/app/confirm/write/${schedule_id}`, currentInfo, {headers: {Authorization: `Bearer ${token}`}})
+        console.log(currentInfo)
+        await axios.post(`http://localhost:8080/app/confirm/write/${schedule_id}`, info, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
             }).catch((err) => {
@@ -63,6 +69,7 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
             sendRequest(token)
         })
     }
+
     const handleChange = (name, value) => {
         setCurrentInfo({
             ...currentInfo,
@@ -119,7 +126,7 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>기존 인원 :</Text>
-                <CustomInput id="olde_child" width={`${useWindowDimensions().width * 0.6}`} height="40"
+                <CustomInput id="old_child" width={`${useWindowDimensions().width * 0.6}`} height="40"
                              keyboardType="phone-pad" handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={styles.Input}>
