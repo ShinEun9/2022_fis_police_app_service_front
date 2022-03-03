@@ -2,14 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {Text, SafeAreaView, View, StyleSheet} from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../CustomNavigation";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ApplyCenterTemplate(props) {
     const [currentInfo, setCurrentInfo] = useState({
-        c_name: "",
-        c_address: "",
-        c_email: "",
-        c_participation: "",
-        c_date: null,
+        accept: "",
+        h_date: null,
+        h_mail: "",
+        h_name: "",
+        h_address: ""
+
+
     })
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -22,8 +26,40 @@ function ApplyCenterTemplate(props) {
         console.log(currentInfo)
     }, [currentInfo])
 
-    const sendApplication = () => {
-        console.log("send")
+    const getToken = async() => {
+        const t = await AsyncStorage.getItem("@token");
+        return t;
+    }
+
+    const sendApplication = async (token) => {
+        let buf=currentInfo.h_date
+        let year=buf.getFullYear()
+        let month=''+(buf.getMonth()+1)
+        let day=''+buf.getDate()
+
+        if(month.length<2){
+            month='0'+month
+        }
+        if(day.length<2){
+            day='0'+day
+        }
+        buf=[year,month,day].join('-')
+        delete currentInfo.h_name
+        delete currentInfo.h_address
+        console.log(buf)
+        console.log({...currentInfo,h_date:buf})
+        await axios.post(`http://localhost:8080/app/hope`,{...currentInfo,h_date:buf},{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log("전송")
+                console.log(res.data)
+            }).catch((err)=>{
+                console.log(err)
+            })
+    }
+    const onPress=()=>{
+        getToken().then((token)=>{
+            sendApplication(token)
+        })
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -34,7 +70,7 @@ function ApplyCenterTemplate(props) {
                 <Text>가이드가이드가이드</Text>
             </View>
             <View style={styles.InputForm}>
-                <ApplyInputForm onPress={sendApplication} handleChange={handleChange} currentInfo={currentInfo}/>
+                <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
         </SafeAreaView>
     );

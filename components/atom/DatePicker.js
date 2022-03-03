@@ -33,8 +33,8 @@ function DatePicker({id, handleChange, currentInfo}) {
                     justifyContent: "space-between",
                     paddingHorizontal: 10
                 }}>
-                    <Text style={{color: currentInfo.c_date === null ? Style.color5 : "black"}}>
-                        {currentInfo.c_date === null ? "날짜 선택" : `${getFormattedDate(currentInfo.c_date)}`}
+                    <Text style={{color: currentInfo[id] === null ? Style.color5 : "black"}}>
+                        {currentInfo[id] === null ? "날짜 선택" : `${getFormattedDate(currentInfo[id])}`}
                     </Text>
                     <AntDesign name="calendar" size={24} color={Style.color5}/>
                 </View>
@@ -44,7 +44,7 @@ function DatePicker({id, handleChange, currentInfo}) {
                 locale="ko"
                 isVisible={isDatePickerVisible}
                 mode="date"
-                date={currentInfo.c_date === null ? new Date() : currentInfo.c_date}
+                date={currentInfo[id] === null ? new Date() : currentInfo[id]}
                 onConfirm={(value) => {
                     handleChange(id, value);
                     hideDatePicker();
