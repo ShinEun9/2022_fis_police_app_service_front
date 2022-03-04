@@ -3,40 +3,52 @@ import {Text, View} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {FontAwesome} from "@expo/vector-icons";
 import {Style} from "../../Style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 function CustomCalendar(props) {
-    // const [selectedDates, setSelectedDates] = useState([]);
-    // let markedDates = {}
-    //
-    // useEffect(() => {
-    //     // api data 요청
-    //     // setSelectedDates
-    //     for (let selectedDate of selectedDates) {
-    //         console.log(selectedDate)
-    //         if (new Date(selectedDate) > new Date()) {
-    //             markedDates[selectedDate] = {selected: true, selectedColor: Style.color2}
-    //         } else {
-    //             console.log(false)
-    //             markedDates[selectedDate] = {selected: true, selectedColor: Style.color6}
-    //         }
+    const [markedDates, setMarkedDates] = useState({});
+    // let selectedDates = ['2022-02-16', '2022-02-22', '2022-02-23', '2022-02-24']
+    // for (let selectedDate of selectedDates) {
+    //     console.log(selectedDate)
+    //     if (new Date(selectedDate) > new Date()) {
+    //         markedDates[selectedDate] = {selected: true, selectedColor: Style.color2}
+    //     } else {
+    //         console.log(false)
+    //         markedDates[selectedDate] = {selected: true, selectedColor: Style.color6}
     //     }
-    // }, [])
+    //
+    // }
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token");
+        return t;
+    }
 
-    let markedDates = {}
-    let selectedDates = ['2022-02-16', '2022-02-22', '2022-02-23', '2022-02-24']
-    for (let selectedDate of selectedDates) {
-        console.log(selectedDate)
-        if (new Date(selectedDate) > new Date()) {
-            markedDates[selectedDate] = {selected: true, selectedColor: Style.color2}
-        } else {
-            console.log(false)
-            markedDates[selectedDate] = {selected: true, selectedColor: Style.color6}
-        }
+    const getData = async (token) => {
+        await axios.get(`http://localhost:8080/app/confirm/calendar`,
+            {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res.data);
+                const {visited_date, will_go_date} = res.data
+                for (let date of visited_date) {
+                    setMarkedDates({...markedDates, [date]: {selected: true, selectedColor: Style.color6}})
+                }
+                for (let date of will_go_date) {
+                    setMarkedDates({...markedDates, [date]:  {selected: true, selectedColor: Style.color2}})
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
     }
+
+
     useEffect(() => {
-        console.log(markedDates)
-    }, [markedDates])
+        getToken().then((token) => {
+            getData(token)
+        })
+    }, [])
 
     return (
         <View style={{backgroundColor: "white", padding: 10}}>
@@ -45,22 +57,22 @@ function CustomCalendar(props) {
                 current={new Date().toString()}
 
                 // Handler which gets executed on day press. Default = undefined
-                onDayPress={(day) => {
-                    console.log('selected day', day)
-                }}
+                // onDayPress={(day) => {
+                //     console.log('selected day', day)
+                // }}
 
                 // Handler which gets executed on day long press. Default = undefined
-                onDayLongPress={(day) => {
-                    console.log('selected day', day)
-                }}
+                // onDayLongPress={(day) => {
+                //     console.log('selected day', day)
+                // }}
 
                 // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                 monthFormat={'yyyy MM'}
 
                 // Handler which gets executed when visible month changes in calendar. Default = undefined
-                onMonthChange={(month) => {
-                    console.log('month changed', month)
-                }}
+                // onMonthChange={(month) => {
+                //     console.log('month changed', month)
+                // }}
 
                 // Hide month navigation arrows. Default = false
                 hideArrows={false}
