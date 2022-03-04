@@ -19,8 +19,7 @@ function CustomNavigation({navigation, type, title, setLogin}) {
     }
 
     const onPressSetting = () => {
-        let page = "setting"
-        navigation.navigate("JoinInfoTemplate", page)
+        navigation.navigate("SettingTemplate")
     }
 
     let element;
