@@ -7,26 +7,9 @@ import {Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function JoinInputForm({props, center_id}) {
-    const [currentInfo, setCurrentInfo] = useState({
-        o_name: "",
-        o_nickname: "",
-        o_pwd: "",
-        o_ph: "",
-        o_email: "",
-        center_id: center_id
-    })
+function SettingInputForm({props, centerInfo}) {
+    const [currentInfo, setCurrentInfo] = useState({})
 
-    const onPress = async () => {
-        await axios.post(`http://localhost:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
-            console.log(res)
-        }).catch((err) => {
-            console.log(err);
-        })
-
-        props.navigation.navigate("MainPage")
-
-    }
     const handleChange = (name, value) => {
         setCurrentInfo({
             ...currentInfo,
@@ -43,15 +26,48 @@ function JoinInputForm({props, center_id}) {
         await axios.get(`http://localhost:8080/app/official/setting`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                const {center_name, o_name, o_ph, o_email, o_nickname, o_pwd} = res.data
-                setCurrentInfo({center_name, o_name, o_ph, o_email, o_nickname, o_pwd});
-
+                console.log(res)
+                const {center_id, center_name, o_name, o_ph, o_email, o_nickname, o_pwd,} = res.data
+                setCurrentInfo({center_id, center_name, o_name, o_ph, o_email, o_nickname, o_pwd});
             })
             .catch((err) => {
                 console.log(err)
             })
     }
 
+    const editRequest = async (token) => {
+        let c;
+        if (centerInfo != null) {
+            console.log("hi")
+            c=centerInfo.center_id
+        }else{
+            c=currentInfo.center_id
+        }
+        console.log(c)
+
+        await axios.patch(`http://localhost:8080/app/officials`, {...currentInfo, center_id: c}, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res)
+                props.navigation.goBack();
+            }).catch((err) => {
+                console.log(err);
+            })
+    }
+
+    const onPress = () => {
+        getToken().then((token) => {
+            editRequest(token)
+        })
+        // props.navigation.goBack();
+    }
+
+
+    // 처음 데이터 불러옴.
+    useEffect(() => {
+        getToken().then((token) => {
+            getData(token)
+        })
+    }, [])
 
     return (
         <>
@@ -74,9 +90,25 @@ function JoinInputForm({props, center_id}) {
                            handleChange={handleChange}
                            currentInfo={currentInfo}/>
 
+            <TouchableOpacity onPress={() => {
+                props.navigation.navigate('SearchCenterTemplate', "setting")
+            }}>
+                <View style={{
+                    width: useWindowDimensions().width * 0.6,
+                    height: 50,
+                    borderWidth: 2,
+                    borderColor: "transparent",
+                    borderBottomColor: Style.color5,
+                    padding: 10,
+                    justifyContent: "flex-end"
+                }}>
+                    <Text>{centerInfo != null ? centerInfo.c_name : currentInfo.center_name}</Text>
+                </View>
+            </TouchableOpacity>
+
+
             <View style={{marginTop: 30}}>
-                <CustomButton onPress={onPress} content={"회원가입"}
-                              width="100" height="50" backgroundColor={Style.color2}/>
+                <CustomButton onPress={onPress} content={"정보 수정"} width="100" height="50" backgroundColor={Style.color2}/>
             </View>
         </>
 
@@ -84,4 +116,4 @@ function JoinInputForm({props, center_id}) {
         ;
 }
 
-export default JoinInputForm;
+export default SettingInputForm;

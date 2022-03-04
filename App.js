@@ -18,6 +18,7 @@ import {LogBox} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect} from "react";
 import MainPage from "./components/MainPage";
+import SettingTemplate from "./components/template/SettingTemplate";
 
 LogBox.ignoreLogs([
     "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
@@ -71,6 +72,8 @@ function App() {
                 <Stack.Screen name="SearchCenterTemplate" component={SearchCenterTemplate}
                               options={{headerShown: false}}/>
                 <Stack.Screen name="JoinInfoTemplate" component={JoinInfoTemplate} options={{headerShown: false}}/>
+
+                <Stack.Screen name="SettingTemplate" component={SettingTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="CenterMainTemplate" component={CenterMainTemplate} options={{headerShown: false}}/>
                 <Stack.Screen name="ApplyCenterTemplate" component={ApplyCenterTemplate}
                               options={{headerShown: false}}/>
