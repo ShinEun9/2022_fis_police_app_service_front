@@ -33,7 +33,7 @@ function LoginTemplate({props, setLogin}) {
     const goSomePage = async () => {
         //로그인 api 요청
         console.log("hi")
-        await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
+        await axios.post(`http://localhost:8080/app/login`, {...currentInfo, role: "OFFICIAL"}, {withCredentials: true})
             .then((res) => {
                 console.log("hi1")
                 console.log(res.data)
