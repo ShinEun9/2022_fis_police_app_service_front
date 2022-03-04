@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StyleSheet, useWindowDimensions, ScrollView, Dimensions} from "react-native";
 import CustomButton from "./atom/CustomButton";
 import {Style} from "../Style";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ApplyRecord(props) {
+
     const onPress = () => {
         console.log("pressButton")
     }

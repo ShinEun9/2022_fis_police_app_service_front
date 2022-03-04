@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, SafeAreaView, StyleSheet, View, ScrollView, Dimensions, Image, Modal, Alert} from "react-native";
 import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
@@ -10,6 +10,8 @@ import CustomModal from "../atom/CustomModal";
 import ApplyRecord from "../ApplyRecord";
 import CustomImageModal from "../atom/CustomImageModal";
 import ConfirmationModal from "../ConfirmationModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 
 const screen = Dimensions.get("window");
@@ -18,13 +20,38 @@ const checkConfirmation = () => {
         console.log("확인서 열람")
     )
 }
-const checkHistory = () => {
-    return (
-        console.log("신청기록")
-    )
-}
+
 
 function CheckReservationTemplate(props) {
+    const historyList=[]
+    const getToken = async() => {
+        const t = await AsyncStorage.getItem("@token");
+        return t;
+    }
+    const onPress=()=>{
+        getToken().then((token)=>{
+            getHistoryList(token)
+        })
+    }
+    const getHistoryList=async (token)=>{
+        await axios.get(`http://localhost:8080/app/confirm/center`,{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log("과거기록")
+                console.log(res.data)
+                res.data.data.map((data,index)=>{
+                    historyList[index]={
+                        visit_date:data.visit_date,
+                        new_child:data.new_child,
+                        old_child:data.old_child
+                    }
+                })
+            }).catch((err)=>{
+                console.log(err)
+            })
+        console.log("historyList")
+        console.log(historyList)
+
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -75,12 +102,16 @@ function CheckReservationTemplate(props) {
                 <View style={{paddingVertical: 8}}>
                     <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
                 </View>
-                <Text style={styles.text}>과거이력</Text>
-                <Text style={styles.text}>과거이력</Text>
-                <Text style={styles.text}>과거이력</Text>
-                <Text style={styles.text}>과거이력</Text>
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {historyList.map((list,index)=>{
+                    return <Text style={styles.text}>{list[index]}</Text>
+                    console.log("done")
+                })}
                 <View style={styles.button}>
-                    <CustomImageModal name={"plus-square-o"} onPress={checkHistory} size={24} color={"black"} modalContent={<ApplyRecord/>}/>
+                    <CustomImageModal name={"plus-square-o"} onPress={onPress()} size={24} color={"black"} modalContent={<ApplyRecord/>}/>
                 </View>
 
             </View>
