@@ -45,7 +45,7 @@ function CustomImageModal({modalContent, onPress, name, size, color}) {
 
                 <View style={styles.container}>
                     <View style={styles.customButton}>
-                        <CustomImageButton name={"close"} size="30" onPress={send} color={"gray"}/>
+                        <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
                     </View>
                     <StyledModalGradeWrapper>
                         <View style={styles.content}>{modalContent}</View>

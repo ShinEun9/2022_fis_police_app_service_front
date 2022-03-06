@@ -20,19 +20,21 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
         }}>
             <ScrollView>
                 {info.map((item) => <List key={item.schedule_id} onPress={onPress} info={item} type="noButtonList"/>)}
-                <View style={{backgroundColor: "pink", flexDirection: "row", justifyContent: "flex-end"}}>
+                <View style={{ flexDirection: "row", justifyContent: "flex-end"}}>
                     <View style={{marginRight: 5}}>
-                        <CustomButton keyValue={["accept",keyValue]} onPress={onPress} backgroundColor={Style.color2} width="60" height="50"
+                        <CustomButton keyValue={["accept", keyValue]} onPress={onPress} backgroundColor={Style.color2}
+                                      width="60" height="50"
                                       content={"수락"}/>
                     </View>
-                    <CustomButton keyValue={["accept",keyValue]} onPress={onPress} backgroundColor={Style.color6} width="60" height="50"
+                    <CustomButton keyValue={["accept", keyValue]} onPress={onPress} backgroundColor={Style.color6}
+                                  width="60" height="50"
                                   content={"거절"}/>
                 </View>
 
             </ScrollView>
         </View>
     } else if (type === "noButtonListContainer") {
-
+        console.log(info)
         element = <View style={{
             backgroundColor: `${Style.color3}`,
             padding: 10,
@@ -43,23 +45,28 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
             width: useWindowDimensions().width * 0.96,
             justifyContent: "center"
         }}>
-            <ScrollView>
-                {info.map((item) => {
-                        let a;
-                        if (item.complete === "complete") {
-                            a = "확인서 열람"
-                        } else if (item.complete === "incomplete") {
-                            a = "확인서 작성"
-                        } else {
-                            a = "확인 대기중"
+            <ScrollView contentContainerStyle={{
+                height: `${info.length === 0 ? "100%" : "auto"}`,
+                alignItems: `${info.length === 0 ? "center" : "unset"}`,
+                justifyContent: `${info.length === 0 ? "center" : "unset"}`
+            }}>
+                {info.length === 0 ? <Text style={{fontSize: 20, color:"gray"}}>일정이 존재하지 않습니다</Text> :
+                    info.map((item) => {
+                            let a;
+                            if (item.complete === "complete") {
+                                a = "확인서 열람"
+                            } else if (item.complete === "incomplete") {
+                                a = "확인서 작성"
+                            } else {
+                                a = "확인 대기중"
+                            }
+
+                            return <List key={item.schedule_id} onPress={onPress}
+                                         listButtonContent={listButtonContent === "늦음" ? "늦음" : a}
+                                         info={item}/>
                         }
-
-                        return <List key={item.schedule_id} onPress={onPress}
-                                     listButtonContent={listButtonContent === "늦음" ? "늦음" : a}
-                                     info={item}/>
-                    }
-                )}
-
+                    )
+                }
 
             </ScrollView>
         </View>

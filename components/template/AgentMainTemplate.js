@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet, Dimensions,
+    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -30,30 +30,40 @@ const ASPECT_RATIO = screen.width / screen.height;
 let LATITUDE_DELTA = 0.02;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let newLocation={}
-let location=[]
+let newLocation = {}
+let location = []
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 
 function AgentMainTemplate({props, setLogin}) {
     const [schedule, setSchedule] = useState([]);
-    // const [schedule, setSchedule] = useState(todaySchedule);
+    const [isLoading, setIsLoading] = useState(true);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
     const [alocation, setaLocation] = useState();
-    const [ok,setOk]=useState(true);
-    const[latitude,setLatitude] = useState();
-    const [longitude,setLongitude] = useState();
+    const [ok, setOk] = useState(true);
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
 
-    const ask = async (options, callback)=>{
+    const ask = async (options, callback) => {
         const {granted} = await Location.requestForegroundPermissionsAsync();
-        if(!granted){
+        if (!granted) {
             setOk(false);
         }
-        const {coords:{latitude,longitude}}= await Location.getCurrentPositionAsync({distanceInterval:2})
-        newLocation={
-            latitude:latitude,
-            longitude:longitude,
+        const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync({distanceInterval: 2})
+        newLocation = {
+            latitude: latitude,
+            longitude: longitude,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
         }
@@ -63,7 +73,7 @@ function AgentMainTemplate({props, setLogin}) {
         ask();
     }, []); // 처음 로딩했을 때 권한 요청 & 처음 위치 get
 
-    useEffect((options, callback)=> {
+    useEffect((options, callback) => {
         Location.watchPositionAsync({
             accuracy: Location.Accuracy.Balanced,
             timeInterval: 300,
@@ -87,7 +97,8 @@ function AgentMainTemplate({props, setLogin}) {
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res);
-                setSchedule(res.data)
+                setSchedule(res.data);
+                setIsLoading(false)
             })
             .catch((err) => {
                 console.log(err)
@@ -95,7 +106,7 @@ function AgentMainTemplate({props, setLogin}) {
     }
 
     useEffect(() => {
-        getToken().then((res)=>{
+        getToken().then((res) => {
             console.log(res);
             getTodaySchedule(res)
         })
@@ -120,50 +131,77 @@ function AgentMainTemplate({props, setLogin}) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={{flex: 0.5}}>
                 <CustomNavigation navigation={props.navigation} type="agentMain" setLogin={setLogin}/>
             </View>
-            <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
-                <View style={{
-                    alignItems: "flex-start",
-                    width: useWindowDimensions().width * 0.9,
-                    marginBottom: 5
-                }}>
-                    <Text style={{fontSize: 24}}>오늘 일정</Text>
-                </View>
-                <ListContainer onPress={onPress} info={schedule} minHeight="300"
-                               listButtonContent="늦음"/>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
+                <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
 
-                <Modal
-                    isVisible={modalVisible}
-                    useNativeDriver={true}
-                    hideModalContentWhileAnimating={true}
-                    onBackdropPress={() => {
-                        setModalVisible(false)
-                    }}
-                    style={{flex: 1, justifyContent: "center", alignItems: "center"}}
-                >
-                    <View style={{...styles.container, width: useWindowDimensions().width * 0.9, height: 300}}>
-                        <MessageInputForm setModalVisible={setModalVisible}
-                                          selectedScheduleId={selectedSchedule}/>
+                    <View style={{
+                        alignItems: "flex-start",
+                        width: useWindowDimensions().width * 0.9,
+                        marginBottom: 5
+                    }}>
+                        <Text style={{fontSize: 24}}>오늘 일정</Text>
                     </View>
-                </Modal>
-            </View>
+                    {isLoading ? <View style={{
+                            backgroundColor: `${Style.color3}`,
+                            padding: 10,
+                            paddingBottom: 0,
+                            minHeight: 300,
+                            marginBottom: 20,
+                            height: "auto",
+                            width: Dimensions.get('window').width * 0.96,
+                            justifyContent: "center",
+                            alignItems: "center"
+                        }}>
+                            <ActivityIndicator color={Style.color2}/>
+                        </View> :
+                        <ListContainer onPress={onPress} info={schedule} minHeight="300"
+                                       listButtonContent="늦음"/>
+                    }
 
-            <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
-                <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate}
-                                       name="calendar-check-o"
-                                       size={30} color="black"/>
-                <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate}
-                                       name="calendar"
-                                       size={30} color="black"/>
-                <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
-                                       color="black"/>
-            </View>
+
+                    <Modal
+                        isVisible={modalVisible}
+                        useNativeDriver={true}
+                        hideModalContentWhileAnimating={true}
+                        onBackdropPress={() => {
+                            setModalVisible(false)
+                        }}
+                        style={{flex: 1, justifyContent: "center", alignItems: "center"}}
+                    >
+                        <View style={{...styles.container, width: useWindowDimensions().width * 0.9, height: 300}}>
+                            <MessageInputForm setModalVisible={setModalVisible}
+                                              selectedScheduleId={selectedSchedule}/>
+                        </View>
+                    </Modal>
+                </View>
+
+                <View style={{flex: 5, justifyContent: "center", alignItems: "center"}}>
+                    <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate}
+                                           name="calendar-check-o"
+                                           size={30} color="black"/>
+                    <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate}
+                                           name="calendar"
+                                           size={30} color="black"/>
+                    <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
+                                           color="black"/>
+
+                </View>
+            </ScrollView>
 
 
         </SafeAreaView>
-    );
+    )
+        ;
 }
 
 export default AgentMainTemplate;
@@ -177,6 +215,7 @@ const styles = StyleSheet.create({
             backgroundColor: "white",
             borderRadius: 10,
         },
+
 
     }
 )
