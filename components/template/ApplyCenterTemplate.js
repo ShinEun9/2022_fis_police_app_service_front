@@ -11,9 +11,8 @@ function ApplyCenterTemplate(props) {
         h_date: null,
         h_mail: "",
         h_name: "",
+        h_ph:"",
         h_address: ""
-
-
     })
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -21,14 +20,34 @@ function ApplyCenterTemplate(props) {
             [name]: value
         })
     }
-
-    useEffect(() => {
-        console.log(currentInfo)
-    }, [currentInfo])
+    const getCurrentInfo =async (token)=>{
+        await axios.get(`http://localhost:8080/app/official/setting`,{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log(res.data)
+                setCurrentInfo({
+                    ...currentInfo,
+                    h_name: res.data.center_name,
+                    h_address: res.data.center_address,
+                    h_ph: res.data.o_ph
+                })
+            }).catch((err)=>{
+                console.log(err)
+            })
+    }
 
     const getToken = async() => {
         const t = await AsyncStorage.getItem("@token");
         return t;
+    }
+    useEffect(() => {
+        getToken().then((token)=>{
+            getCurrentInfo(token)
+        })
+    },[])
+    const onPress=()=>{
+        getToken().then((token)=>{
+            sendApplication(token)
+        })
     }
 
     const sendApplication = async (token) => {
@@ -56,11 +75,7 @@ function ApplyCenterTemplate(props) {
                 console.log(err)
             })
     }
-    const onPress=()=>{
-        getToken().then((token)=>{
-            sendApplication(token)
-        })
-    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={{flex: 1}}>
