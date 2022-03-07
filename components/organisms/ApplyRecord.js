@@ -11,26 +11,13 @@ function ApplyRecord(props) {
         <View style={styles.mainContainer}>
             <ScrollView style={{width: "100%", marginBottom: 20, }}
                         contentContainerStyle={{alignItems: "center"}}>
-                <View style={styles.container}>
-                    <Text>2017.08.09</Text>
-                    <Text>신규 14명 기존 9명</Text>
-                </View>
-                <View style={styles.container}>
-                    <Text>2017.08.09</Text>
-                    <Text>신규 14명 기존 9명</Text>
-                </View>
-                <View style={styles.container}>
-                    <Text>2017.08.09</Text>
-                    <Text>신규 14명 기존 9명</Text>
-                </View>
-                <View style={styles.container}>
-                    <Text>2017.08.09</Text>
-                    <Text>신규 14명 기존 9명</Text>
-                </View>
-                <View style={styles.container}>
-                    <Text>2017.08.09</Text>
-                    <Text>신규 14명 기존 9명</Text>
-                </View>
+
+                            {content.map((data,index) => {
+                                return <View key={index} style={styles.container2}>
+                                    <Text>{data.visit_date}</Text>
+                                    <Text>신규 {data.new_child === null ? 0 : data.new_child} 명 / 기존 {data.old_child=== null ? 0 : data.old_child} 명</Text>
+                                </View>
+                            })}
 
             </ScrollView>
             {/*<CustomButton content="확인" width="100" height="50" backgroundColor={Style.color2} onPress={onPress}/>*/}
@@ -52,7 +39,7 @@ const styles = StyleSheet.create(
             paddingBottom: 20,
             paddingTop: 30,
         },
-        container: {
+        container2: {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",

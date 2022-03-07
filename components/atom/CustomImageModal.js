@@ -48,19 +48,7 @@ function CustomImageModal({modalContent, onPress, name, size, color, content}) {
                         <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
                     </View>
                     <StyledModalGradeWrapper>
-                        <View style={styles.content}>
-                            <View style={styles.mainContainer}>
-                                <ScrollView style={{width: "100%", marginBottom: 20,}}
-                                            contentContainerStyle={{alignItems: "center"}}>
-                                    {/*{content.map((data) => {*/}
-                                    {/*    return <View style={styles.container2}>*/}
-                                    {/*        <Text>{data.visit_date}</Text>*/}
-                                    {/*        <Text>신규 {data.new_child} 기존 {data.old_child}</Text>*/}
-                                    {/*    </View>*/}
-                                    {/*})}*/}
-                                </ScrollView>
-                            </View>
-                        </View>
+                        <View style={styles.content}>{modalContent}</View>
                     </StyledModalGradeWrapper>
 
 
@@ -95,25 +83,6 @@ const styles = StyleSheet.create({
             fontSize: 20,
             color: "white"
         },
-        mainContainer: {
-            // backgroundColor: Style.color3,
-            width: Dimensions.get("window").width * 0.83,
-            height: Dimensions.get("window").height * 0.49,
-            alignItems: "center",
-            paddingHorizontal: 0,
-            paddingBottom: 20,
-            paddingTop: 30,
-        },
-        container2: {
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 27,
-            backgroundColor: Style.color5,
-            borderRadius: 20,
-            width: "80%",
-            height: 50,
-            marginBottom: 20
-        }
+
     }
 )

@@ -33,8 +33,10 @@ function LoginTemplate({props, setLogin}) {
 
     const goSomePage = async () => {
         //로그인 api 요청
+
         setIsLoading(true)
         await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
+
             .then((res) => {
                 console.log(res.data)
                 if (res.data.u_auth === "AGENT") {
