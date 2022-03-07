@@ -68,6 +68,7 @@ function ApplyCenterTemplate(props) {
             day = '0' + day
         }
         buf = [year, month, day].join('-')
+
         console.log(buf)
         console.log({...currentInfo, h_date: buf})
         setIsLoading({...isLoading, sendApplicationLoading: true})
