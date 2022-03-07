@@ -1,5 +1,14 @@
 import React, {useState} from 'react';
-import {Text, SafeAreaView, View, Dimensions, StyleSheet, useWindowDimensions, Platform} from "react-native";
+import {
+    Text,
+    SafeAreaView,
+    View,
+    Dimensions,
+    StyleSheet,
+    useWindowDimensions,
+    Platform,
+    ActivityIndicator
+} from "react-native";
 import CustomInput from "../atom/CustomInput";
 import DatePicker from "../atom/DatePicker";
 import CustomMultilineInput from "../atom/CustomMultilineInput";
@@ -10,7 +19,7 @@ import Select from "../atom/Select";
 
 
 
-function ApplyInputForm({onPress, handleChange, currentInfo}) {
+function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
     return (
         <View style={{alignItems: "center"}}>
             <View style={styles.Input}>
@@ -41,9 +50,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
                         label: '미참여',
                         value: "reject"
                     }]}
-
                             width={useWindowDimensions().width * 0.60}
-
                             handleChange={handleChange} currentInfo={currentInfo}/>
                 </View>
 
@@ -56,7 +63,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo}) {
                 </View>
             </View>
             <View style={styles.Button}>
-                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={"제출"}/>
+                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={isLoading?<ActivityIndicator />:"제출"}/>
             </View>
 
         </View>
