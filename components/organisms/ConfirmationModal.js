@@ -4,27 +4,27 @@ import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-function ConfirmationModal({schedule_id}) {
-    const [confirmInfo, setConfirmInfo] = useState();
-    const getToken = async () => {
-        const t = await AsyncStorage.getItem("@token");
-        return t;
-    }
+function ConfirmationModal({schedule_id,name,content}) {
+    // const [confirmInfo, setConfirmInfo] = useState();
+    // const getToken = async () => {
+    //     const t = await AsyncStorage.getItem("@token");
+    //     return t;
+    // }
 
-    const getData = async (token) => {
-        await axios.get(`http://localhost:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
-            .then((res) => {
-                setConfirmInfo(res.data);
-            }).catch((err) => {
-                console.log(err)
-            })
-    }
-
-    useEffect(() => {
-        getToken().then((token) => {
-            getData(token)
-        })
-    }, [])
+    // const getData = async (token) => {
+    //     await axios.get(`http://localhost:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
+    //         .then((res) => {
+    //             setConfirmInfo(res.data);
+    //         }).catch((err) => {
+    //             console.log(err)
+    //         })
+    // }
+    //
+    // useEffect(() => {
+    //     getToken().then((token) => {
+    //         getData(token)
+    //     })
+    // }, [])
 
     return (
         <View style={styles.mainContainer}>
@@ -32,32 +32,29 @@ function ConfirmationModal({schedule_id}) {
             <View style={styles.container}>
                 <View style={styles.item}>
                     <Text style={styles.title}>시설이름</Text>
-                    <Text style={styles.content}>타요타요 어린이집</Text>
+                    <Text style={styles.content}>{content.center_name}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.title}>시설주소</Text>
-                    <Text style={styles.content}>서울특별시 용산구 이촌로 100-8 동아그린아파트 103adfadfadfadfljahdfjladhfjlahdfjakldf동
-                        102호</Text>
+                    <Text style={styles.content}>{content.center_address}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.title}>연락처</Text>
-                    <Text style={styles.content}>01047106207</Text>
+                    <Text style={styles.content}>{content.center_ph}</Text>
                 </View>
                 <View style={styles.item}>
                     <Text style={styles.title}>방문시간</Text>
-                    <Text style={styles.content}>2022.05.04 14:00</Text>
-
-
+                    <Text style={styles.content}>{content.visit_date} {content.visit_time}</Text>
                 </View>
-                <View style={styles.item}>
-                    <Text style={styles.title}>종료시간</Text>
-                    <Text style={styles.content}>2022.05.04 15:30</Text>
-                </View>
+                {/*<View style={styles.item}>*/}
+                {/*    <Text style={styles.title}>종료시간</Text>*/}
+                {/*    <Text style={styles.content}>2022.05.04 15:30</Text>*/}
+                {/*</View>*/}
                 <View style={styles.item}>
                     <Text style={{...styles.title, flex: 1}}>신규인원</Text>
-                    <Text style={{...styles.content, flex: 1}}>26명</Text>
+                    <Text style={{...styles.content, flex: 1}}>{content.new_child===null ? 0 : content.new_child} 명</Text>
                     <Text style={{...styles.title, flex: 1}}>기존인원</Text>
-                    <Text style={{...styles.content, flex: 1}}>30명</Text>
+                    <Text style={{...styles.content, flex: 1}}>{content.old_child === null ? 0 : content.old_child} 명</Text>
 
                 </View>
 
@@ -68,7 +65,7 @@ function ConfirmationModal({schedule_id}) {
                 </Text>
                 <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100}}>
                     <Text>
-                        신은수 바보 신은수 멍청ㅇ이이이ㅣ이이ㅣ이아리아리아미ㅏ이ㅏ리마ㅣlkadlfkdsfkdsldlf
+                        {content.etc}
                     </Text>
                 </View>
 
@@ -76,11 +73,11 @@ function ConfirmationModal({schedule_id}) {
             <View style={{...styles.container, width: "50%", justifyContent: "flex-end", alignSelf: "flex-end"}}>
                 <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                     <Text style={{...styles.title, flex: undefined, marginRight: 10}}>현장요원</Text>
-                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>한마루</Text>
+                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{name}</Text>
                 </View>
                 <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                     <Text style={{...styles.title, flex: undefined, marginRight: 10}}>시설담당자</Text>
-                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>한명수</Text>
+                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>담당자 이름</Text>
                 </View>
             </View>
 

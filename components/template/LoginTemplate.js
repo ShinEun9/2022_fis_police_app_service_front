@@ -35,7 +35,7 @@ function LoginTemplate({props, setLogin}) {
         console.log("hi")
 
 
-        await axios.post(`http://localhost:8080/app/login`, {...currentInfo, role: "AGENT"}, {withCredentials: true})
+        await axios.post(`http://localhost:8080/app/login`, {...currentInfo, role: "OFFICIAL"}, {withCredentials: true})
 
             .then((res) => {
                 console.log("hi1")
