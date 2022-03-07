@@ -8,7 +8,7 @@ import {StackActions} from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function LoginTemplate({props, setLogin}) {
-    const [currentInfo, setCurrentInfo] = React.useState({u_nickname: "", u_pwd: ""});
+    const [currentInfo, setCurrentInfo] = React.useState({u_nickname: "", u_pwd: "", role:""});
     const [isLoading, setIsLoading] = React.useState(false);
 
     // input handleChange 함수
@@ -34,9 +34,8 @@ function LoginTemplate({props, setLogin}) {
     const goSomePage = async () => {
         //로그인 api 요청
         setIsLoading(true)
-        await axios.post(`http://localhost:8080/app/login`, {...currentInfo, role: "OFFICIAL"}, {withCredentials: true})
+        await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
             .then((res) => {
-                console.log("hi1")
                 console.log(res.data)
                 if (res.data.u_auth === "AGENT") {
                     setAsyncStorage("@u_auth","AGENT")
@@ -64,7 +63,7 @@ function LoginTemplate({props, setLogin}) {
             <View style={{flex: 1.5, justifyContent: "flex-end",}}>
                 <Image source={logo} style={{width: 180, height: 140}}/>
             </View>
-            <View style={{flex: 2, alignItems: "center", justifyContent: "center"}}>
+            <View style={{flex: 2.5, alignItems: "center", justifyContent: "center"}}>
                 <LoginInputForm onPress={goSomePage} handleChange={handleChange} currentInfo={currentInfo} isLoading={isLoading}/>
             </View>
             <View style={{flex: 1}}>

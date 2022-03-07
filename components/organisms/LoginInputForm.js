@@ -4,11 +4,22 @@ import CustomInput from "../atom/CustomInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 import PasswordInput from "../atom/PasswordInput";
+import Select from "../atom/Select";
 
 function LoginInputForm({handleChange, currentInfo, onPress, isLoading}) {
     return (
         <>
-            <View style={{marginBottom: 30}}>
+            <View style={{marginBottom: 30,}}>
+                <View style={{margin: 12}}>
+                    <Select label="권한 선택" id="role" width={useWindowDimensions().width * 0.7}
+                            items={[{label: '현장요원', value: 'AGENT'}, {
+                                label: '시설관리자',
+                                value: 'OFFICIAL'}]}
+                            handleChange={handleChange} currentInfo={currentInfo}/>
+                </View>
+
+
+
                 <CustomInput type="line" id="u_nickname" width={`${useWindowDimensions().width * 0.7}`} height="50"
                              placeholder="아이디" handleChange={handleChange} currentInfo={currentInfo}/>
 
