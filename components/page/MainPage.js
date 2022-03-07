@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import LoginTemplate from "./template/LoginTemplate";
+import LoginTemplate from "../template/LoginTemplate";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AgentMainTemplate from "./template/AgentMainTemplate";
-import CenterMainTemplate from "./template/CenterMainTemplate";
+import AgentMainTemplate from "../template/AgentMainTemplate";
+import CenterMainTemplate from "../template/CenterMainTemplate";
 
 function MainPage(props) {
     const [login, setLogin] = useState("")

@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, Text, View} from "react-native";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 
 function StartupSupportTemplate(props) {
     return (

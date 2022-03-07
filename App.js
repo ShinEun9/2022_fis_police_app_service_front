@@ -17,7 +17,7 @@ import StartupSupportTemplate from "./components/template/StartupSupportTemplate
 import {LogBox} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect} from "react";
-import MainPage from "./components/MainPage";
+import MainPage from "./components/page/MainPage";
 import SettingTemplate from "./components/template/SettingTemplate";
 
 LogBox.ignoreLogs([

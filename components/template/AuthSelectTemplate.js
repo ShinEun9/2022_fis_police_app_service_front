@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, SafeAreaView, useWindowDimensions} from "react-native";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 
 function AuthSelectTemplate(props) {
     const goSomePage = () => {

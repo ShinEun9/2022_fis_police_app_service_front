@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, View} from "react-native";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import JoinInputForm from "../organisms/JoinInputForm";
 import SettingInputForm from "../organisms/SettingInputForm";
 

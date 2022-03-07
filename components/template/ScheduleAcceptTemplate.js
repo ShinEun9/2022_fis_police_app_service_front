@@ -3,7 +3,7 @@ import {Text, View, SafeAreaView, ScrollView, StyleSheet, useWindowDimensions, A
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
 import CustomImageButton from "../atom/CustomImageButton";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import {schedule} from "../../store/dummy-data/schedule";
 import {week} from "../../store/dummy-data/week";
 import AsyncStorage from "@react-native-async-storage/async-storage";
