@@ -8,7 +8,7 @@ import {
     StyleSheet,
     ScrollView,
     useWindowDimensions,
-    Dimensions, Button
+    Dimensions, Button, ActivityIndicator
 } from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
@@ -23,14 +23,19 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ScheduleCheckTemplate(props) {
-    // dummy-data에 있는 schedule을 todaySchedule에 set해줌
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
     const [pastSchedule, setPastSchedule] = useState([]);
+
+    // 클릭된schedule에 대한 info를 modal에 props로 전달하기 위한 state
     const [selectedScheduleInfo, setSelectedScheduleInfo] = useState([]);
+
     // 모달을 띄울지 말지 true false로 정하는 state
     const [modalVisible, setModalVisible] = useState(false);
+
     // 확인서 작성 모달을 띄울지 확인서열람 모달을 띄울지 정하는 state
     const [whichModal, setWhichModal] = useState()
+
+    const [isLoading, setIsLoading] = useState(true);
 
 
     const getToken = async () => {
@@ -54,6 +59,7 @@ function ScheduleCheckTemplate(props) {
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 // console.log(res.data)
+                setIsLoading(false)
                 setTodayAndFutureSchedule(futureData)
                 setPastSchedule(res.data)
             })
@@ -100,52 +106,58 @@ function ScheduleCheckTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1,}}>
-            <View style={{flex: 1, zIndex: 1, position: "relative"}}>
+            <View style={{flex: 0.8, zIndex: 1, position: "relative"}}>
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="확정된 일정 열람하러 가기"/>
 
             </View>
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
                 <ScrollView style={{width: useWindowDimensions().width * 0.96}}
                             contentContainerStyle={{alignItems: "center"}}>
-                    <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
+                    {isLoading ? <ActivityIndicator color={Style.color2}/> :
+                        <>
+                            <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
 
-                    {/*schedules를 객체에서 배열로 만들Ï어야 함.(map 함수 쓰기 위해서)*/}
-                    {/*Object.entries(schedules)하면은 구조가 [array(2), array(2), array(2)]*/}
-                    {/*array(2) 첫번째 원소는 날짜, 두번째 원소는 그 날짜의 스케쥴 배열들*/}
-                    {Object.entries(schedules1).map((item, index) => {
-                        return <View key={index} style={{alignItems: "flex-start"}}>
-                            <View style={{
-                                backgroundColor: Style.color2,
-                                borderTopRightRadius: 10,
-                                borderTopLeftRadius: 10,
-                                padding: 10
-                            }}>
-                                <Text style={{
-                                    color: "white",
-                                    fontSize: 16
-                                }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
-                            </View>
-                            <ListContainer onPress={onPress} info={item[1]}/>
-                        </View>
-                    })}
+                            {/*schedules를 객체에서 배열로 만들Ï어야 함.(map 함수 쓰기 위해서)*/}
+                            {/*Object.entries(schedules)하면은 구조가 [array(2), array(2), array(2)]*/}
+                            {/*array(2) 첫번째 원소는 날짜, 두번째 원소는 그 날짜의 스케쥴 배열들*/}
+                            {Object.entries(schedules1).map((item, index) => {
+                                return <View key={index} style={{alignItems: "flex-start"}}>
+                                    <View style={{
+                                        backgroundColor: Style.color2,
+                                        borderTopRightRadius: 10,
+                                        borderTopLeftRadius: 10,
+                                        padding: 10
+                                    }}>
+                                        <Text style={{
+                                            color: "white",
+                                            fontSize: 16
+                                        }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
+                                    </View>
+                                    <ListContainer onPress={onPress} info={item[1]}/>
+                                </View>
+                            })}
 
-                    <Text style={{fontSize: 24, marginTop: 30, marginBottom: 15, alignSelf: "flex-start"}}>과거 일정</Text>
-                    {Object.entries(schedules2).map((item, index) => {
-                        return <View key={index} style={{alignItems: "flex-start"}}>
-                            <View style={{
-                                backgroundColor: Style.color2,
-                                borderTopRightRadius: 10,
-                                borderTopLeftRadius: 10,
-                                padding: 10
-                            }}>
-                                <Text style={{
-                                    color: "white",
-                                    fontSize: 16
-                                }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
-                            </View>
-                            <ListContainer onPress={onPress} info={item[1]} listButtonContent="확인서 열람"/>
-                        </View>
-                    })}
+                            <Text style={{fontSize: 24, marginTop: 30, marginBottom: 15, alignSelf: "flex-start"}}>과거
+                                일정</Text>
+                            {Object.entries(schedules2).map((item, index) => {
+                                return <View key={index} style={{alignItems: "flex-start"}}>
+                                    <View style={{
+                                        backgroundColor: Style.color2,
+                                        borderTopRightRadius: 10,
+                                        borderTopLeftRadius: 10,
+                                        padding: 10
+                                    }}>
+                                        <Text style={{
+                                            color: "white",
+                                            fontSize: 16
+                                        }}>{item[0]} {week[new Date(item[0]).getDay()]}요일</Text>
+                                    </View>
+                                    <ListContainer onPress={onPress} info={item[1]} listButtonContent="확인서 열람"/>
+                                </View>
+                            })}
+                        </>
+
+                    }
                 </ScrollView>
                 <Modal
                     isVisible={modalVisible}

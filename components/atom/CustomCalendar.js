@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState} from 'react'
-import {Text, View} from 'react-native';
+import {ActivityIndicator, Text, View} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {FontAwesome} from "@expo/vector-icons";
 import {Style} from "../../Style";
@@ -8,17 +8,8 @@ import axios from "axios";
 
 function CustomCalendar(props) {
     const [markedDates, setMarkedDates] = useState({});
-    // let selectedDates = ['2022-02-16', '2022-02-22', '2022-02-23', '2022-02-24']
-    // for (let selectedDate of selectedDates) {
-    //     console.log(selectedDate)
-    //     if (new Date(selectedDate) > new Date()) {
-    //         markedDates[selectedDate] = {selected: true, selectedColor: Style.color2}
-    //     } else {
-    //         console.log(false)
-    //         markedDates[selectedDate] = {selected: true, selectedColor: Style.color6}
-    //     }
-    //
-    // }
+    const [isLoading, setIsLoading] = useState(true);
+
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
@@ -29,13 +20,25 @@ function CustomCalendar(props) {
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data);
+                setIsLoading(false);
                 const {visited_date, will_go_date} = res.data
-                for (let date of visited_date) {
-                    setMarkedDates({...markedDates, [date]: {selected: true, selectedColor: Style.color6}})
-                }
-                for (let date of will_go_date) {
-                    setMarkedDates({...markedDates, [date]:  {selected: true, selectedColor: Style.color2}})
-                }
+                let obj1 = will_go_date.reduce(
+                    (c, v) =>
+                        Object.assign(c, {
+                            [v]: { selected: true, selectedColor: Style.color2 },
+                        }),
+                    {},
+                );
+
+                let obj2= visited_date.reduce(
+                    (c, v) =>
+                        Object.assign(c, {
+                            [v]: { selected: true, selectedColor: Style.color2 },
+                        }),
+                    {},
+                );
+                setMarkedDates({...obj1,...obj2})
+
             })
             .catch((err) => {
                 console.log(err)
@@ -50,78 +53,51 @@ function CustomCalendar(props) {
         })
     }, [])
 
+
+
     return (
-        <View style={{backgroundColor: "white", padding: 10}}>
-            <Calendar
-                // Initially visible month. Default = Date()
-                current={new Date().toString()}
+        <View>
+            {isLoading ? <ActivityIndicator color={Style.color2}/> :
+                <>
+                    <Calendar
+                        // Initially visible month. Default = Date()
+                        current={new Date().toString()}
+                        monthFormat={'yyyy MM'}
+                        hideArrows={false}
+                        renderArrow={(direction) => {
+                            return direction === "right" ? <FontAwesome name="angle-right" size={24} color="black"/> :
+                                <FontAwesome name="angle-left" size={24} color="black"/>
+                        }}
 
-                // Handler which gets executed on day press. Default = undefined
-                // onDayPress={(day) => {
-                //     console.log('selected day', day)
-                // }}
+                        hideExtraDays={false}
+                        disableMonthChange={true}
+                        firstDay={1}
+                        onPressArrowLeft={substractMonth => substractMonth()}
+                        onPressArrowRight={addMonth => addMonth()}
+                        disableAllTouchEventsForDisabledDays={true}
+                        markedDates={markedDates}
+                    />
 
-                // Handler which gets executed on day long press. Default = undefined
-                // onDayLongPress={(day) => {
-                //     console.log('selected day', day)
-                // }}
+                    <View>
+                        <View style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "flex-end",
+                            marginTop: 10,
+                            marginBottom: 5
+                        }}>
+                            <FontAwesome name="square" size={20} color={Style.color6}/>
+                            <Text style={{marginLeft: 10, color: Style.color5}}>근무일</Text>
+                        </View>
+                        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
 
-                // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-                monthFormat={'yyyy MM'}
+                            <FontAwesome name="square" size={20} color={Style.color2}/>
+                            <Text style={{marginLeft: 10, color: Style.color5}}>근무 예정일</Text>
+                        </View>
 
-                // Handler which gets executed when visible month changes in calendar. Default = undefined
-                // onMonthChange={(month) => {
-                //     console.log('month changed', month)
-                // }}
-
-                // Hide month navigation arrows. Default = false
-                hideArrows={false}
-
-                // Replace default arrows with custom ones (direction can be 'left' or 'right')
-                renderArrow={(direction) => {
-                    return direction === "right" ? <FontAwesome name="angle-right" size={24} color="black"/> :
-                        <FontAwesome name="angle-left" size={24} color="black"/>
-                }}
-
-                // Do not show days of other months in month page. Default = false
-                hideExtraDays={false}
-
-                // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-                // day from another month that is visible in calendar page. Default = false
-                disableMonthChange={true}
-
-
-                // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-                firstDay={1}
-
-                // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-                onPressArrowLeft={substractMonth => substractMonth()}
-
-                // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-                onPressArrowRight={addMonth => addMonth()}
-
-                // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                disableAllTouchEventsForDisabledDays={true}
-                markedDates={markedDates}
-            />
-
-            <View><View style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                marginTop: 10,
-                marginBottom: 5
-            }}>
-                <FontAwesome name="square" size={20} color={Style.color6}/>
-                <Text style={{marginLeft: 10, color: Style.color5}}>근무일</Text>
-            </View>
-                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
-
-                    <FontAwesome name="square" size={20} color={Style.color2}/>
-                    <Text style={{marginLeft: 10, color: Style.color5}}>근무 예정일</Text>
-                </View>
-
-            </View>
+                    </View>
+                </>
+            }
         </View>
     )
 }

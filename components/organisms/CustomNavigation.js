@@ -33,11 +33,10 @@ function CustomNavigation({navigation, type, title, setLogin}) {
                     flexDirection: "row",
                     alignItems: "center",
                     paddingHorizontal: 20,
-                    backgroundColor: "pink",
                     position: "relative",
 
                 }}>
-                    <TouchableOpacity style={{backgroundColor: "orange"}} activeOpacity={0.6}
+                    <TouchableOpacity activeOpacity={0.6}
                                       onPress={() => navigation.goBack()} style={{flex: 1}}>
                         <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
                     </TouchableOpacity>
