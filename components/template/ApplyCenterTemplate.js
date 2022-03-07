@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, StyleSheet} from "react-native";
+import {Text, SafeAreaView, View, StyleSheet, ActivityIndicator} from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
@@ -11,66 +11,80 @@ function ApplyCenterTemplate(props) {
         h_date: null,
         h_mail: "",
         h_name: "",
-        h_ph:"",
+        h_ph: "",
         h_address: ""
     })
+    const [isLoading, setIsLoading] = useState({getCurrentInfoLoading: true, sendApplicationLoading: false})
+
     const handleChange = (name, value) => {
         setCurrentInfo({
             ...currentInfo,
             [name]: value
         })
     }
-    const getCurrentInfo =async (token)=>{
-        await axios.get(`http://localhost:8080/app/official/setting`,{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
+    const getCurrentInfo = async (token) => {
+        await axios.get(`http://localhost:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
                 console.log(res.data)
+                setIsLoading({...isLoading, getCurrentInfoLoading: false})
                 setCurrentInfo({
                     ...currentInfo,
                     h_name: res.data.center_name,
                     h_address: res.data.center_address,
                     h_ph: res.data.o_ph
                 })
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err)
+                setIsLoading({...isLoading, getCurrentInfoLoading: false})
+
             })
     }
 
-    const getToken = async() => {
+    const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
     useEffect(() => {
-        getToken().then((token)=>{
+        getToken().then((token) => {
             getCurrentInfo(token)
         })
-    },[])
-    const onPress=()=>{
-        getToken().then((token)=>{
+    }, [])
+    const onPress = () => {
+        getToken().then((token) => {
             sendApplication(token)
         })
     }
 
     const sendApplication = async (token) => {
-        let buf=currentInfo.h_date
-        let year=buf.getFullYear()
-        let month=''+(buf.getMonth()+1)
-        let day=''+buf.getDate()
+        let buf = currentInfo.h_date
+        let year = buf.getFullYear()
+        let month = '' + (buf.getMonth() + 1)
+        let day = '' + buf.getDate()
 
-        if(month.length<2){
-            month='0'+month
+        if (month.length < 2) {
+            month = '0' + month
         }
-        if(day.length<2){
-            day='0'+day
+        if (day.length < 2) {
+            day = '0' + day
         }
-        buf=[year,month,day].join('-')
+        buf = [year, month, day].join('-')
+
         console.log(buf)
-        console.log({...currentInfo,h_date:buf})
-        await axios.post(`http://localhost:8080/app/hope`,{...currentInfo,h_date:buf},{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
+        console.log({...currentInfo, h_date: buf})
+        setIsLoading({...isLoading, sendApplicationLoading: true})
+        await axios.post(`http://localhost:8080/app/hope`, {
+            ...currentInfo,
+            h_date: buf
+        }, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
                 console.log("전송")
                 console.log(res.data)
-            }).catch((err)=>{
+                setIsLoading({...isLoading, sendApplicationLoading: false})
+
+            }).catch((err) => {
                 console.log(err)
+                setIsLoading({...isLoading, sendApplicationLoading: false})
+
             })
     }
 
@@ -83,7 +97,8 @@ function ApplyCenterTemplate(props) {
                 <Text>가이드가이드가이드</Text>
             </View>
             <View style={styles.InputForm}>
-                <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}/>
+                {isLoading.getCurrentInfoLoading ? <ActivityIndicator/> :
+                    <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo} isLoading={isLoading.sendApplicationLoading}/>}
             </View>
         </SafeAreaView>
     );
@@ -98,10 +113,13 @@ const styles = StyleSheet.create({
     Guide: {
         flex: 3,
         alignItems: "center",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        backgroundColor:"pink"
     },
     InputForm: {
         flex: 6.7,
+        justifyContent:"center",
+        alignItems:"center"
 
     }
 })
