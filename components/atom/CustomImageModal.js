@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Modal from "react-native-modal";
-import {View, StyleSheet, Dimensions, TouchableOpacity, Text} from "react-native";
+import {View, StyleSheet, Dimensions, TouchableOpacity, Text, ScrollView} from "react-native";
 import {Style} from "../../Style";
 import styled from "styled-components/native";
 import CustomButton from "./CustomButton";
@@ -16,7 +16,7 @@ const StyledModalGradeWrapper = styled.View`
 const screen = Dimensions.get("window");
 
 
-function CustomImageModal({modalContent, onPress, name, size, color}) {
+function CustomImageModal({modalContent, onPress, name, size, color, content}) {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -45,10 +45,22 @@ function CustomImageModal({modalContent, onPress, name, size, color}) {
 
                 <View style={styles.container}>
                     <View style={styles.customButton}>
-                        <CustomImageButton name={"close"} size="30" onPress={send} color={"gray"}/>
+                        <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
                     </View>
                     <StyledModalGradeWrapper>
-                        <View style={styles.content}>{modalContent}</View>
+                        <View style={styles.content}>
+                            <View style={styles.mainContainer}>
+                                <ScrollView style={{width: "100%", marginBottom: 20,}}
+                                            contentContainerStyle={{alignItems: "center"}}>
+                                    {/*{content.map((data) => {*/}
+                                    {/*    return <View style={styles.container2}>*/}
+                                    {/*        <Text>{data.visit_date}</Text>*/}
+                                    {/*        <Text>신규 {data.new_child} 기존 {data.old_child}</Text>*/}
+                                    {/*    </View>*/}
+                                    {/*})}*/}
+                                </ScrollView>
+                            </View>
+                        </View>
                     </StyledModalGradeWrapper>
 
 
@@ -62,8 +74,8 @@ export default CustomImageModal;
 
 const styles = StyleSheet.create({
         customButton: {
-            paddingVertical:10,
-            marginLeft:300
+            paddingVertical: 10,
+            marginLeft: 300
         },
         container: {
             flexDirection: "column",
@@ -83,5 +95,25 @@ const styles = StyleSheet.create({
             fontSize: 20,
             color: "white"
         },
+        mainContainer: {
+            // backgroundColor: Style.color3,
+            width: Dimensions.get("window").width * 0.83,
+            height: Dimensions.get("window").height * 0.49,
+            alignItems: "center",
+            paddingHorizontal: 0,
+            paddingBottom: 20,
+            paddingTop: 30,
+        },
+        container2: {
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 27,
+            backgroundColor: Style.color5,
+            borderRadius: 20,
+            width: "80%",
+            height: 50,
+            marginBottom: 20
+        }
     }
 )

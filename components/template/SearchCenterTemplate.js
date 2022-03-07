@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, SafeAreaView, Text} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

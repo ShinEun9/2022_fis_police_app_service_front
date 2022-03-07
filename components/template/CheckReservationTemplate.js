@@ -1,30 +1,65 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, SafeAreaView, StyleSheet, View, ScrollView, Dimensions, Image, Modal, Alert} from "react-native";
 import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
 import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import CustomModal from "../atom/CustomModal";
-import ApplyRecord from "../ApplyRecord";
+import ApplyRecord from "../organisms/ApplyRecord";
 import CustomImageModal from "../atom/CustomImageModal";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../organisms/ConfirmationModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import list from "../molecule/List";
 
 
 const screen = Dimensions.get("window");
 const checkConfirmation = () => {
-    return(
+    return (
         console.log("확인서 열람")
     )
 }
-const checkHistory = () => {
-    return (
-        console.log("신청기록")
-    )
-}
+
 
 function CheckReservationTemplate(props) {
+    const [historyList,setHistoryList]=useState([])
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token");
+        return t;
+    }
+    useEffect(()=>{
+        getToken().then((token)=>{
+            getHistoryList(token)
+            getAgentList(token)
+        })
+    },[])
+    const getHistoryList = async (token) => {
+        await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log("과거기록")
+                console.log(res.data)
+                const buf=[]
+                res.data.data.map((data, index) => {
+                    buf[index] = {
+                        key:index,
+                        visit_date: data.visit_date,
+                        new_child: data.new_child,
+                        old_child: data.old_child
+                    }
+                })
+                setHistoryList(buf)
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+    const getAgentList=async (token)=>{
+        await axios.get(`http://localhost:8080/app/schedule/confirm`,{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log(res.data)
+            })
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -48,7 +83,9 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"}  modalWidth={screen.width*0.93} modalHeight={screen.height*0.8} modalButtonContent={"확인"} modalContent={<ConfirmationModal/>}/>
+                                             height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
+                                             modalHeight={screen.height * 0.8} modalButtonContent={"확인"}
+                                             modalContent={<ConfirmationModal/>}/>
                                 {/*modalContent 알맞은 파일로 변경 필요*/}
 
                             </View>
@@ -64,7 +101,9 @@ function CheckReservationTemplate(props) {
                             <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
                             <View style={styles.buttonContainer}>
                                 <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                              height={35} content={"확인서 열람"} modalWidth={screen.width*0.93} modalHeight={screen.height*0.8} modalButtonContent={"확인"} modalContent={<ConfirmationModal/>} />
+                                             height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
+                                             modalHeight={screen.height * 0.8} modalButtonContent={"확인"}
+                                             modalContent={<ConfirmationModal/>}/>
                             </View>
                         </View>
                     </View>
@@ -75,14 +114,17 @@ function CheckReservationTemplate(props) {
                 <View style={{paddingVertical: 8}}>
                     <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
                 </View>
-                <Text style={styles.text}>과거이력</Text>
-                <Text style={styles.text}>과거이력</Text>
-                <Text style={styles.text}>과거이력</Text>
-                <Text style={styles.text}>과거이력</Text>
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {historyList.map((data, a) => {
+                    return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                })}
                 <View style={styles.button}>
-                    <CustomImageModal name={"plus-square-o"} onPress={checkHistory} size={24} color={"black"} modalContent={<ApplyRecord/>}/>
+                    <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
+                                       content={historyList}/>
                 </View>
-
             </View>
         </SafeAreaView>
     );
@@ -140,4 +182,5 @@ const styles = StyleSheet.create({
         paddingHorizontal: 55,
         marginTop: 10
     },
+
 })

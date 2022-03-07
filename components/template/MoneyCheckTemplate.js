@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, Text, View} from "react-native";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 
 function MoneyCheckTemplate(props) {
     return (
