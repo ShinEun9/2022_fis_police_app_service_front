@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, useWindowDimensions, ScrollView, Dimensions} fro
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 
-function ApplyRecord(props) {
+function ApplyRecord({content}) {
     const onPress = () => {
         console.log("pressButton")
     }
@@ -11,7 +11,6 @@ function ApplyRecord(props) {
         <View style={styles.mainContainer}>
             <ScrollView style={{width: "100%", marginBottom: 20, }}
                         contentContainerStyle={{alignItems: "center"}}>
-
                             {content.map((data,index) => {
                                 return <View key={index} style={styles.container2}>
                                     <Text>{data.visit_date}</Text>

@@ -8,6 +8,7 @@ import CustomImageModal from "../atom/CustomImageModal";
 import ConfirmationModal from "../organisms/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import ApplyRecord from "../organisms/ApplyRecord";
 
 
 
