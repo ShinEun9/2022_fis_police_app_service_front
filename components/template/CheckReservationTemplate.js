@@ -4,12 +4,12 @@ import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
 import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import CustomModal from "../atom/CustomModal";
-import ApplyRecord from "../ApplyRecord";
+import ApplyRecord from "../organisms/ApplyRecord";
 import CustomImageModal from "../atom/CustomImageModal";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../organisms/ConfirmationModal";
 
 
 const screen = Dimensions.get("window");

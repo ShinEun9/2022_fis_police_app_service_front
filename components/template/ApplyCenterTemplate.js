@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Text, SafeAreaView, View, StyleSheet} from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text, useWindowDimensions, View, StyleSheet, Dimensions} from 'react-native'
-import {Style} from "../Style";
+import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 

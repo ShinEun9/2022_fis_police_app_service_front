@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, Button, useWindowDimensions, Dimensions, StyleSheet} from 'react-native'
 import {FontAwesome} from "@expo/vector-icons";
-import CustomImageButton from "./atom/CustomImageButton";
+import CustomImageButton from "../atom/CustomImageButton";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
-import CustomImageModal from "./atom/CustomImageModal";
-import CustomCalendar from "./atom/CustomCalendar";
+import CustomImageModal from "../atom/CustomImageModal";
+import CustomCalendar from "../atom/CustomCalendar";
 import Modal from "react-native-modal";
 import ConfirmationModal from "./ConfirmationModal";
-import ConfirmationForm from "./organisms/ConfirmationForm";
+import ConfirmationForm from "./ConfirmationForm";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function CustomNavigation({navigation, type, title, setLogin}) {

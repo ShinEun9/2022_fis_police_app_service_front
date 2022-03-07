@@ -1,7 +1,7 @@
 import React from 'react';
 import {SafeAreaView, View} from "react-native";
 import JoinInputForm from "../organisms/JoinInputForm";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 
 function JoinInfoTemplate(props) {
     return (

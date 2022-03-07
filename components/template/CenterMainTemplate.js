@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, SafeAreaView, View, useWindowDimensions} from "react-native";
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import {Style} from "../../Style";
 
 function CenterMainTemplate({props, setLogin}) {

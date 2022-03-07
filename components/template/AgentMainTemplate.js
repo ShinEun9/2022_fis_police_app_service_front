@@ -11,7 +11,7 @@ import Modal from "react-native-modal";
 
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
 import {todaySchedule} from "../../store/dummy-data/todaySchedule";
 import MessageInputForm from "../organisms/MessageInputForm";

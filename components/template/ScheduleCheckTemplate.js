@@ -10,14 +10,14 @@ import {
     useWindowDimensions,
     Dimensions, Button, ActivityIndicator
 } from "react-native";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
 import {schedule} from "../../store/dummy-data/schedule";
 import {week} from "../../store/dummy-data/week";
 import Modal from "react-native-modal";
 import MessageInputForm from "../organisms/MessageInputForm";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../organisms/ConfirmationModal";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";

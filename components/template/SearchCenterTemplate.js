@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, SafeAreaView, Text} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
-import CustomNavigation from "../CustomNavigation";
+import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 function SearchCenterTemplate(props) {
     const [currentInfo, setCurrentInfo] = React.useState({sido: '', local: '', c_name: ''});
     const [centerList, setCenterList] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -29,16 +30,19 @@ function SearchCenterTemplate(props) {
         let c_address, c_ph;
         await axios.get(`http://localhost:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
             .then((res) => {
+                setIsLoading(false)
                 setCenterList(res.data.data)
             })
             .catch((err) => {
                 console.log(err)
-                console.log("hi")
+                setIsLoading(false)
             })
     }
 
-    const submitFunction = async (token) => {
+    const submitFunction = async () => {
         // 시설 search api 요청
+
+        setIsLoading(true);
         getToken().then((token)=>{
             searchRequest(token);
         })
@@ -64,7 +68,7 @@ function SearchCenterTemplate(props) {
             </View>
             <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
                 <SearchInputForm currentInfo={currentInfo} handleChange={handleChange}
-                                 submitFunction={submitFunction}/>
+                                 submitFunction={submitFunction} isLoading={isLoading}/>
             </View>
             <View style={{flex: 7, marginTop: 10, justifyContent: "flex-start", alignItems: "center"}}>
                 {centerList === null ? null :
