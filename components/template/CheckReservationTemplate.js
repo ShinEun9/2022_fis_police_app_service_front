@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Text, SafeAreaView, StyleSheet, View, ScrollView, Dimensions, Image, Modal, Alert} from "react-native";
-import CustomButton from "../atom/CustomButton";
 import CustomMap from "../molecule/CustomMap";
-import CustomImageButton from "../atom/CustomImageButton";
 import {Style} from "../../Style";
 import CustomNavigation from "../organisms/CustomNavigation";
-import ConfirmationForm from "../organisms/ConfirmationForm";
 import CustomModal from "../atom/CustomModal";
-import ApplyRecord from "../organisms/ApplyRecord";
 import CustomImageModal from "../atom/CustomImageModal";
 import ConfirmationModal from "../organisms/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import list from "../molecule/List";
+
 
 
 

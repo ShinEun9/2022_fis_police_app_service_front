@@ -1,26 +1,24 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Text, View, StyleSheet, useWindowDimensions, ScrollView, Dimensions} from "react-native";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function ApplyRecord({content}) {
-
+function ApplyRecord(props) {
     const onPress = () => {
         console.log("pressButton")
     }
-    console.log(content)
     return (
         <View style={styles.mainContainer}>
             <ScrollView style={{width: "100%", marginBottom: 20, }}
                         contentContainerStyle={{alignItems: "center"}}>
+
                             {content.map((data,index) => {
                                 return <View key={index} style={styles.container2}>
                                     <Text>{data.visit_date}</Text>
                                     <Text>신규 {data.new_child === null ? 0 : data.new_child} 명 / 기존 {data.old_child=== null ? 0 : data.old_child} 명</Text>
                                 </View>
                             })}
+
             </ScrollView>
             {/*<CustomButton content="확인" width="100" height="50" backgroundColor={Style.color2} onPress={onPress}/>*/}
         </View>

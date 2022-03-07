@@ -3,7 +3,7 @@ import CustomInput from "../atom/CustomInput";
 import PasswordInput from "../atom/PasswordInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import {Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
+import {ActivityIndicator, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,12 +16,18 @@ function JoinInputForm({props, center_id}) {
         o_email: "",
         center_id: center_id
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     const onPress = async () => {
+        setIsLoading(true)
         await axios.post(`http://localhost:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
             console.log(res)
+            setIsLoading(false)
+
         }).catch((err) => {
             console.log(err);
+            setIsLoading(false)
+
         })
 
         props.navigation.navigate("MainPage")
@@ -75,7 +81,7 @@ function JoinInputForm({props, center_id}) {
                            currentInfo={currentInfo}/>
 
             <View style={{marginTop: 30}}>
-                <CustomButton onPress={onPress} content={"회원가입"}
+                <CustomButton onPress={onPress} content={isLoading?<ActivityIndicator />: "회원가입"}
                               width="100" height="50" backgroundColor={Style.color2}/>
             </View>
         </>

@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, useWindowDimensions} from 'react-native'
+import {View, Text, useWindowDimensions, ActivityIndicator} from 'react-native'
 import Select from "../atom/Select";
 import SearchInput from "../atom/SearchInput";
 import CustomInput from "../atom/CustomInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 
-function SearchInputForm({handleChange, currentInfo, submitFunction}) {
+function SearchInputForm({handleChange, currentInfo, submitFunction, isLoading}) {
 
     return (
         <>
@@ -29,7 +29,7 @@ function SearchInputForm({handleChange, currentInfo, submitFunction}) {
                              currentInfo={currentInfo}
                              placeholder="시설 이름으로 검색"/>
             </View>
-            <CustomButton width="70" height="50" backgroundColor={Style.color2} onPress={submitFunction} content={"검색"}/>
+            <CustomButton width="70" height="50" backgroundColor={Style.color2} onPress={submitFunction} content={isLoading?<ActivityIndicator />:"검색"}/>
         </>
     );
 }

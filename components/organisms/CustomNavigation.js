@@ -91,7 +91,7 @@ function CustomNavigation({navigation, type, title, setLogin}) {
             paddingHorizontal: 20
         }}>
 
-            {type === "agentMain" ? <View style={{marginRight: 15}}>
+            {type === "agentMain" ? <View>
                 <CustomImageModal name={"calendar-o"} color="black" size={30}
                                   modalContent={<CustomCalendar/>}/>
             </View> : null}
@@ -99,7 +99,7 @@ function CustomNavigation({navigation, type, title, setLogin}) {
                 <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
             }
 
-            <View style={{marginLeft: 10}}>
+            <View style={{marginLeft: 20}}>
                 <CustomImageButton onPress={async()=>{
                     await AsyncStorage.removeItem("@u_auth")
                     await AsyncStorage.removeItem("@token")
