@@ -3,8 +3,11 @@ import {ActivityIndicator, SafeAreaView, View} from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import JoinInputForm from "../organisms/JoinInputForm";
 import SettingInputForm from "../organisms/SettingInputForm";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function SettingTemplate(props) {
+    const [login, setLogin] = useRecoilState(loginState);
 
     return (
         <SafeAreaView style={{flex: 1}}>

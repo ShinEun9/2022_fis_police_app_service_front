@@ -5,12 +5,15 @@ import CustomRightImageButton from "../atom/CustomRightImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
 function SearchCenterTemplate(props) {
     const [currentInfo, setCurrentInfo] = React.useState({sido: '', local: '', c_name: ''});
     const [centerList, setCenterList] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(false);
+    const [login, setLogin] = useRecoilState(loginState);
 
     const handleChange = (name, value) => {
         setCurrentInfo({

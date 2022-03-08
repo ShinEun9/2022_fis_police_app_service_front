@@ -46,7 +46,6 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
             justifyContent: "center"
         }}>
             <ScrollView contentContainerStyle={{
-                height: `${info.length === 0 ? "100%" : "auto"}`,
                 alignItems: `${info.length === 0 ? "center" : "unset"}`,
                 justifyContent: `${info.length === 0 ? "center" : "unset"}`
             }}>

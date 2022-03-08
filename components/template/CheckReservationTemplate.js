@@ -9,6 +9,7 @@ import {
     Image,
     Modal,
     Alert,
+    ActivityIndicator,
     useWindowDimensions
 } from "react-native";
 import CustomMap from "../molecule/CustomMap";
@@ -21,7 +22,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import ApplyRecord from "../organisms/ApplyRecord";
 import ConfirmationForm from "../organisms/ConfirmationForm";
-
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
 
@@ -32,37 +34,45 @@ let nowSchedule;
 function CheckReservationTemplate(props) {
     const [historyList,setHistoryList]=useState([])
     const [agentList,setAgentList]=useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [login, setLogin] = useRecoilState(loginState);
+
     const [confirmation,setConfirmation]=useState([])
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
-    useEffect(()=>{
-        getToken().then((token)=>{
+    useEffect(() => {
+        getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
         })
-    },[])
+    }, [])
+
+
     const getHistoryList = async (token) => {
         await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("과거기록")
                 console.log(res.data)
-                const buf=[]
+                const buf = []
                 res.data.data.map((data, index) => {
                     buf[index] = {
-                        key:index,
+                        key: index,
                         visit_date: data.visit_date,
                         new_child: data.new_child,
                         old_child: data.old_child
                     }
                 })
+                setIsLoading(false)
                 setHistoryList(buf)
             }).catch((err) => {
+                setIsLoading(false)
                 console.log(err)
             })
     }
+
     const getAgentList=async (token)=>{
         await axios.get(`http://localhost:8080/app/schedule/confirm`,{headers: {Authorization: `Bearer ${token}`}})
             .then((res)=>{
@@ -138,13 +148,23 @@ function CheckReservationTemplate(props) {
                 <View style={{paddingVertical: 8}}>
                     <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
                 </View>
-                {historyList.map((data, a) => {
-                    return <Text key={a} style={styles.text}>{data.visit_date}</Text>
-                })}
-                <View style={styles.button}>
-                    <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
-                                       modalContent={<ApplyRecord content={historyList}/>} />
-                </View>
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {/*<Text style={styles.text}>과거이력</Text>*/}
+                {isLoading ? <ActivityIndicator/> :
+                    <>
+                        {historyList.map((data, a) => {
+                            return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                        })}
+                        <View style={styles.button}>
+                            <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
+                                              modalContent={<ApplyRecord content={historyList}/>} />
+                        </View>
+                    </>
+                }
+
+
             </View>
         </SafeAreaView>
     );
@@ -175,7 +195,6 @@ const styles = StyleSheet.create({
     },
     history: {
         flex: 2.9,
-        justifyContent: "center",
         alignItems: "center",
     },
     nav: {

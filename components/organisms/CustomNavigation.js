@@ -9,9 +9,12 @@ import Modal from "react-native-modal";
 import ConfirmationModal from "./ConfirmationModal";
 import ConfirmationForm from "./ConfirmationForm";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
-function CustomNavigation({navigation, type, title, setLogin}) {
+function CustomNavigation({navigation, type, title}) {
     const [openNavigation, setOpenNavigation] = useState(false);
+    const [login, setLogin] = useRecoilState(loginState);
 
     const handleOpenNavigation = () => {
         console.log("hi")
