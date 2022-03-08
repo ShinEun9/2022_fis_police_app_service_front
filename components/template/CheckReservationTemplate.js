@@ -14,7 +14,7 @@ import ApplyRecord from "../organisms/ApplyRecord";
 
 
 const screen = Dimensions.get("window");
-let nowSchedule=501
+let nowSchedule;
 
 
 function CheckReservationTemplate(props) {
