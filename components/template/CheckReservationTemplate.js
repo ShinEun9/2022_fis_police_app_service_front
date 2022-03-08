@@ -1,5 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, StyleSheet, View, ScrollView, Dimensions, Image, Modal, Alert} from "react-native";
+import {
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    View,
+    ScrollView,
+    Dimensions,
+    Image,
+    Modal,
+    Alert,
+    ActivityIndicator
+} from "react-native";
 import CustomMap from "../molecule/CustomMap";
 import {Style} from "../../Style";
 import CustomNavigation from "../organisms/CustomNavigation";
@@ -8,7 +19,6 @@ import CustomImageModal from "../atom/CustomImageModal";
 import ConfirmationModal from "../organisms/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-
 
 
 const screen = Dimensions.get("window");
@@ -20,39 +30,42 @@ const checkConfirmation = () => {
 
 
 function CheckReservationTemplate(props) {
-    const [historyList,setHistoryList]=useState([])
+    const [historyList, setHistoryList] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
-    useEffect(()=>{
-        getToken().then((token)=>{
+    useEffect(() => {
+        getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
         })
-    },[])
+    }, [])
     const getHistoryList = async (token) => {
         await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("과거기록")
                 console.log(res.data)
-                const buf=[]
+                const buf = []
                 res.data.data.map((data, index) => {
                     buf[index] = {
-                        key:index,
+                        key: index,
                         visit_date: data.visit_date,
                         new_child: data.new_child,
                         old_child: data.old_child
                     }
                 })
+                setIsLoading(false)
                 setHistoryList(buf)
             }).catch((err) => {
+                setIsLoading(false)
                 console.log(err)
             })
     }
-    const getAgentList=async (token)=>{
-        await axios.get(`http://localhost:8080/app/schedule/confirm`,{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
+    const getAgentList = async (token) => {
+        await axios.get(`http://localhost:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
                 console.log(res.data)
             })
     }
@@ -114,13 +127,18 @@ function CheckReservationTemplate(props) {
                 {/*<Text style={styles.text}>과거이력</Text>*/}
                 {/*<Text style={styles.text}>과거이력</Text>*/}
                 {/*<Text style={styles.text}>과거이력</Text>*/}
-                {historyList.map((data, a) => {
-                    return <Text key={a} style={styles.text}>{data.visit_date}</Text>
-                })}
-                <View style={styles.button}>
-                    <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
-                                       content={historyList}/>
-                </View>
+                {isLoading ? <ActivityIndicator/> :
+                    <>
+                        {historyList.map((data, a) => {
+                            return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                        })}
+                        <View style={styles.button}>
+                            <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
+                                              content={historyList}/>
+                        </View>
+                    </>
+                }
+
             </View>
         </SafeAreaView>
     );
@@ -151,7 +169,6 @@ const styles = StyleSheet.create({
     },
     history: {
         flex: 2.9,
-        justifyContent: "center",
         alignItems: "center",
     },
     nav: {
