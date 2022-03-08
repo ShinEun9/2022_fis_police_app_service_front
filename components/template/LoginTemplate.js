@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {SafeAreaView, View, Button, useWindowDimensions} from "react-native";
+import {SafeAreaView, View, Button, useWindowDimensions, Alert} from "react-native";
 import LoginInputForm from '../organisms/LoginInputForm'
 import logo from '../media/logo.png'
 import {Image} from "react-native";
@@ -38,25 +38,46 @@ function LoginTemplate({props}) {
         //로그인 api 요청
 
         setIsLoading(true)
-        await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
 
-            .then((res) => {
-                console.log(res.data)
-                if (res.data.u_auth === "AGENT") {
-                    setAsyncStorage("@u_auth","AGENT")
-                    setAsyncStorage("@token",res.data.token);
+        if(currentInfo.role===""||currentInfo.u_nickname===""||currentInfo.u_pwd===""){
+            setIsLoading(false)
+            Alert.alert(
+                "아이디 또는 비밀번호를 입력하세요",
+                "",
+                [
+                    {
+                        text: "취소",
+                        style: "cancel"
+                    },
+                    {
+                        text: "확인",
+
+                    }
+                ]
+            );
+        }
+        else{
+            await axios.post(`http://localhost:8080/app/login`, currentInfo, {withCredentials: true})
+                .then((res) => {
+                    console.log(res.data)
+                    if (res.data.u_auth === "AGENT") {
+                        setAsyncStorage("@u_auth","AGENT")
+                        setAsyncStorage("@token",res.data.token);
+                        setIsLoading(false);
+                        setLogin("AGENT")
+                    }else if(res.data.u_auth === "OFFICIAL"){
+                        setAsyncStorage("@u_auth","OFFICIAL")
+                        setAsyncStorage("@token",res.data.token);
+                        setIsLoading(false);
+                        setLogin("OFFICIAL")
+                    }
+                }).catch((err) => {
                     setIsLoading(false);
-                    setLogin("AGENT")
-                }else if(res.data.u_auth === "OFFICIAL"){
-                    setAsyncStorage("@u_auth","OFFICIAL")
-                    setAsyncStorage("@token",res.data.token);
-                    setIsLoading(false);
-                    setLogin("OFFICIAL")
-                }
-            }).catch((err) => {
-                setIsLoading(false);
-                console.log(err)
-            })
+                    console.log(err)
+                })
+        }
+
+
     }
     return (
         <SafeAreaView style={{

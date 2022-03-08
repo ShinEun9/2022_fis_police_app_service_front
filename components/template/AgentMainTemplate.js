@@ -160,7 +160,7 @@ function AgentMainTemplate({props}) {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <ActivityIndicator color={Style.color2}/>
+                            <ActivityIndicator />
                         </View> :
                         <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                        listButtonContent="늦음"/>
