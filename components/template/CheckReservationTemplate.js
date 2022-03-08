@@ -19,19 +19,20 @@ import CustomImageModal from "../atom/CustomImageModal";
 import ConfirmationModal from "../organisms/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import ApplyRecord from "../organisms/ApplyRecord";
+
 
 
 const screen = Dimensions.get("window");
-const checkConfirmation = () => {
-    return (
-        console.log("확인서 열람")
-    )
-}
+let nowSchedule;
 
 
 function CheckReservationTemplate(props) {
-    const [historyList, setHistoryList] = useState([])
+    const [historyList,setHistoryList]=useState([])
+    const [agentList,setAgentList]=useState([])
+    const [confirmation,setConfirmation]=useState()
     const [isLoading, setIsLoading] = useState(true)
+
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
@@ -40,8 +41,10 @@ function CheckReservationTemplate(props) {
         getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
+            getConfirmation(token)
         })
     }, [])
+
     const getHistoryList = async (token) => {
         await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -63,10 +66,36 @@ function CheckReservationTemplate(props) {
                 console.log(err)
             })
     }
-    const getAgentList = async (token) => {
-        await axios.get(`http://localhost:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
-            .then((res) => {
+
+    const getAgentList=async (token)=>{
+        await axios.get(`http://localhost:8080/app/schedule/confirm`,{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log("현장요원")
                 console.log(res.data)
+                let list=[]
+                res.data.map((data,index)=>{
+                    list[index]={
+                        key:index,
+                        a_name:data.a_name,
+                        a_ph:data.a_ph,
+                        a_picture:'data:image/png;base64,'+data.a_picture,
+                        late_comment:data.late_comment,
+                        schedule_id:data.schedule_id,
+                    }
+                })
+                setAgentList(list)
+            }).catch((err)=>{
+                console.log(err)
+            })
+    }
+    const getConfirmation=async(token)=>{
+        await axios.get(`http://localhost:8080/app/confirm/${nowSchedule}`,{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log("확인서")
+                console.log(res.data)
+                setConfirmation(res.data)
+            }).catch((err)=>{
+                console.log(err)
             })
     }
 
@@ -76,46 +105,34 @@ function CheckReservationTemplate(props) {
                 <CustomNavigation navigation={props.navigation} type="titleNavbar" title="내 예약 확인하러 가기"/>
             </View>
             <View style={styles.comment}>
-                <Text style={styles.text}>현장요원이 배치 안 됨</Text>
+                <Text style={styles.text}>{agentList.late_comment}</Text>
             </View>
             <View style={styles.map}>
                 <CustomMap/>
             </View>
             <View style={styles.info}>
                 <ScrollView horizontal pagingEnabled>
-                    <View style={styles.agent}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: 'https://ifh.cc/g/J91JZP.jpg'}}/>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.text}>현장요원 이름 : 한마루</Text>
-                            <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
-                            <View style={styles.buttonContainer}>
-                                <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                             height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
-                                             modalHeight={screen.height * 0.8} modalButtonContent={"확인"}
-                                             modalContent={<ConfirmationModal/>}/>
-                                {/*modalContent 알맞은 파일로 변경 필요*/}
+                    {agentList.map((data,index)=>{
+                        nowSchedule=data.schedule_id
+                        return <View style={styles.agent}>
+                            <Image
+                                style={styles.image}
+                                source={{uri: data.a_picture}}/>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
+                                <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
+                                <View style={styles.buttonContainer}>
+                                    <CustomModal backgroundColor={Style.color2} width={120}
+                                                 height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
+                                                 modalHeight={screen.height * 0.7} modalButtonContent={"확인"}
+                                                 modalContent={<ConfirmationModal name={data.a_name} content={confirmation} schedule_id={nowSchedule}/>}/>
+                                    {/*modalContent 알맞은 파일로 변경 필요*/}
+
+                                </View>
 
                             </View>
-
                         </View>
-                    </View>
-                    <View style={styles.agent}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: 'https://ifh.cc/g/bh1n6i.png'}}/>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.text}>현장요원 이름 : 웰시코기</Text>
-                            <Text style={styles.text}>전화번호 : 010-1234-5678</Text>
-                            <View style={styles.buttonContainer}>
-                                <CustomModal backgroundColor={Style.color2} onPress={checkConfirmation} width={120}
-                                             height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
-                                             modalHeight={screen.height * 0.8} modalButtonContent={"확인"}
-                                             modalContent={<ConfirmationModal/>}/>
-                            </View>
-                        </View>
-                    </View>
+                    })}
                 </ScrollView>
             </View>
 
@@ -133,11 +150,12 @@ function CheckReservationTemplate(props) {
                             return <Text key={a} style={styles.text}>{data.visit_date}</Text>
                         })}
                         <View style={styles.button}>
-                            <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
-                                              content={historyList}/>
+                            <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
+                                              modalContent={<ApplyRecord content={historyList}/>} />
                         </View>
                     </>
                 }
+
 
             </View>
         </SafeAreaView>
@@ -188,7 +206,7 @@ const styles = StyleSheet.create({
         height: 130,
     },
     textContainer: {
-        paddingHorizontal: 15,
+        paddingHorizontal: 30,
     },
     buttonContainer: {
 
