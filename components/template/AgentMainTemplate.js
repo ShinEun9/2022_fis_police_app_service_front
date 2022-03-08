@@ -24,6 +24,8 @@ import position from "react-native-web/dist/exports/Touchable/Position";
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesome} from "@expo/vector-icons";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
 const screen = Dimensions.get("window");
@@ -35,13 +37,13 @@ let newLocation = {}
 let location = []
 
 
-function AgentMainTemplate({props, setLogin}) {
+function AgentMainTemplate({props}) {
     const [schedule, setSchedule] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
+    const [login, setLogin] = useRecoilState(loginState);
+
     const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
     const [latitude, setLatitude] = useState();
@@ -123,7 +125,7 @@ function AgentMainTemplate({props, setLogin}) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="agentMain" setLogin={setLogin}/>
+                <CustomNavigation navigation={props.navigation} type="agentMain" />
             </View>
             <View style={{flex: 9}}>
                 <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>

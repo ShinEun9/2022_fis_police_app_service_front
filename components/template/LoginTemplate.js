@@ -6,10 +6,13 @@ import {Image} from "react-native";
 import axios from "axios";
 import {StackActions} from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
-function LoginTemplate({props, setLogin}) {
+function LoginTemplate({props}) {
     const [currentInfo, setCurrentInfo] = React.useState({u_nickname: "", u_pwd: "", role:""});
     const [isLoading, setIsLoading] = React.useState(false);
+    const [login, setLogin] = useRecoilState(loginState);
 
     // input handleChange 함수
     const handleChange = (name, value) => {

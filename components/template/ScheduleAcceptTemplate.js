@@ -17,11 +17,14 @@ import {schedule} from "../../store/dummy-data/schedule";
 import {week} from "../../store/dummy-data/week";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function ScheduleAcceptTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
     const [incompleteSchedule, setIncompleteSchedule] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [login, setLogin] = useRecoilState(loginState);
 
 
     // 날짜 별로 그룹핑 하는 함수 groupByDate

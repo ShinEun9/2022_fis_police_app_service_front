@@ -5,10 +5,13 @@ import {FontAwesome} from "@expo/vector-icons";
 import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function CustomCalendar(props) {
     const [markedDates, setMarkedDates] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const [login, setLogin] = useRecoilState(loginState);
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");

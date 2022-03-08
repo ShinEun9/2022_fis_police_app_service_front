@@ -22,6 +22,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import ApplyRecord from "../organisms/ApplyRecord";
 import ConfirmationForm from "../organisms/ConfirmationForm";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
 
@@ -33,6 +35,8 @@ function CheckReservationTemplate(props) {
     const [historyList,setHistoryList]=useState([])
     const [agentList,setAgentList]=useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [login, setLogin] = useRecoilState(loginState);
+
     const [confirmation,setConfirmation]=useState([])
 
     const getToken = async () => {

@@ -21,6 +21,8 @@ import ConfirmationModal from "../organisms/ConfirmationModal";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function ScheduleCheckTemplate(props) {
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
@@ -37,6 +39,7 @@ function ScheduleCheckTemplate(props) {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const [login, setLogin] = useRecoilState(loginState);
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
