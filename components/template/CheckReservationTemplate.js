@@ -7,7 +7,6 @@ import {
     ScrollView,
     Dimensions,
     Image,
-    Modal,
     Alert,
     useWindowDimensions
 } from "react-native";
@@ -21,38 +20,45 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import ApplyRecord from "../organisms/ApplyRecord";
 import ConfirmationForm from "../organisms/ConfirmationForm";
-
+import CustomButton from "../atom/CustomButton";
+import Modal from "react-native-modal";
 
 
 
 const screen = Dimensions.get("window");
-let nowSchedule;
+let nowSchedule=[];
 
 
 function CheckReservationTemplate(props) {
-    const [historyList,setHistoryList]=useState([])
-    const [agentList,setAgentList]=useState([])
-    const [confirmation,setConfirmation]=useState([])
-
+    const [historyList, setHistoryList] = useState([])
+    const [agentList, setAgentList] = useState([])
+    const [selectedSchedule,setSelectedSchedule] = useState()
+    const [confirmation, setConfirmation] = useState([])
+    const [confirm, setConfirm] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
-    useEffect(()=>{
-        getToken().then((token)=>{
+    useEffect(() => {
+        getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
         })
-    },[])
+    }, [])
+    const onPress = (keyValue) => {
+        setSelectedSchedule(keyValue)
+        setModalVisible(true)
+    }
     const getHistoryList = async (token) => {
         await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("과거기록")
                 console.log(res.data)
-                const buf=[]
+                const buf = []
                 res.data.data.map((data, index) => {
                     buf[index] = {
-                        key:index,
+                        key: index,
                         visit_date: data.visit_date,
                         new_child: data.new_child,
                         old_child: data.old_child
@@ -63,41 +69,43 @@ function CheckReservationTemplate(props) {
                 console.log(err)
             })
     }
-    const getAgentList=async (token)=>{
-        await axios.get(`http://localhost:8080/app/schedule/confirm`,{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
+    // const getConfirmation = async (token) => {
+    //     await axios.get(`http://localhost:8080/app/confirm/${nowSchedule}`, {headers: {Authorization: `Bearer ${token}`}})
+    //         .then((res) => {
+    //             console.log("확인서")
+    //             console.log(res.data)
+    //             setConfirmation(res.data)
+    //         }).catch((err) => {
+    //             console.log(err)
+    //         })
+    // }
+    const getAgentList = async (token) => {
+        await axios.get(`http://localhost:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
                 console.log("현장요원")
                 console.log(res.data)
-                let list=[]
-                res.data.map((data,index)=>{
-                    list[index]={
-                        key:index,
-                        a_name:data.a_name,
-                        a_ph:data.a_ph,
-                        a_picture:'data:image/png;base64,'+data.a_picture,
-                        late_comment:data.late_comment,
-                        schedule_id:data.schedule_id,
+                let list = []
+                res.data.map((data, index) => {
+                    list[index] = {
+                        key: index,
+                        a_name: data.a_name,
+                        a_ph: data.a_ph,
+                        a_picture: 'data:image/png;base64,' + data.a_picture,
+                        late_comment: data.late_comment,
+                        schedule_id: data.schedule_id,
                     }
-                    nowSchedule=data.schedule_id
+                    nowSchedule[0] = data.schedule_id
+                    // getToken().then((token) => {
+                    //     getConfirmation(token)
+                    // })
                 })
                 setAgentList(list)
-                getToken().then((token)=>{
-                    getConfirmation(token)
-                })
-            }).catch((err)=>{
+
+            }).catch((err) => {
                 console.log(err)
             })
     }
-    const getConfirmation=async(token)=>{
-        await axios.get(`http://localhost:8080/app/confirm/${nowSchedule}`,{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
-                console.log("확인서")
-                console.log(res.data)
-                setConfirmation(res.data)
-            }).catch((err)=>{
-                console.log(err)
-            })
-    }
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -111,9 +119,8 @@ function CheckReservationTemplate(props) {
                 <CustomMap/>
             </View>
             <View style={styles.info}>
-                <ScrollView horizontal pagingEnabled>
-                    {agentList.map((data,index)=>{
-
+                <ScrollView  horizontal pagingEnabled>
+                    {agentList.map((data, index) => {
                         return <View key={index} style={styles.agent}>
                             <Image
                                 style={styles.image}
@@ -121,19 +128,50 @@ function CheckReservationTemplate(props) {
                             <View style={styles.textContainer}>
                                 <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
                                 <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
-                                <View style={styles.buttonContainer}>
-                                    <CustomModal backgroundColor={Style.color2} width={120}
-                                                 height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
-                                                 modalHeight={screen.height * 0.7} modalButtonContent={"확인"}
-                                                 modalContent={<ConfirmationModal name={data.a_name} content={confirmation} schedule_id={nowSchedule}/>}/>
-                                </View>
+
+
+                                    {/*{confirm === false ? <CustomModal backgroundColor={Style.color2} width={120}*/}
+                                    {/*                                  height={35} content={"확인서 서명"}*/}
+                                    {/*                                  modalWidth={screen.width * 0.93}*/}
+                                    {/*                                  modalHeight={screen.height * 0.7}*/}
+                                    {/*                                  modalButtonContent={"서명"}*/}
+                                    {/*                                  confirm_id={confirmation.confirm_id}*/}
+                                    {/*                                  schedule_id={nowSchedule}*/}
+                                    {/*                                  modalContent={<ConfirmationModal*/}
+                                    {/*                                      name={data.a_name} content={confirmation}*/}
+                                    {/*                                      schedule_id={nowSchedule}/>}/> :*/}
+                                    {/*    <CustomModal backgroundColor={Style.color2} width={120}*/}
+                                    {/*                 height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}*/}
+                                    {/*                 modalHeight={screen.height * 0.7} modalButtonContent={"확인"}*/}
+                                    {/*                 modalContent={<ConfirmationModal name={data.a_name}*/}
+                                    {/*                                                  content={confirmation}*/}
+                                    {/*                                                  schedule_id={nowSchedule}/>}/>}*/}
+
 
                             </View>
                         </View>
                     })}
-                </ScrollView>
-            </View>
 
+                </ScrollView>
+                <View style={{alignItems: 'center'}}>
+                    <CustomButton keyValue={nowSchedule} width={150} height={40} backgroundColor={Style.color2} onPress={onPress} content={"확인서 열람"}/>
+                </View>
+
+                <Modal
+                    isVisible={modalVisible}
+                    useNativeDriver={true}
+                    hideModalContentWhileAnimating={true}
+                    onBackdropPress={() => {
+                        setModalVisible(false)
+                    }}
+                    style={{flex: 1, justifyContent: "center", alignItems: "center",}}
+                >
+                    <View style={{...styles.modalContainer, width: useWindowDimensions().width * 0.95, height: "auto"}}>
+                       <ConfirmationModal setModalVisible={setModalVisible}
+                                                                        schedule_id={selectedSchedule}/>
+                    </View>
+                </Modal>
+            </View>
             <View style={styles.history}>
                 <View style={{paddingVertical: 8}}>
                     <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
@@ -142,8 +180,8 @@ function CheckReservationTemplate(props) {
                     return <Text key={a} style={styles.text}>{data.visit_date}</Text>
                 })}
                 <View style={styles.button}>
-                    <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
-                                       modalContent={<ApplyRecord content={historyList}/>} />
+                    <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
+                                      modalContent={<ApplyRecord content={historyList}/>}/>
                 </View>
             </View>
         </SafeAreaView>
@@ -165,13 +203,14 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     info: {
-        flex: 3,
+        flex: 2.7,
+        justifyContent:"center"
     },
     agent: {
         // justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "row",
-        paddingHorizontal: 5,
+        width:screen.width
     },
     history: {
         flex: 2.9,
@@ -195,12 +234,7 @@ const styles = StyleSheet.create({
         height: 130,
     },
     textContainer: {
-        paddingHorizontal: 30,
-    },
-    buttonContainer: {
-
-        paddingHorizontal: 55,
-        marginTop: 10
+        paddingHorizontal: 25,
     },
     modalContainer: {
         flexDirection: "column",
@@ -208,7 +242,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "white",
         borderRadius: 10,
-        paddingVertical: 20
     },
 
 })
