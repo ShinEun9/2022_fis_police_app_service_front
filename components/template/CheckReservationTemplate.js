@@ -1,5 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, StyleSheet, View, ScrollView, Dimensions, Image, Modal, Alert} from "react-native";
+import {
+    Text,
+    SafeAreaView,
+    StyleSheet,
+    View,
+    ScrollView,
+    Dimensions,
+    Image,
+    Modal,
+    Alert,
+    useWindowDimensions
+} from "react-native";
 import CustomMap from "../molecule/CustomMap";
 import {Style} from "../../Style";
 import CustomNavigation from "../organisms/CustomNavigation";
@@ -9,6 +20,7 @@ import ConfirmationModal from "../organisms/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import ApplyRecord from "../organisms/ApplyRecord";
+import ConfirmationForm from "../organisms/ConfirmationForm";
 
 
 
@@ -20,7 +32,8 @@ let nowSchedule;
 function CheckReservationTemplate(props) {
     const [historyList,setHistoryList]=useState([])
     const [agentList,setAgentList]=useState([])
-    const [confirmation,setConfirmation]=useState()
+    const [confirmation,setConfirmation]=useState([])
+
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
@@ -29,10 +42,8 @@ function CheckReservationTemplate(props) {
         getToken().then((token)=>{
             getHistoryList(token)
             getAgentList(token)
-            getConfirmation(token)
         })
     },[])
-
     const getHistoryList = async (token) => {
         await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -67,8 +78,12 @@ function CheckReservationTemplate(props) {
                         late_comment:data.late_comment,
                         schedule_id:data.schedule_id,
                     }
+                    nowSchedule=data.schedule_id
                 })
                 setAgentList(list)
+                getToken().then((token)=>{
+                    getConfirmation(token)
+                })
             }).catch((err)=>{
                 console.log(err)
             })
@@ -98,8 +113,8 @@ function CheckReservationTemplate(props) {
             <View style={styles.info}>
                 <ScrollView horizontal pagingEnabled>
                     {agentList.map((data,index)=>{
-                        nowSchedule=data.schedule_id
-                        return <View style={styles.agent}>
+
+                        return <View key={index} style={styles.agent}>
                             <Image
                                 style={styles.image}
                                 source={{uri: data.a_picture}}/>
@@ -111,8 +126,6 @@ function CheckReservationTemplate(props) {
                                                  height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
                                                  modalHeight={screen.height * 0.7} modalButtonContent={"확인"}
                                                  modalContent={<ConfirmationModal name={data.a_name} content={confirmation} schedule_id={nowSchedule}/>}/>
-                                    {/*modalContent 알맞은 파일로 변경 필요*/}
-
                                 </View>
 
                             </View>
@@ -188,6 +201,14 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: 55,
         marginTop: 10
+    },
+    modalContainer: {
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+        borderRadius: 10,
+        paddingVertical: 20
     },
 
 })
