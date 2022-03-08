@@ -57,7 +57,7 @@ function CustomCalendar(props) {
 
     return (
         <View>
-            {isLoading ? <ActivityIndicator color={Style.color2}/> :
+            {isLoading ? <ActivityIndicator/> :
                 <>
                     <Calendar
                         // Initially visible month. Default = Date()

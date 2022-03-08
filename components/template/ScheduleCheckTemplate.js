@@ -113,7 +113,7 @@ function ScheduleCheckTemplate(props) {
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
                 <ScrollView style={{width: useWindowDimensions().width * 0.96}}
                             contentContainerStyle={{alignItems: "center"}}>
-                    {isLoading ? <ActivityIndicator color={Style.color2}/> :
+                    {isLoading ? <ActivityIndicator/> :
                         <>
                             <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
 
