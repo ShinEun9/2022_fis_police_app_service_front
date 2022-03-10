@@ -4,6 +4,7 @@ import {View, StyleSheet, Dimensions, TouchableOpacity, Text} from "react-native
 import {Style} from "../../Style";
 import styled from "styled-components/native";
 import CustomButton from "./CustomButton";
+import axios from "axios";
 
 
 const StyledModalGradeWrapper = styled.View`
@@ -23,16 +24,27 @@ function CustomModal({
                          backgroundColor,
                          modalWidth,
                          modalHeight,
-                         modalButtonContent
+                         modalButtonContent,
+                         confirm_id,
+                         schedule_id
                      }) {
     const [modalVisible, setModalVisible] = useState(false);
-
+    console.log("컨펌 아이디")
+    console.log(confirm_id)
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
-    const send = () => {
-        console.log("제출")
-        setModalVisible(!modalVisible)
+    const send = async () => {
+        if (confirm_id===null){
+            console.log("제출")
+            setModalVisible(!modalVisible)
+        }
+        else{
+            // await axios.post(`http://localhost:8080/app/confirm/check/${schedule_id}`,confirm_id)
+            console.log("제출했슴둥")
+            setModalVisible(!modalVisible)
+        }
+
     }
 
     return (
