@@ -6,10 +6,14 @@ import {Style} from "../../Style";
 import {ActivityIndicator, Dimensions, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
+import CustomImageButton from "../atom/CustomImageButton";
 
-function SettingInputForm({props, centerInfo}) {
+function SettingInputForm({props, centerInfo, onPressLogout}) {
     const [currentInfo, setCurrentInfo] = useState({})
     const [isLoading, setIsLoading] = useState({getDataLoading: true, editButtonLoading: false})
+    const [login, setLogin] = useRecoilState(loginState);
 
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -43,13 +47,16 @@ function SettingInputForm({props, centerInfo}) {
     const editRequest = async (token) => {
         let c;
         if (centerInfo != null) {
-            c=centerInfo.center_id
-        }else{
-            c=currentInfo.center_id
+            c = centerInfo.center_id
+        } else {
+            c = currentInfo.center_id
         }
 
         setIsLoading({...isLoading, editButtonLoading: true})
-        await axios.patch(`http://localhost:8080/app/officials`, {...currentInfo, center_id: c}, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.patch(`http://localhost:8080/app/officials`, {
+            ...currentInfo,
+            center_id: c
+        }, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, editButtonLoading: false})
                 // props.navigation.goBack();
@@ -75,48 +82,55 @@ function SettingInputForm({props, centerInfo}) {
     }, [])
 
     return (
-        isLoading.getDataLoading? <ActivityIndicator />:
-                <>
-                    <CustomInput type="line" id="o_name" width={Dimensions.get('window').width * 0.6} height="50" placeholder="이름"
-                                 handleChange={handleChange} currentInfo={currentInfo}/>
-                    <CustomInput type="line" id="o_ph" width={Dimensions.get('window').width * 0.6} height="50"
-                                 placeholder="전화번호"
-                                 keyboardType="phone-pad" handleChange={handleChange}
-                                 currentInfo={currentInfo}/>
-                    <CustomInput type="line" id="o_email" width={Dimensions.get('window').width * 0.6} height="50"
-                                 placeholder="이메일"
-                                 keyboardType="email-address"
-                                 handleChange={handleChange}
-                                 currentInfo={currentInfo}/>
-                    <CustomInput type="line" id="o_nickname" width={Dimensions.get('window').width * 0.6} height="50"
-                                 placeholder="아이디" handleChange={handleChange}
-                                 currentInfo={currentInfo}/>
-                    <PasswordInput type="line" id="o_pwd" width={Dimensions.get('window').width * 0.6} height="50"
-                                   placeholder="비밀번호"
-                                   handleChange={handleChange}
-                                   currentInfo={currentInfo}/>
+        isLoading.getDataLoading ? <ActivityIndicator/> :
+            <>
+                <CustomInput type="line" id="o_name" width={Dimensions.get('window').width * 0.6} height="50"
+                             placeholder="이름"
+                             handleChange={handleChange} currentInfo={currentInfo}/>
+                <CustomInput type="line" id="o_ph" width={Dimensions.get('window').width * 0.6} height="50"
+                             placeholder="전화번호"
+                             keyboardType="phone-pad" handleChange={handleChange}
+                             currentInfo={currentInfo}/>
+                <CustomInput type="line" id="o_email" width={Dimensions.get('window').width * 0.6} height="50"
+                             placeholder="이메일"
+                             keyboardType="email-address"
+                             handleChange={handleChange}
+                             currentInfo={currentInfo}/>
+                <CustomInput type="line" id="o_nickname" width={Dimensions.get('window').width * 0.6} height="50"
+                             placeholder="아이디" handleChange={handleChange}
+                             currentInfo={currentInfo}/>
+                <PasswordInput type="line" id="o_pwd" width={Dimensions.get('window').width * 0.6} height="50"
+                               placeholder="비밀번호"
+                               handleChange={handleChange}
+                               currentInfo={currentInfo}/>
 
-                    <TouchableOpacity onPress={() => {
-                        props.navigation.navigate('SearchCenterTemplate', "setting")
+                <TouchableOpacity onPress={() => {
+                    props.navigation.navigate('SearchCenterTemplate', "setting")
+                }}>
+                    <View style={{
+                        width: Dimensions.get('window').width * 0.6,
+                        height: 50,
+                        borderWidth: 2,
+                        borderColor: "transparent",
+                        borderBottomColor: Style.color5,
+                        padding: 10,
+                        justifyContent: "flex-end"
                     }}>
-                        <View style={{
-                            width: Dimensions.get('window').width * 0.6,
-                            height: 50,
-                            borderWidth: 2,
-                            borderColor: "transparent",
-                            borderBottomColor: Style.color5,
-                            padding: 10,
-                            justifyContent: "flex-end"
-                        }}>
-                            <Text>{centerInfo != null ? centerInfo.c_name : currentInfo.center_name}</Text>
-                        </View>
-                    </TouchableOpacity>
-
-
-                    <View style={{marginTop: 30}}>
-                        <CustomButton onPress={onPress} content={isLoading.editButtonLoading?<ActivityIndicator />:"정보수정"} width="100" height="50" backgroundColor={Style.color2}/>
+                        <Text>{centerInfo != null ? centerInfo.c_name : currentInfo.center_name}</Text>
                     </View>
-                </>
+                </TouchableOpacity>
+
+
+                <View style={{marginTop: 30, marginBottom: 30}}>
+                    <CustomButton onPress={onPress}
+                                  content={isLoading.editButtonLoading ? <ActivityIndicator/> : "정보수정"} width="100"
+                                  height="50" backgroundColor={Style.color2}/>
+                </View>
+                <TouchableOpacity onPress={onPressLogout} style={{flexDirection:"row", alignItems:"center"}}>
+                    <CustomImageButton name="sign-out" color={"gray"} size={20}/>
+                    <Text style={{color: "gray", fontSize: 15}}>로그아웃 하기</Text>
+                </TouchableOpacity>
+            </>
 
 
     )

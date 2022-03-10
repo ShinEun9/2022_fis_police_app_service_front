@@ -26,6 +26,7 @@ import {
     useRecoilState,
     useRecoilValue,
 } from 'recoil';
+import AgentSettingTemp from "./components/template/AgentSettingTemp";
 
 
 LogBox.ignoreLogs([
@@ -96,6 +97,7 @@ function App() {
                     <Stack.Screen name="OffenderAlertTemplate" component={OffenderAlertTemplate}
                                   options={{headerShown: false}}/>
 
+                    <Stack.Screen name="AgentSettingTemp" component={AgentSettingTemp} options={{headerShown: false}}/>
                     <Stack.Screen name="AgentMainTemplate" component={AgentMainTemplate}
                                   options={{headerShown: false}}/>
                     <Stack.Screen name="ScheduleAcceptTemplate" component={ScheduleAcceptTemplate}

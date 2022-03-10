@@ -11,6 +11,8 @@ import ConfirmationForm from "./ConfirmationForm";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {Style} from "../../Style";
+
 
 function CustomNavigation({navigation, type, title}) {
     const [openNavigation, setOpenNavigation] = useState(false);
@@ -21,13 +23,17 @@ function CustomNavigation({navigation, type, title}) {
         setOpenNavigation(prev => !prev);
     }
 
-    const onPressSetting = () => {
+    const onPressOfficialSetting = () => {
         navigation.navigate("SettingTemplate")
+    }
+    const onPressAgentSetting = ()=>{
+        navigation.navigate("AgentSettingTemp")
+
     }
 
     let element;
 
-    if (type === "noGearTitleNavbar" || type === "titleNavbar") {
+    if (type === "AgentTitleNavbar" || type === "CenterTitleNavbar") {
         element =
             <>
                 <View style={{
@@ -43,7 +49,7 @@ function CustomNavigation({navigation, type, title}) {
                                       onPress={() => navigation.goBack()} style={{flex: 1}}>
                         <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
                     </TouchableOpacity>
-                    <View style={{flex: 3, flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+                    <View style={{flex: 3, flexDirection: "row", justifyContent: "center", alignItems: "center",}}>
                         <Text style={{
                             fontSize: 20,
                             fontWeight: "600",
@@ -60,29 +66,40 @@ function CustomNavigation({navigation, type, title}) {
 
                     </View>
                     <View style={{flex: 1, alignItems: "flex-end"}}>
-                        {type === "titleNavbar" ?
-                            <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
-                            : null
+                        {type === "AgentTitleNavbar" ?
+                            <CustomImageButton onPress={onPressAgentSetting} name={"gear"} color={"black"} size={30}/>
+                            : <CustomImageButton onPress={onPressOfficialSetting} name={"gear"} color={"black"} size={30}/>
+
                         }
                     </View>
 
                 </View>
-                {/*{*/}
-                {/*    openNavigation ?*/}
-                {/*        <View style={{*/}
-                {/*            width: Dimensions.get('window').width, height: "auto", backgroundColor: "yellow",*/}
-                {/*            position: "absolute", top: 50*/}
-                {/*        }}>*/}
-                {/*            <Button*/}
-                {/*                title="Right button"*/}
-                {/*                onPress={() => {*/}
-                {/*                    props.navigation.navigate("ScheduleAcceptTemplate")*/}
-                {/*                }}*/}
-                {/*            />*/}
-                {/*        </View>*/}
-
-                {/*        : null*/}
-                {/*}*/}
+                {
+                    openNavigation ?
+                        <>
+                            <View style={{
+                                width: Dimensions.get('window').width, height: "auto", backgroundColor: "white",
+                                position: "absolute", top: 50, zIndex: 2
+                            }}>
+                                <Button
+                                    title="Right button"
+                                    onPress={() => {
+                                        props.navigation.navigate("ScheduleAcceptTemplate")
+                                    }}
+                                />
+                            </View>
+                            <TouchableOpacity style={{position: "absolute", top: 50}}
+                                              onPress={() => handleOpenNavigation()}>
+                                <View style={{
+                                    backgroundColor: `black`,
+                                    opacity: 0.6,
+                                    width: Dimensions.get("window").width,
+                                    height: Dimensions.get("window").height
+                                }}></View>
+                            </TouchableOpacity>
+                        </>
+                        : null
+                }
             </>
     } else if (type === "agentMain" || type === "centerMain") {
         element = <View style={{
@@ -94,22 +111,41 @@ function CustomNavigation({navigation, type, title}) {
             paddingHorizontal: 20
         }}>
 
-            {type === "agentMain" ? <View>
+            {type === "agentMain" ? <View style={{marginRight: 20}}>
                 <CustomImageModal name={"calendar-o"} color="black" size={30}
                                   modalContent={<CustomCalendar/>}/>
             </View> : null}
-            {type === "agentMain" ? null :
-                <CustomImageButton onPress={onPressSetting} name={"gear"} color={"black"} size={30}/>
-            }
 
-            <View style={{marginLeft: 20}}>
-                <CustomImageButton onPress={async()=>{
-                    await AsyncStorage.removeItem("@u_auth")
-                    await AsyncStorage.removeItem("@token")
-                    setLogin(null);
-                }}name="sign-out" color={"black"} size={30} />
-            </View>
+            {type === "agentMain" ?  <CustomImageButton onPress={onPressAgentSetting} name={"gear"} color={"black"} size={30}/> :
+                <CustomImageButton onPress={onPressOfficialSetting} name={"gear"} color={"black"} size={30}/>}
         </View>
+    } else {
+        element =
+            <View style={{
+                width: useWindowDimensions().width,
+                height: 50,
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 20,
+                position: "relative",
+
+            }}>
+                <TouchableOpacity activeOpacity={0.6}
+                                  onPress={() => navigation.goBack()} style={{flex: 1}}>
+                    <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
+                </TouchableOpacity>
+                <View style={{flex: 3, flexDirection: "row", justifyContent: "center", alignItems: "center",}}>
+                    <Text style={{
+                        fontSize: 20,
+                        fontWeight: "600",
+                        textAlign: "center",
+                        marginRight: 5
+                    }}>{title}</Text>
+                </View>
+                <View style={{flex: 1}}>
+                </View>
+
+            </View>
     }
 
 
@@ -133,15 +169,3 @@ function CustomNavigation({navigation, type, title}) {
 
 export default CustomNavigation;
 
-const styles = StyleSheet.create({
-        container: {
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "white",
-            borderRadius: 10,
-            paddingVertical: 20
-        },
-
-    }
-)

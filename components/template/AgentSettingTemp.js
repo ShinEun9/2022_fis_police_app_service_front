@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
-import CustomNavigation from "../organisms/CustomNavigation";
-import JoinInputForm from "../organisms/JoinInputForm";
-import SettingInputForm from "../organisms/SettingInputForm";
+import React from 'react';
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {Alert, SafeAreaView, View} from "react-native";
+import CustomNavigation from "../organisms/CustomNavigation";
+import AgentSettingInputForm from "../organisms/AgentSettingInputForm";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function SettingTemplate(props) {
+function AgentSettingTemp(props) {
     const [login, setLogin] = useRecoilState(loginState);
-
     const onPressLogout = async () => {
         Alert.alert(
             "정말 로그아웃 하시겠습니까??",
@@ -29,6 +27,8 @@ function SettingTemplate(props) {
                 }
             ]
         );
+
+
     }
 
     return (
@@ -37,7 +37,7 @@ function SettingTemplate(props) {
                 <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title={"설정페이지"}/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>
-                <SettingInputForm props={props} centerInfo={props.route.params} onPressLogout={onPressLogout}/>
+                <AgentSettingInputForm props={props} centerInfo={props.route.params} onPressLogout={onPressLogout}/>
 
 
             </View>
@@ -45,5 +45,4 @@ function SettingTemplate(props) {
     );
 }
 
-export default SettingTemplate;
-
+export default AgentSettingTemp;

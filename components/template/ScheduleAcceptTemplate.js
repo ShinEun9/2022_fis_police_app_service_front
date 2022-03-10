@@ -142,7 +142,7 @@ function ScheduleAcceptTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1, zIndex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title="내 일정 수락하러 가기"/>
+                <CustomNavigation navigation={props.navigation} type="AgentTitleNavbar" title="내 일정 수락하러 가기"/>
             </View>
             <View style={{flex: 9, alignItems: "center", zIndex: 0}}>
                 <ScrollView>
