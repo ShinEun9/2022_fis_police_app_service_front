@@ -30,7 +30,7 @@ import {loginState} from "../../store/login";
 
 
 const screen = Dimensions.get("window");
-let nowSchedule = [];
+let nowSchedule=-1;
 
 
 function CheckReservationTemplate(props) {
@@ -77,8 +77,8 @@ function CheckReservationTemplate(props) {
                         old_child: data.old_child
                     }
                 })
-
-                setHistoryList(buf)
+                const sortBuf=buf.sort((a,b)=>new Date(a.visit_date)-new Date(b.visit_date))
+                setHistoryList(sortBuf)
             }).catch((err) => {
 
                 console.log(err)
@@ -112,16 +112,14 @@ function CheckReservationTemplate(props) {
                         late_comment: data.late_comment,
                         schedule_id: data.schedule_id,
                     }
-                    nowSchedule[0] = data.schedule_id
-                    // getToken().then((token) => {
-                    //     getConfirmation(token)
-                    // })
+                    nowSchedule = data.schedule_id
                 })
                 setIsLoading(false)
                 setAgentList(list)
 
             }).catch((err) => {
                 setIsLoading(false)
+                console.log("현장요원 에러")
                 console.log(err)
             })
     }
@@ -149,32 +147,12 @@ function CheckReservationTemplate(props) {
                                 <View style={styles.textContainer}>
                                     <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
                                     <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
-
-
-                                    {/*{confirm === false ? <CustomModal backgroundColor={Style.color2} width={120}*/}
-                                    {/*                                  height={35} content={"확인서 서명"}*/}
-                                    {/*                                  modalWidth={screen.width * 0.93}*/}
-                                    {/*                                  modalHeight={screen.height * 0.7}*/}
-                                    {/*                                  modalButtonContent={"서명"}*/}
-                                    {/*                                  confirm_id={confirmation.confirm_id}*/}
-                                    {/*                                  schedule_id={nowSchedule}*/}
-                                    {/*                                  modalContent={<ConfirmationModal*/}
-                                    {/*                                      name={data.a_name} content={confirmation}*/}
-                                    {/*                                      schedule_id={nowSchedule}/>}/> :*/}
-                                    {/*    <CustomModal backgroundColor={Style.color2} width={120}*/}
-                                    {/*                 height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}*/}
-                                    {/*                 modalHeight={screen.height * 0.7} modalButtonContent={"확인"}*/}
-                                    {/*                 modalContent={<ConfirmationModal name={data.a_name}*/}
-                                    {/*                                                  content={confirmation}*/}
-                                    {/*                                                  schedule_id={nowSchedule}/>}/>}*/}
-
-
                                 </View>
                             </View>
                         })}
 
                     </ScrollView>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{alignItems: 'center',marginTop:7}}>
                         <CustomButton keyValue={nowSchedule} width={150} height={40} backgroundColor={Style.color2}
                                       onPress={onPress} content={"확인서 열람"}/>
                     </View>
@@ -194,7 +172,8 @@ function CheckReservationTemplate(props) {
                             height: "auto"
                         }}>
                             <ConfirmationModal setModalVisible={setModalVisible}
-                                               schedule_id={selectedSchedule}/>
+                                               schedule_id={selectedSchedule}
+                                                agentList={agentList}/>
                         </View>
                     </Modal>
 
@@ -206,13 +185,11 @@ function CheckReservationTemplate(props) {
                         <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
                     </View>
 
-                    {/*<Text style={styles.text}>과거이력</Text>*/}
-                    {/*<Text style={styles.text}>과거이력</Text>*/}
-                    {/*<Text style={styles.text}>과거이력</Text>*/}
-                    {/*<Text style={styles.text}>과거이력</Text>*/}
-
-                    {historyList.map((data, a) => {
-                        return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                    {
+                        historyList.map((data, a) => {
+                            if(a<3){
+                                return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                            }
                     })}
                     <View style={styles.button}>
                         <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
@@ -242,7 +219,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     info: {
-        flex: 2.7,
+        flex: 2.5,
         justifyContent: "center"
     },
     agent: {
@@ -252,8 +229,9 @@ const styles = StyleSheet.create({
         width: screen.width
     },
     history: {
-        flex: 2.9,
+        flex: 2,
         alignItems: "center",
+        paddingVertical:20
     },
     nav: {
         flex: 0.7,

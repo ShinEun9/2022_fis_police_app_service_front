@@ -4,12 +4,10 @@ import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-function ConfirmationModal({schedule_id,name,content}) {
+function ConfirmationModal({schedule_id,agentList}) {
     const [confirmInfo, setConfirmInfo] = useState([]);
     const [isLoading,setIsLoading] = useState(true);
-    useEffect(()=>{
-        setConfirmInfo(content)
-    },[])
+    const [agentName, setAgentName] = useState("")
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
@@ -31,6 +29,13 @@ function ConfirmationModal({schedule_id,name,content}) {
         getToken().then((token) => {
             getData(token)
         })
+        const nameBuf=[]
+        let buf=""
+        agentList.map((data,index)=>{
+            nameBuf[index]=data.a_name
+        })
+        buf=nameBuf.join(', ')
+        setAgentName(buf)
     },[])
 
     return (
@@ -80,7 +85,7 @@ function ConfirmationModal({schedule_id,name,content}) {
                 <View style={{...styles.container, width: "50%", justifyContent: "flex-end", alignSelf: "flex-end"}}>
                     <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                         <Text style={{...styles.title, flex: undefined, marginRight: 10}}>현장요원</Text>
-                        <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{confirmInfo.agent_name}</Text>
+                        <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{agentName}</Text>
                     </View>
                     <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                         <Text style={{...styles.title, flex: undefined, marginRight: 10}}>시설담당자</Text>
