@@ -54,6 +54,7 @@ function CheckReservationTemplate(props) {
         getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
+            // getConfirmation(token)
         })
     }, [])
 
@@ -104,19 +105,31 @@ function CheckReservationTemplate(props) {
                 console.log(res.data)
                 let list = []
                 res.data.map((data, index) => {
-                    list[index] = {
-                        key: index,
-                        a_name: data.a_name,
-                        a_ph: data.a_ph,
-                        a_picture: 'data:image/png;base64,' + data.a_picture,
-                        late_comment: data.late_comment,
-                        schedule_id: data.schedule_id,
+                    if(data.a_picture===null){
+                        list[index] = {
+                            key: index,
+                            a_name: data.a_name,
+                            a_ph: data.a_ph,
+                            a_picture: 'https://ifh.cc/g/pvXWYR.png',
+                            late_comment: data.late_comment,
+                            schedule_id: data.schedule_id,
+                        }
+                    }
+                    else {
+                        list[index] = {
+                            key: index,
+                            a_name: data.a_name,
+                            a_ph: data.a_ph,
+                            a_picture: 'data:image/;base64,' + data.a_picture,
+                            late_comment: data.late_comment,
+                            schedule_id: data.schedule_id,
+                        }
                     }
                     nowSchedule = data.schedule_id
                 })
                 setIsLoading(false)
                 setAgentList(list)
-
+                console.log(agentList)
             }).catch((err) => {
                 setIsLoading(false)
                 console.log("현장요원 에러")
@@ -178,6 +191,8 @@ function CheckReservationTemplate(props) {
                                 <ConfirmationModal setModalVisible={setModalVisible}
                                                    schedule_id={selectedSchedule}
                                                    agentList={agentList}/>
+
+
                             </View>
                         </Modal>
 
