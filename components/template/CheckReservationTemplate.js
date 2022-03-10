@@ -112,59 +112,59 @@ function CheckReservationTemplate(props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.nav}>
-                <CustomNavigation navigation={props.navigation} type="titleNavbar" title="내 예약 확인하러 가기"/>
+                <CustomNavigation navigation={props.navigation} type="CenterTitleNavbar" title="내 예약 확인하러 가기"/>
             </View>
-            <View style={styles.comment}>
-                <Text style={styles.text}>{agentList.late_comment}</Text>
-            </View>
-            <View style={styles.map}>
-                <CustomMap/>
-            </View>
-            <View style={styles.info}>
-                <ScrollView horizontal pagingEnabled>
-                    {agentList.map((data,index)=>{
-
-                        return <View key={index} style={styles.agent}>
-                            <Image
-                                style={styles.image}
-                                source={{uri: data.a_picture}}/>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
-                                <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
-                                <View style={styles.buttonContainer}>
-                                    <CustomModal backgroundColor={Style.color2} width={120}
-                                                 height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
-                                                 modalHeight={screen.height * 0.7} modalButtonContent={"확인"}
-                                                 modalContent={<ConfirmationModal name={data.a_name} content={confirmation} schedule_id={nowSchedule}/>}/>
-                                </View>
-
-                            </View>
-                        </View>
-                    })}
-                </ScrollView>
-            </View>
-
-            <View style={styles.history}>
-                <View style={{paddingVertical: 8}}>
-                    <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
+            <View style={{flex: 9, zIndex:0}}>
+                <View style={styles.comment}>
+                    <Text style={styles.text}>{agentList.late_comment}</Text>
                 </View>
-                {/*<Text style={styles.text}>과거이력</Text>*/}
-                {/*<Text style={styles.text}>과거이력</Text>*/}
-                {/*<Text style={styles.text}>과거이력</Text>*/}
-                {/*<Text style={styles.text}>과거이력</Text>*/}
-                {isLoading ? <ActivityIndicator/> :
-                    <>
-                        {historyList.map((data, a) => {
-                            return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                <View style={styles.map}>
+                    <CustomMap/>
+                </View>
+                <View style={styles.info}>
+                    <ScrollView horizontal pagingEnabled>
+                        {agentList.map((data,index)=>{
+
+                            return <View key={index} style={styles.agent}>
+                                <Image
+                                    style={styles.image}
+                                    source={{uri: data.a_picture}}/>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
+                                    <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
+                                    <View style={styles.buttonContainer}>
+                                        <CustomModal backgroundColor={Style.color2} width={120}
+                                                     height={35} content={"확인서 열람"} modalWidth={screen.width * 0.93}
+                                                     modalHeight={screen.height * 0.7} modalButtonContent={"확인"}
+                                                     modalContent={<ConfirmationModal name={data.a_name} content={confirmation} schedule_id={nowSchedule}/>}/>
+                                    </View>
+
+                                </View>
+                            </View>
                         })}
-                        <View style={styles.button}>
-                            <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
-                                              modalContent={<ApplyRecord content={historyList}/>} />
-                        </View>
-                    </>
-                }
+                    </ScrollView>
+                </View>
 
-
+                <View style={styles.history}>
+                    <View style={{paddingVertical: 8}}>
+                        <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
+                    </View>
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {isLoading ? <ActivityIndicator/> :
+                        <>
+                            {historyList.map((data, a) => {
+                                return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                            })}
+                            <View style={styles.button}>
+                                <CustomImageModal name={"plus-square-o"}  size={24} color={"black"}
+                                                  modalContent={<ApplyRecord content={historyList}/>} />
+                            </View>
+                        </>
+                    }
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     comment: {
         flex: 0.5,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     info: {
         flex: 3,
@@ -200,7 +200,8 @@ const styles = StyleSheet.create({
     nav: {
         flex: 0.7,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        zIndex: 1
     },
     button: {
         marginTop: 5

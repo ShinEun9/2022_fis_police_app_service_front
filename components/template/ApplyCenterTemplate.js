@@ -93,13 +93,13 @@ function ApplyCenterTemplate(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="titleNavbar" title="지문 등록 신청하러 가기"/>
+            <View style={{flex: 1, zIndex:1}}>
+                <CustomNavigation navigation={props.navigation} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
             <View style={styles.Guide}>
                 <Text>가이드가이드가이드</Text>
             </View>
-            <View style={styles.InputForm}>
+            <View style={{...styles.InputForm, zIndex:0}}>
                 {isLoading.getCurrentInfoLoading ? <ActivityIndicator/> :
                     <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo} isLoading={isLoading.sendApplicationLoading}/>}
             </View>
