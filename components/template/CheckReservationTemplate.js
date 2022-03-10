@@ -108,7 +108,7 @@ function CheckReservationTemplate(props) {
                         key: index,
                         a_name: data.a_name,
                         a_ph: data.a_ph,
-                        a_picture: 'data:image/png;base64,' + data.a_picture,
+                        a_picture: 'data:image/;base64,' + data.a_picture,
                         late_comment: data.late_comment,
                         schedule_id: data.schedule_id,
                     }

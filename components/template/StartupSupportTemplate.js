@@ -10,10 +10,11 @@ function StartupSupportTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="CenterTitleNavbar" title="창업 지원 서비스"/>
+            <View style={{flex: 1, zIndex:1}}>
+                <CustomNavigation navigation={props.navigation} type="CenterTitleNavbar" title="창업지원 서비스"/>
+
             </View>
-            <View style={{flex: 9, backgroundColor: "pink"}}>
+            <View style={{flex: 9, zIndex:0}}>
 
             </View>
         </SafeAreaView>
