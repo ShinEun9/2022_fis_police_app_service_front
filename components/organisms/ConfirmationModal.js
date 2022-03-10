@@ -37,13 +37,8 @@ function ConfirmationModal({setModalVisible,schedule_id, agentList}) {
         getToken().then((token) => {
             getData(token)
         })
-        const nameBuf = []
-        let buf = ""
-        agentList.map((data, index) => {
-            nameBuf[index] = data.a_name
-        })
-        buf = nameBuf.join(', ')
-        setAgentName(buf)
+
+
     }, [])
 
     const sendData=async (token)=>{
@@ -110,7 +105,7 @@ function ConfirmationModal({setModalVisible,schedule_id, agentList}) {
             <View style={{...styles.container, width: "50%", justifyContent: "flex-end", alignSelf: "flex-end"}}>
                 <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                     <Text style={{...styles.title, flex: undefined, marginRight: 10}}>현장요원</Text>
-                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{agentName}</Text>
+                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{confirmInfo.agent_name.join(", ")}</Text>
                 </View>
                 <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                     <Text style={{...styles.title, flex: undefined, marginRight: 10}}>시설담당자</Text>
