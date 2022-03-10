@@ -105,6 +105,7 @@ function CheckReservationTemplate(props) {
                 console.log(res.data)
                 let list = []
                 res.data.map((data, index) => {
+
                     if(data.a_picture===null){
                         list[index] = {
                             key: index,
