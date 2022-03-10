@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, useWindowDimensions, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
+import {
+    View,
+    Text,
+    useWindowDimensions,
+    StyleSheet,
+    TouchableOpacity,
+    ScrollView,
+    ActivityIndicator
+} from "react-native";
 import CustomInput from "../atom/CustomInput";
 import CustomMultilineInput from "../atom/CustomMultilineInput";
 import Timepicker from "../atom/Timepicker";
@@ -24,6 +32,7 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
         disabled: "",
         etc: "",
     })
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         let date = new Date()
@@ -40,7 +49,7 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
 
     }, [])
 
-    const getToken = async() => {
+    const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
@@ -58,14 +67,19 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
         await axios.post(`http://localhost:8080/app/confirm/write/${schedule_id}`, info, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
+                setIsLoading(false)
+                setModalVisible(false)
             }).catch((err) => {
                 console.log(err)
+                setIsLoading(false)
+
             })
     }
 
 
     const onPress = () => {
-        getToken().then((token)=>{
+        setIsLoading(true)
+        getToken().then((token) => {
             sendRequest(token)
         })
     }
@@ -155,7 +169,8 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
             {/*                 handleChange={handleChange} currentInfo={currentInfo}/>*/}
             {/*</View>*/}
             <View style={styles.Button}>
-                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={"제출"}/>
+                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40"
+                              content={isLoading ? <ActivityIndicator/> : "제출"}/>
             </View>
         </ScrollView>
     );
