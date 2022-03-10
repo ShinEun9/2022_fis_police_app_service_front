@@ -118,14 +118,6 @@ function CustomNavigation({navigation, type, title}) {
 
             {type === "agentMain" ?  <CustomImageButton onPress={onPressAgentSetting} name={"gear"} color={"black"} size={30}/> :
                 <CustomImageButton onPress={onPressOfficialSetting} name={"gear"} color={"black"} size={30}/>}
-
-            {/*<View style={{marginLeft: 20}}>*/}
-            {/*    <CustomImageButton onPress={async () => {*/}
-            {/*        await AsyncStorage.removeItem("@u_auth")*/}
-            {/*        await AsyncStorage.removeItem("@token")*/}
-            {/*        setLogin(null);*/}
-            {/*    }} name="sign-out" color={"black"} size={30}/>*/}
-            {/*</View>*/}
         </View>
     } else {
         element =
