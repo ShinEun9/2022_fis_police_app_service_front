@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView,
+    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -23,6 +23,9 @@ import * as Location from "expo-location";
 import position from "react-native-web/dist/exports/Touchable/Position";
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {FontAwesome} from "@expo/vector-icons";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
 const screen = Dimensions.get("window");
@@ -33,23 +36,14 @@ let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let newLocation = {}
 let location = []
 
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
-
-function AgentMainTemplate({props, setLogin}) {
+function AgentMainTemplate({props}) {
     const [schedule, setSchedule] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        wait(2000).then(() => setRefreshing(false));
-    }, []);
-
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
+    const [login, setLogin] = useRecoilState(loginState);
+
     const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
     const [latitude, setLatitude] = useState();
@@ -107,7 +101,6 @@ function AgentMainTemplate({props, setLogin}) {
 
     useEffect(() => {
         getToken().then((res) => {
-            console.log(res);
             getTodaySchedule(res)
         })
     }, []);
@@ -131,25 +124,30 @@ function AgentMainTemplate({props, setLogin}) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 0.5}}>
-                <CustomNavigation navigation={props.navigation} type="agentMain" setLogin={setLogin}/>
+            <View style={{flex: 1}}>
+                <CustomNavigation navigation={props.navigation} type="agentMain" />
             </View>
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }
-            >
+            <View style={{flex: 9}}>
                 <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
 
                     <View style={{
-                        alignItems: "flex-start",
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
                         width: useWindowDimensions().width * 0.9,
                         marginBottom: 5
                     }}>
-                        <Text style={{fontSize: 24}}>오늘 일정</Text>
+                        <Text style={{fontSize: 24, marginRight: 10}}>오늘 일정</Text>
+                        <TouchableOpacity style={{flexDirection:"row", alignItems:"center"}} onPress={() => {
+                            setIsLoading(true)
+                            getToken().then((res) => {
+                                getTodaySchedule(res)
+                            })
+                        }}>
+                            <Text style={{color: "gray"}}>일정 새로고침 </Text>
+                            <FontAwesome name="refresh" size={15} color="gray" />
+                        </TouchableOpacity>
+
                     </View>
                     {isLoading ? <View style={{
                             backgroundColor: `${Style.color3}`,
@@ -162,7 +160,7 @@ function AgentMainTemplate({props, setLogin}) {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <ActivityIndicator color={Style.color2}/>
+                            <ActivityIndicator />
                         </View> :
                         <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                        listButtonContent="늦음"/>
@@ -196,9 +194,8 @@ function AgentMainTemplate({props, setLogin}) {
                                            color="black"/>
 
                 </View>
-            </ScrollView>
 
-
+            </View>
         </SafeAreaView>
     )
         ;

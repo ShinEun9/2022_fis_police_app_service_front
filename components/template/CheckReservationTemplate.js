@@ -8,6 +8,7 @@ import {
     Dimensions,
     Image,
     Alert,
+    ActivityIndicator,
     useWindowDimensions
 } from "react-native";
 import CustomMap from "../molecule/CustomMap";
@@ -20,22 +21,31 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import ApplyRecord from "../organisms/ApplyRecord";
 import ConfirmationForm from "../organisms/ConfirmationForm";
+
 import CustomButton from "../atom/CustomButton";
 import Modal from "react-native-modal";
 
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
 const screen = Dimensions.get("window");
-let nowSchedule=[];
+let nowSchedule = [];
 
 
 function CheckReservationTemplate(props) {
-    const [historyList, setHistoryList] = useState([])
-    const [agentList, setAgentList] = useState([])
-    const [selectedSchedule,setSelectedSchedule] = useState()
+
+    const [selectedSchedule, setSelectedSchedule] = useState()
     const [confirmation, setConfirmation] = useState([])
     const [confirm, setConfirm] = useState(false)
     const [modalVisible, setModalVisible] = useState(false);
+
+    const [historyList, setHistoryList] = useState([])
+    const [agentList, setAgentList] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [login, setLogin] = useRecoilState(loginState);
+
+
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
@@ -46,10 +56,13 @@ function CheckReservationTemplate(props) {
             getAgentList(token)
         })
     }, [])
+
     const onPress = (keyValue) => {
         setSelectedSchedule(keyValue)
         setModalVisible(true)
     }
+
+
     const getHistoryList = async (token) => {
         await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -64,11 +77,14 @@ function CheckReservationTemplate(props) {
                         old_child: data.old_child
                     }
                 })
+
                 setHistoryList(buf)
             }).catch((err) => {
+
                 console.log(err)
             })
     }
+
     // const getConfirmation = async (token) => {
     //     await axios.get(`http://localhost:8080/app/confirm/${nowSchedule}`, {headers: {Authorization: `Bearer ${token}`}})
     //         .then((res) => {
@@ -79,6 +95,8 @@ function CheckReservationTemplate(props) {
     //             console.log(err)
     //         })
     // }
+
+
     const getAgentList = async (token) => {
         await axios.get(`http://localhost:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -99,9 +117,11 @@ function CheckReservationTemplate(props) {
                     //     getConfirmation(token)
                     // })
                 })
+                setIsLoading(false)
                 setAgentList(list)
 
             }).catch((err) => {
+                setIsLoading(false)
                 console.log(err)
             })
     }
@@ -112,22 +132,23 @@ function CheckReservationTemplate(props) {
             <View style={styles.nav}>
                 <CustomNavigation navigation={props.navigation} type="titleNavbar" title="내 예약 확인하러 가기"/>
             </View>
-            <View style={styles.comment}>
-                <Text style={styles.text}>{agentList.late_comment}</Text>
-            </View>
-            <View style={styles.map}>
-                <CustomMap/>
-            </View>
-            <View style={styles.info}>
-                <ScrollView  horizontal pagingEnabled>
-                    {agentList.map((data, index) => {
-                        return <View key={index} style={styles.agent}>
-                            <Image
-                                style={styles.image}
-                                source={{uri: data.a_picture}}/>
-                            <View style={styles.textContainer}>
-                                <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
-                                <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
+            {isLoading?<View style={{flex:9, justifyContent:"center", alignItems:"center"}}><ActivityIndicator/></View>:<>
+                <View style={styles.comment}>
+                    <Text style={styles.text}>{agentList.late_comment}</Text>
+                </View>
+                <View style={styles.map}>
+                    <CustomMap/>
+                </View>
+                <View style={styles.info}>
+                    <ScrollView horizontal pagingEnabled>
+                        {agentList.map((data, index) => {
+                            return <View key={index} style={styles.agent}>
+                                <Image
+                                    style={styles.image}
+                                    source={{uri: data.a_picture}}/>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
+                                    <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
 
 
                                     {/*{confirm === false ? <CustomModal backgroundColor={Style.color2} width={120}*/}
@@ -148,42 +169,60 @@ function CheckReservationTemplate(props) {
                                     {/*                                                  schedule_id={nowSchedule}/>}/>}*/}
 
 
+                                </View>
                             </View>
-                        </View>
-                    })}
+                        })}
 
-                </ScrollView>
-                <View style={{alignItems: 'center'}}>
-                    <CustomButton keyValue={nowSchedule} width={150} height={40} backgroundColor={Style.color2} onPress={onPress} content={"확인서 열람"}/>
-                </View>
-
-                <Modal
-                    isVisible={modalVisible}
-                    useNativeDriver={true}
-                    hideModalContentWhileAnimating={true}
-                    onBackdropPress={() => {
-                        setModalVisible(false)
-                    }}
-                    style={{flex: 1, justifyContent: "center", alignItems: "center",}}
-                >
-                    <View style={{...styles.modalContainer, width: useWindowDimensions().width * 0.95, height: "auto"}}>
-                       <ConfirmationModal setModalVisible={setModalVisible}
-                                                                        schedule_id={selectedSchedule}/>
+                    </ScrollView>
+                    <View style={{alignItems: 'center'}}>
+                        <CustomButton keyValue={nowSchedule} width={150} height={40} backgroundColor={Style.color2}
+                                      onPress={onPress} content={"확인서 열람"}/>
                     </View>
-                </Modal>
-            </View>
-            <View style={styles.history}>
-                <View style={{paddingVertical: 8}}>
-                    <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
+
+                    <Modal
+                        isVisible={modalVisible}
+                        useNativeDriver={true}
+                        hideModalContentWhileAnimating={true}
+                        onBackdropPress={() => {
+                            setModalVisible(false)
+                        }}
+                        style={{flex: 1, justifyContent: "center", alignItems: "center",}}
+                    >
+                        <View style={{
+                            ...styles.modalContainer,
+                            width: screen.width * 0.95,
+                            height: "auto"
+                        }}>
+                            <ConfirmationModal setModalVisible={setModalVisible}
+                                               schedule_id={selectedSchedule}/>
+                        </View>
+                    </Modal>
+
+
+
                 </View>
-                {historyList.map((data, a) => {
-                    return <Text key={a} style={styles.text}>{data.visit_date}</Text>
-                })}
-                <View style={styles.button}>
-                    <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
-                                      modalContent={<ApplyRecord content={historyList}/>}/>
+                <View style={styles.history}>
+                    <View style={{paddingVertical: 8}}>
+                        <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
+                    </View>
+
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+                    {/*<Text style={styles.text}>과거이력</Text>*/}
+
+                    {historyList.map((data, a) => {
+                        return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                    })}
+                    <View style={styles.button}>
+                        <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
+                                          modalContent={<ApplyRecord content={historyList}/>}/>
+                    </View>
+
+
                 </View>
-            </View>
+            </>}
+
         </SafeAreaView>
     );
 }
@@ -204,17 +243,16 @@ const styles = StyleSheet.create({
     },
     info: {
         flex: 2.7,
-        justifyContent:"center"
+        justifyContent: "center"
     },
     agent: {
         // justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "row",
-        width:screen.width
+        width: screen.width
     },
     history: {
         flex: 2.9,
-        justifyContent: "center",
         alignItems: "center",
     },
     nav: {

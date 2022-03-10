@@ -4,6 +4,8 @@ import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function ApplyCenterTemplate(props) {
     const [currentInfo, setCurrentInfo] = useState({
@@ -15,6 +17,7 @@ function ApplyCenterTemplate(props) {
         h_address: ""
     })
     const [isLoading, setIsLoading] = useState({getCurrentInfoLoading: true, sendApplicationLoading: false})
+    const [login, setLogin] = useRecoilState(loginState);
 
     const handleChange = (name, value) => {
         setCurrentInfo({

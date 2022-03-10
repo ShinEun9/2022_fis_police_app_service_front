@@ -3,8 +3,13 @@ import {Text, SafeAreaView, View, useWindowDimensions} from "react-native";
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
 import {Style} from "../../Style";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
-function CenterMainTemplate({props, setLogin}) {
+function CenterMainTemplate({props}) {
+    const [login, setLogin] = useRecoilState(loginState);
+
+
     // 코드 개선 필요(4개의 함수가 있을 필요는 없잖아ㅠㅠㅠㅠ 방법을 모르겠음)
     const goApplyCenterTemplate = () => {
         props.navigation.navigate("ApplyCenterTemplate")
@@ -23,7 +28,7 @@ function CenterMainTemplate({props, setLogin}) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 0.5}}>
-                <CustomNavigation navigation={props.navigation} type="centerMain" setLogin={setLogin} />
+                <CustomNavigation navigation={props.navigation} type="centerMain"  />
             </View>
 
             <View style={{flex: 4, justifyContent: "center", alignItems: "center" }}>

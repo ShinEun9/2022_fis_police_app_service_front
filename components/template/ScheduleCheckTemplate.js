@@ -21,6 +21,8 @@ import ConfirmationModal from "../organisms/ConfirmationModal";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function ScheduleCheckTemplate(props) {
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
@@ -37,6 +39,7 @@ function ScheduleCheckTemplate(props) {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const [login, setLogin] = useRecoilState(loginState);
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
@@ -113,7 +116,7 @@ function ScheduleCheckTemplate(props) {
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
                 <ScrollView style={{width: useWindowDimensions().width * 0.96}}
                             contentContainerStyle={{alignItems: "center"}}>
-                    {isLoading ? <ActivityIndicator color={Style.color2}/> :
+                    {isLoading ? <ActivityIndicator/> :
                         <>
                             <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
 

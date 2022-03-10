@@ -80,7 +80,7 @@ function ConfirmationModal({schedule_id,name,content}) {
                 <View style={{...styles.container, width: "50%", justifyContent: "flex-end", alignSelf: "flex-end"}}>
                     <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                         <Text style={{...styles.title, flex: undefined, marginRight: 10}}>현장요원</Text>
-                        <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{name}</Text>
+                        <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{confirmInfo.agent_name}</Text>
                     </View>
                     <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
                         <Text style={{...styles.title, flex: undefined, marginRight: 10}}>시설담당자</Text>
