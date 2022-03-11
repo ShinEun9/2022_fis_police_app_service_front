@@ -23,6 +23,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 function ScheduleCheckTemplate(props) {
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
@@ -54,6 +55,9 @@ function ScheduleCheckTemplate(props) {
             })
             .catch((err) => {
                 console.log(err)
+                console.log(err.response)
+                showErrorMessage(err.response.data.message, setLogin, props)
+                setIsLoading(false)
             })
     }
 
@@ -67,7 +71,10 @@ function ScheduleCheckTemplate(props) {
                 setPastSchedule(res.data)
             })
             .catch((err) => {
-                console.log(err)
+                // console.log(err)
+                // console.log(err.response.data.message)
+                setIsLoading(false)
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 
@@ -110,7 +117,7 @@ function ScheduleCheckTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1,}}>
             <View style={{flex: 0.8, zIndex: 1, position: "relative"}}>
-                <CustomNavigation navigation={props.navigation} type="AgentTitleNavbar" title="확정된 일정 열람하러 가기"/>
+                <CustomNavigation props={props} type="AgentTitleNavbar" title="확정된 일정 열람하러 가기"/>
 
             </View>
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>

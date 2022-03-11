@@ -27,6 +27,7 @@ import Modal from "react-native-modal";
 
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 
 const screen = Dimensions.get("window");
@@ -81,8 +82,9 @@ function CheckReservationTemplate(props) {
                 const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date))
                 setHistoryList(sortBuf)
             }).catch((err) => {
-
-                console.log(err)
+                console.log(err);
+                console.log(err.response.data.message);
+                showErrorMessage(err.response.data.message);
             })
     }
 
@@ -142,7 +144,7 @@ function CheckReservationTemplate(props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.nav}>
-                <CustomNavigation navigation={props.navigation} type="CenterTitleNavbar" title="내 예약 확인하러 가기"/>
+                <CustomNavigation props={props} type="CenterTitleNavbar" title="내 예약 확인하러 가기"/>
             </View>
             <View style={{flex: 9, zIndex: 0}}>
                 {isLoading ? <View

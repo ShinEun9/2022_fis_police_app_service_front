@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, TextInput, useWindowDimensions} from 'react-native'
+import {View, Text, StyleSheet, TextInput, useWindowDimensions, Alert} from 'react-native'
 import {Style} from "../../Style";
 import Checkbox from 'expo-checkbox';
 import CustomButton from "../atom/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import {showErrorMessage} from "../showErrorMessage";
 
 /*
     날짜 : 2022/02/23 11:23 AM
@@ -36,11 +37,14 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
-                // 성공했다고 alert 띄우기
+                Alert.alert("메세지 전송에 성공하였습니다","",[{text:"확인"}])
             })
             .catch((err) => {
-                console.log(err)
                 // 실패했다고 alert 띄우기
+                // Alert.alert("메세지 전송에 실패하였습니다","다시 시도해주세요.",[{text:"확인"}])
+                console.log(err)
+                console.log(err.response.data.message);
+                showErrorMessage(err.response.data.message);
             })
     }
 

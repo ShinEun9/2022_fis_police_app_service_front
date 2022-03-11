@@ -94,7 +94,7 @@ function ApplyCenterTemplate(props) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={{flex: 1, zIndex:1}}>
-                <CustomNavigation navigation={props.navigation} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
+                <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
             <View style={styles.Guide}>
                 <Text>가이드가이드가이드</Text>

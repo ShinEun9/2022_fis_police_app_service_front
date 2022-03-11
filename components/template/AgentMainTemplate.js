@@ -26,6 +26,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesome} from "@expo/vector-icons";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 
 const screen = Dimensions.get("window");
@@ -96,6 +97,9 @@ function AgentMainTemplate({props}) {
             })
             .catch((err) => {
                 console.log(err)
+                console.log(err.response)
+                setIsLoading(false)
+                showErrorMessage(err.response.data.message, setLogin, props, "main")
             })
     }
 
@@ -125,7 +129,7 @@ function AgentMainTemplate({props}) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="agentMain" />
+                <CustomNavigation props={props} type="agentMain" />
             </View>
             <View style={{flex: 9}}>
                 <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
