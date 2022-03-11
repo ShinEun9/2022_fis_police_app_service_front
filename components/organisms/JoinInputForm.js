@@ -6,6 +6,9 @@ import {Style} from "../../Style";
 import {ActivityIndicator, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {showErrorMessage} from "../showErrorMessage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 function JoinInputForm({props, center_id}) {
     const [currentInfo, setCurrentInfo] = useState({
@@ -17,6 +20,7 @@ function JoinInputForm({props, center_id}) {
         center_id: center_id
     })
     const [isLoading, setIsLoading] = useState(false)
+    const [login,setLogin]=useRecoilState(loginState);
 
     const onPress = async () => {
         setIsLoading(true)
@@ -27,37 +31,19 @@ function JoinInputForm({props, center_id}) {
         }).catch((err) => {
             console.log(err);
             setIsLoading(false)
+            console.log(err.response)
+            showErrorMessage(err.response.data.response, setLogin, props)
 
         })
-
         props.navigation.navigate("MainPage")
-
     }
+
     const handleChange = (name, value) => {
         setCurrentInfo({
             ...currentInfo,
             [name]: value
         })
     }
-
-    const getToken = async () => {
-        const t = await AsyncStorage.getItem("@token")
-        return t
-    }
-
-    const getData = async (token) => {
-        await axios.get(`http://localhost:8080/app/official/setting`,
-            {headers: {Authorization: `Bearer ${token}`}})
-            .then((res) => {
-                const {center_name, o_name, o_ph, o_email, o_nickname, o_pwd} = res.data
-                setCurrentInfo({center_name, o_name, o_ph, o_email, o_nickname, o_pwd});
-
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-
 
     return (
         <>

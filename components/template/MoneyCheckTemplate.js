@@ -10,7 +10,7 @@ function MoneyCheckTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{zIndex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="AgentTitleNavbar" title="급여 확인하러 가기"/>
+                <CustomNavigation props={props} type="AgentTitleNavbar" title="급여 확인하러 가기"/>
             </View>
             <View style={{flex: 9, marginBottom: 10, zIndex:0}}>
                 <Text>

@@ -1,5 +1,5 @@
 import React, {Component, useEffect, useState} from 'react'
-import {ActivityIndicator, Text, View} from 'react-native';
+import {ActivityIndicator, Alert, Text, View} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {FontAwesome} from "@expo/vector-icons";
 import {Style} from "../../Style";
@@ -7,8 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
-function CustomCalendar(props) {
+function CustomCalendar({props}) {
     const [markedDates, setMarkedDates] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [login, setLogin] = useRecoilState(loginState);
@@ -28,24 +29,28 @@ function CustomCalendar(props) {
                 let obj1 = will_go_date.reduce(
                     (c, v) =>
                         Object.assign(c, {
-                            [v]: { selected: true, selectedColor: Style.color2 },
+                            [v]: {selected: true, selectedColor: Style.color2},
                         }),
                     {},
                 );
 
-                let obj2= visited_date.reduce(
+                let obj2 = visited_date.reduce(
                     (c, v) =>
                         Object.assign(c, {
-                            [v]: { selected: true, selectedColor: Style.color2 },
+                            [v]: {selected: true, selectedColor: Style.color2},
                         }),
                     {},
                 );
-                setMarkedDates({...obj1,...obj2})
-
+                setMarkedDates({...obj1, ...obj2})
+                AsyncStorage.removeItem("@token")
             })
             .catch((err) => {
-                console.log(err)
-            })
+                    setIsLoading(false)
+                    console.log(err)
+                    console.log(err.response.data.message);
+                    showErrorMessage(err.response.data.message, setLogin, props, "main")
+                }
+            )
 
     }
 
@@ -55,7 +60,6 @@ function CustomCalendar(props) {
             getData(token)
         })
     }, [])
-
 
 
     return (
@@ -68,7 +72,8 @@ function CustomCalendar(props) {
                         monthFormat={'yyyy MM'}
                         hideArrows={false}
                         renderArrow={(direction) => {
-                            return direction === "right" ? <FontAwesome name="angle-right" size={24} color="black"/> :
+                            return direction === "right" ?
+                                <FontAwesome name="angle-right" size={24} color="black"/> :
                                 <FontAwesome name="angle-left" size={24} color="black"/>
                         }}
 
