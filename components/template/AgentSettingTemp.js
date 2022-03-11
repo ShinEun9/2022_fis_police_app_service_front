@@ -10,7 +10,7 @@ function AgentSettingTemp(props) {
     const [login, setLogin] = useRecoilState(loginState);
     const onPressLogout = async () => {
         Alert.alert(
-            "정말 로그아웃 하시겠습니까??",
+            "정말 로그아웃 하시겠습니까?",
             "",
             [
                 {
@@ -34,7 +34,7 @@ function AgentSettingTemp(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="joinSettingNavbar" title={"설정페이지"}/>
+                <CustomNavigation props={props} type="joinSettingNavbar" title={"설정페이지"}/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>
                 <AgentSettingInputForm props={props} centerInfo={props.route.params} onPressLogout={onPressLogout}/>

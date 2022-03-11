@@ -19,6 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 function ScheduleAcceptTemplate(props) {
     // dummy-data에 있는 schedule을 todaySchedule에 set해줌
@@ -55,8 +56,10 @@ function ScheduleAcceptTemplate(props) {
                 setIncompleteSchedule(res.data)
             })
             .catch((err) => {
-                console.log(err)
-                // 토큰이 만료되었다. 로그아웃을 하겠다.
+                // console.log(err)
+                // console.log(err.response.data.message)
+                setIsLoading(false)
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 
@@ -138,11 +141,10 @@ function ScheduleAcceptTemplate(props) {
 
     }
 
-    console.log(schedules, "hihihihihi")
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1, zIndex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="AgentTitleNavbar" title="내 일정 수락하러 가기"/>
+                <CustomNavigation props={props} type="AgentTitleNavbar" title="내 일정 수락하러 가기"/>
             </View>
             <View style={{flex: 9, alignItems: "center", zIndex: 0}}>
                 <ScrollView>

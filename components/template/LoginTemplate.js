@@ -8,6 +8,7 @@ import {StackActions} from "react-navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 function LoginTemplate({props}) {
     const [currentInfo, setCurrentInfo] = React.useState({u_nickname: "", u_pwd: "", role:""});
@@ -73,7 +74,7 @@ function LoginTemplate({props}) {
                     }
                 }).catch((err) => {
                     setIsLoading(false);
-                    console.log(err)
+                    console.log(err.response.message)
                 })
         }
 

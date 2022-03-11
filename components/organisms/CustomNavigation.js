@@ -16,7 +16,7 @@ import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import NavBarItem from "../molecule/NavBarItem";
 
 
-function CustomNavigation({navigation, type, title}) {
+function CustomNavigation({props, type, title}) {
     const [openNavigation, setOpenNavigation] = useState(false);
     const [login, setLogin] = useRecoilState(loginState);
 
@@ -26,10 +26,10 @@ function CustomNavigation({navigation, type, title}) {
     }
 
     const onPressOfficialSetting = () => {
-        navigation.navigate("SettingTemplate")
+        props.navigation.navigate("SettingTemplate")
     }
     const onPressAgentSetting = () => {
-        navigation.navigate("AgentSettingTemp")
+        props.navigation.navigate("AgentSettingTemp")
 
     }
 
@@ -40,7 +40,7 @@ function CustomNavigation({navigation, type, title}) {
             <>
                 <View style={styles.mainContainer}>
                     <TouchableOpacity activeOpacity={0.6}
-                                      onPress={() => navigation.goBack()} style={{flex: 1}}>
+                                      onPress={() => props.navigation.goBack()} style={{flex: 1}}>
                         <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleOpenNavigation} style={styles.title} activeOpacity={0.9}>
@@ -75,17 +75,17 @@ function CustomNavigation({navigation, type, title}) {
                                 {type === "AgentTitleNavbar" ?
                                     <>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("ScheduleAcceptTemplate")
+                                            props.navigation.navigate("ScheduleAcceptTemplate")
                                         }} style={{marginTop: 20}}>
                                             <NavBarItem name="calendar-check-o" title1={title} title2={"내 일정 수락하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("ScheduleCheckTemplate")
+                                            props.navigation.navigate("ScheduleCheckTemplate")
                                         }} style={{marginTop: 20}}>
                                             <NavBarItem name="calendar" title1={title} title2={"확정된 일정 열람하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("MoneyCheckTemplate");
+                                            props.navigation.navigate("MoneyCheckTemplate");
                                         }} style={{marginTop: 20, marginBottom:20}}>
                                             <NavBarItem name="dollar" title1={title} title2={"급여 확인하러 가기"}/>
                                         </TouchableOpacity>
@@ -93,22 +93,22 @@ function CustomNavigation({navigation, type, title}) {
                                     :
                                     <>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("ApplyCenterTemplate")
+                                            props.navigation.navigate("ApplyCenterTemplate")
                                         }} style={{marginTop: 20}}>
                                             <NavBarItem name="pencil-square-o" title1={title} title2={"지문 등록 신청하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("CheckReservationTemplate")
+                                            props.navigation.navigate("CheckReservationTemplate")
                                         }} style={{marginTop: 20}}>
                                             <NavBarItem name="list-alt" title1={title} title2={"내 예약 확인하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("StartupSupportTemplate");
+                                            props.navigation.navigate("StartupSupportTemplate");
                                         }} style={{marginTop: 20}}>
                                             <NavBarItem name="lightbulb-o" title1={title} title2={"창업지원 서비스"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
-                                            navigation.navigate("OffenderAlertTemplate")
+                                            props.navigation.navigate("OffenderAlertTemplate")
                                         }} style={{marginTop: 20, marginBottom: 20}}>
                                             <NavBarItem name="id-badge" title1={title} title2={"성범죄자 알리미"}/>
                                         </TouchableOpacity>
@@ -128,7 +128,7 @@ function CustomNavigation({navigation, type, title}) {
         }}>
             {type === "agentMain" ?
                 <View style={{marginRight: 20}}>
-                    <CustomImageModal name={"calendar-o"} color="black" size={30} modalContent={<CustomCalendar/>}/>
+                    <CustomImageModal name={"calendar-o"} color="black" size={30} modalContent={<CustomCalendar props={props}/>}/>
                 </View>
                 : null
             }
@@ -139,7 +139,7 @@ function CustomNavigation({navigation, type, title}) {
         element =
             <View style={styles.mainContainer}>
                 <TouchableOpacity activeOpacity={0.6}
-                                  onPress={() => navigation.goBack()} style={{flex: 1}}>
+                                  onPress={() => props.navigation.goBack()} style={{flex: 1}}>
                     <FontAwesome name="angle-left" size={30} color="black"
                                  style={{fontWeight: "600"}}/>
                 </TouchableOpacity>

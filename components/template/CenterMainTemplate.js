@@ -28,7 +28,7 @@ function CenterMainTemplate({props}) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 0.5}}>
-                <CustomNavigation navigation={props.navigation} type="centerMain"  />
+                <CustomNavigation props={props} type="centerMain"  />
             </View>
 
             <View style={{flex: 4, justifyContent: "center", alignItems: "center" }}>

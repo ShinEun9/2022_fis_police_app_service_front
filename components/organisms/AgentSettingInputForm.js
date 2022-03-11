@@ -9,8 +9,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import CustomImageButton from "../atom/CustomImageButton";
+import {showErrorMessage} from "../showErrorMessage";
 
-function AgentSettingInputForm({onPressLogout}) {
+function AgentSettingInputForm({onPressLogout, props}) {
     const [currentInfo, setCurrentInfo] = useState({})
     const [isLoading, setIsLoading] = useState({getDataLoading: true, editButtonLoading: false})
     const [login, setLogin] = useRecoilState(loginState);
@@ -35,12 +36,11 @@ function AgentSettingInputForm({onPressLogout}) {
                 setIsLoading({...isLoading, getDataLoading: false})
                 const {a_name, a_nickname, a_pwd, a_ph} = res.data
                 setCurrentInfo({a_name, a_nickname, a_pwd, a_ph});
-
-                // 성공했다는 alert 띄우기
             })
             .catch((err) => {
                 setIsLoading({...isLoading, getDataLoading: false})
                 console.log(err)
+                showErrorMessage(err.response.data.message,setLogin,props)
             })
     }
 

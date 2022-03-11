@@ -10,7 +10,7 @@ function AuthSelectTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="joinSettingNavbar" title="회원가입"/>
+                <CustomNavigation props={props} type="joinSettingNavbar" title="회원가입"/>
             </View>
           <View style={{flex: 9, justifyContent: "center", alignItems: "center"}}>
               <View style={{marginBottom: 20}}>
