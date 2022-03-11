@@ -197,7 +197,7 @@ function AgentMainTemplate({props}) {
                     <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate}
                                            name="calendar"
                                            size={30} color="black"/>
-                    <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
+                    <CustomLeftImageButton content="급여 확인하러 가기" onPress={goMoneyCheckTemplate} name="dollar" size={30}
                                            color="black"/>
 
                 </View>

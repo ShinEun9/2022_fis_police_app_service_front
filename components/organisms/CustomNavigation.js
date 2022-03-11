@@ -12,6 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {Style} from "../../Style";
+import CustomLeftImageButton from "../atom/CustomLeftImageButton";
+import NavBarItem from "../molecule/NavBarItem";
 
 
 function CustomNavigation({navigation, type, title}) {
@@ -26,7 +28,7 @@ function CustomNavigation({navigation, type, title}) {
     const onPressOfficialSetting = () => {
         navigation.navigate("SettingTemplate")
     }
-    const onPressAgentSetting = ()=>{
+    const onPressAgentSetting = () => {
         navigation.navigate("AgentSettingTemp")
 
     }
@@ -36,66 +38,85 @@ function CustomNavigation({navigation, type, title}) {
     if (type === "AgentTitleNavbar" || type === "CenterTitleNavbar") {
         element =
             <>
-                <View style={{
-                    width: useWindowDimensions().width,
-                    height: 50,
-                    flexDirection: "row",
-                    alignItems: "center",
-                    paddingHorizontal: 20,
-                    position: "relative",
-
-                }}>
+                <View style={styles.mainContainer}>
                     <TouchableOpacity activeOpacity={0.6}
                                       onPress={() => navigation.goBack()} style={{flex: 1}}>
                         <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
                     </TouchableOpacity>
-                    <View style={{flex: 3, flexDirection: "row", justifyContent: "center", alignItems: "center",}}>
-                        <Text style={{
-                            fontSize: 20,
-                            fontWeight: "600",
-                            textAlign: "center",
-                            marginRight: 5
-                        }}>{title}</Text>
-                        <TouchableOpacity onPress={handleOpenNavigation}>
-                            {
-                                openNavigation ?
-                                    <FontAwesome name="angle-up" size={30} color="black" style={{fontWeight: "600"}}/> :
-                                    <FontAwesome name="angle-down" size={30} color="black" style={{fontWeight: "600"}}/>
-                            }
-                        </TouchableOpacity>
-
-                    </View>
-                    <View style={{flex: 1, alignItems: "flex-end"}}>
-                        {type === "AgentTitleNavbar" ?
-                            <CustomImageButton onPress={onPressAgentSetting} name={"gear"} color={"black"} size={30}/>
-                            : <CustomImageButton onPress={onPressOfficialSetting} name={"gear"} color={"black"} size={30}/>
-
+                    <TouchableOpacity onPress={handleOpenNavigation} style={styles.title} activeOpacity={0.9}>
+                        <Text style={styles.titleText}>{title}</Text>
+                        {
+                            openNavigation ?
+                                <FontAwesome name="angle-up" size={30} color="black" style={{fontWeight: "600"}}/> :
+                                <FontAwesome name="angle-down" size={30} color="black" style={{fontWeight: "600"}}/>
                         }
+                    </TouchableOpacity>
+                    <View style={{flex: 1, alignItems: "flex-end"}}>
+                        <CustomImageButton
+                            onPress={type === "AgentTitleNavbar" ? onPressAgentSetting : onPressOfficialSetting}
+                            name={"gear"} color={"black"} size={30}/>
                     </View>
 
                 </View>
                 {
+
+                    // <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate}
+                    //                        name="calendar-check-o"
+                    //                        size={30} color="black"/>
+                    // <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate}
+                    // name="calendar"
+                    // size={30} color="black"/>
+                    // <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
+                    // color="black"/>
+
                     openNavigation ?
                         <>
-                            <View style={{
-                                width: Dimensions.get('window').width, height: "auto", backgroundColor: "white",
-                                position: "absolute", top: 50, zIndex: 2
-                            }}>
-                                <Button
-                                    title="Right button"
-                                    onPress={() => {
-                                        props.navigation.navigate("ScheduleAcceptTemplate")
-                                    }}
-                                />
+                            <View style={styles.modal}>
+                                {type === "AgentTitleNavbar" ?
+                                    <>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("ScheduleAcceptTemplate")
+                                        }} style={{marginTop: 20}}>
+                                            <NavBarItem name="calendar-check-o" title1={title} title2={"내 일정 수락하러 가기"}/>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("ScheduleCheckTemplate")
+                                        }} style={{marginTop: 20}}>
+                                            <NavBarItem name="calendar" title1={title} title2={"확정된 일정 열람하러 가기"}/>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("MoneyCheckTemplate");
+                                        }} style={{marginTop: 20, marginBottom:20}}>
+                                            <NavBarItem name="dollar" title1={title} title2={"급여 확인하러 가기"}/>
+                                        </TouchableOpacity>
+                                    </>
+                                    :
+                                    <>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("ApplyCenterTemplate")
+                                        }} style={{marginTop: 20}}>
+                                            <NavBarItem name="pencil-square-o" title1={title} title2={"지문 등록 신청하러 가기"}/>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("CheckReservationTemplate")
+                                        }} style={{marginTop: 20}}>
+                                            <NavBarItem name="list-alt" title1={title} title2={"내 예약 확인하러 가기"}/>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("StartupSupportTemplate");
+                                        }} style={{marginTop: 20}}>
+                                            <NavBarItem name="lightbulb-o" title1={title} title2={"창업지원 서비스"}/>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("OffenderAlertTemplate")
+                                        }} style={{marginTop: 20, marginBottom: 20}}>
+                                            <NavBarItem name="id-badge" title1={title} title2={"성범죄자 알리미"}/>
+                                        </TouchableOpacity>
+                                    </>
+
+                                }
                             </View>
-                            <TouchableOpacity style={{position: "absolute", top: 50}}
-                                              onPress={() => handleOpenNavigation()}>
-                                <View style={{
-                                    backgroundColor: `black`,
-                                    opacity: 0.6,
-                                    width: Dimensions.get("window").width,
-                                    height: Dimensions.get("window").height
-                                }}></View>
+                            <TouchableOpacity style={styles.backdrop} onPress={() => handleOpenNavigation()}>
                             </TouchableOpacity>
                         </>
                         : null
@@ -103,69 +124,82 @@ function CustomNavigation({navigation, type, title}) {
             </>
     } else if (type === "agentMain" || type === "centerMain") {
         element = <View style={{
-            width: useWindowDimensions().width,
-            height: 50,
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            paddingHorizontal: 20
+            ...styles.mainContainer, justifyContent: "flex-end"
         }}>
-
-            {type === "agentMain" ? <View style={{marginRight: 20}}>
-                <CustomImageModal name={"calendar-o"} color="black" size={30}
-                                  modalContent={<CustomCalendar/>}/>
-            </View> : null}
-
-            {type === "agentMain" ?  <CustomImageButton onPress={onPressAgentSetting} name={"gear"} color={"black"} size={30}/> :
-                <CustomImageButton onPress={onPressOfficialSetting} name={"gear"} color={"black"} size={30}/>}
+            {type === "agentMain" ?
+                <View style={{marginRight: 20}}>
+                    <CustomImageModal name={"calendar-o"} color="black" size={30} modalContent={<CustomCalendar/>}/>
+                </View>
+                : null
+            }
+            <CustomImageButton onPress={type === "agentMain" ? onPressAgentSetting : onPressOfficialSetting}
+                               name={"gear"} color={"black"} size={30}/>
         </View>
-    } else {
+    } else if (type === "joinSettingNavbar") {
         element =
-            <View style={{
-                width: useWindowDimensions().width,
-                height: 50,
-                flexDirection: "row",
-                alignItems: "center",
-                paddingHorizontal: 20,
-                position: "relative",
-
-            }}>
+            <View style={styles.mainContainer}>
                 <TouchableOpacity activeOpacity={0.6}
                                   onPress={() => navigation.goBack()} style={{flex: 1}}>
-                    <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
+                    <FontAwesome name="angle-left" size={30} color="black"
+                                 style={{fontWeight: "600"}}/>
                 </TouchableOpacity>
-                <View style={{flex: 3, flexDirection: "row", justifyContent: "center", alignItems: "center",}}>
-                    <Text style={{
-                        fontSize: 20,
-                        fontWeight: "600",
-                        textAlign: "center",
-                        marginRight: 5
-                    }}>{title}</Text>
+                <View style={styles.title}>
+                    <Text style={styles.titleText}>{title}</Text>
                 </View>
                 <View style={{flex: 1}}>
                 </View>
-
             </View>
     }
 
 
     return (
-        // <View>
-        //     <TouchableOpacity onPress={handleOpen} style={{flexDirection: "row", alignItems: "center"}}>
-        //         <Text>열기</Text>
-        //         {open ? <FontAwesome name="angle-down" size={24} color="black"/> :
-        //             <FontAwesome name="angle-up" size={24} color="black"/>}
-        //     </TouchableOpacity>
-        //     <View style={open ? {display: "block"} : {display: "none"}}>
-        //         <Button title="Go back" onPress={() => navigation.goBack()}/>
-        //
-        //     </View>
-        //
-        // </View>
-
         element
     );
 }
 
 export default CustomNavigation;
 
+const styles = StyleSheet.create({
+    mainContainer: {
+        width: Dimensions.get("window").width,
+        height: 50,
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        position: "relative",
+    },
+    title: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 3
+    },
+    titleText: {
+        fontSize: 20,
+        fontWeight: "600",
+        textAlign: "center",
+        marginRight: 5
+    },
+    modal: {
+        width: Dimensions.get('window').width,
+        height: "auto",
+        backgroundColor: "white",
+        position: "absolute",
+        top: 50,
+        zIndex: 2,
+        alignItems: "center"
+    },
+    navBarItem: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: Dimensions.get('window').width * 0.6,
+    },
+    backdrop: {
+        backgroundColor: `black`,
+        opacity: 0.6,
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+        position: "absolute",
+        top: 50,
+    }
+})

@@ -5,9 +5,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import CustomButton from "../atom/CustomButton";
 
-function ConfirmationModal({setModalVisible,schedule_id, agentList}) {
+function ConfirmationModal({setModalVisible, schedule_id, agentList}) {
     const [confirmInfo, setConfirmInfo] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState({
+        getData: true,
+        sendConfirm: false
+    });
     const [agentName, setAgentName] = useState("")
 
     const getToken = async () => {
@@ -21,14 +24,15 @@ function ConfirmationModal({setModalVisible,schedule_id, agentList}) {
                 console.log("확인서")
                 console.log(res.data)
                 setConfirmInfo(res.data);
-                setIsLoading(false)
+                setIsLoading({...isLoading, getData: false})
             }).catch((err) => {
                 console.log(err)
-                setIsLoading(false)
+                setIsLoading({...isLoading, getData: false})
             })
     }
-    const onPress=()=>{
-        getToken().then((token)=>{
+    const onPress = () => {
+        setIsLoading({...isLoading, sendConfirm: true})
+        getToken().then((token) => {
             sendData(token)
         })
     }
@@ -37,88 +41,96 @@ function ConfirmationModal({setModalVisible,schedule_id, agentList}) {
         getToken().then((token) => {
             getData(token)
         })
-        const nameBuf = []
-        let buf = ""
-        agentList.map((data, index) => {
-            nameBuf[index] = data.a_name
-        })
-        buf = nameBuf.join(', ')
-        setAgentName(buf)
+
+
     }, [])
 
-    const sendData=async (token)=>{
-        let confirm_id={confirm_id:confirmInfo.confirm_id}
+    const sendData = async (token) => {
+        let confirm_id = {confirm_id: confirmInfo.confirm_id}
         console.log(confirm_id)
-        await axios.post(`http://localhost:8080/app/confirm/check/${schedule_id}`,confirm_id,{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
+        await axios.post(`http://localhost:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
                 console.log(res.data)
-            }).catch((err)=>{
+                setIsLoading({...isLoading, sendConfirm: false})
+
+            }).catch((err) => {
                 console.log(err)
+                setIsLoading({...isLoading, sendConfirm: false})
             })
         setModalVisible(false)
     }
     return (
-        isLoading ? <View style={styles.mainContainer}><ActivityIndicator/></View> : <View style={styles.mainContainer}>
-            <Text style={{fontSize: 18, fontWeight: "bold", marginBottom: 15}}>현장 등록 확인서</Text>
-            <View style={styles.container}>
-                <View style={styles.item}>
-                    <Text style={styles.title}>시설이름</Text>
-                    <Text style={styles.content}>{confirmInfo.center_name}</Text>
-                </View>
-                <View style={styles.item}>
-                    <Text style={styles.title}>시설주소</Text>
-                    <Text style={styles.content}>{confirmInfo.center_address}</Text>
-                </View>
-                <View style={styles.item}>
-                    <Text style={styles.title}>연락처</Text>
-                    <Text style={styles.content}>{confirmInfo.center_ph}</Text>
-                </View>
-                <View style={styles.item}>
-                    <Text style={styles.title}>방문시간</Text>
-                    <Text style={styles.content}>{confirmInfo.visit_date} {confirmInfo.visit_time}</Text>
-                </View>
-                {/*<View style={styles.item}>*/}
-                {/*    <Text style={styles.title}>종료시간</Text>*/}
-                {/*    <Text style={styles.content}>2022.05.04 15:30</Text>*/}
-                {/*</View>*/}
-                <View style={styles.item}>
-                    <Text style={{...styles.title, flex: 1}}>신규인원</Text>
-                    <Text style={{
-                        ...styles.content,
-                        flex: 1
-                    }}>{confirmInfo.new_child === null ? 0 : confirmInfo.new_child} 명</Text>
-                    <Text style={{...styles.title, flex: 1}}>기존인원</Text>
-                    <Text style={{
-                        ...styles.content,
-                        flex: 1
-                    }}>{confirmInfo.old_child === null ? 0 : confirmInfo.old_child} 명</Text>
+        isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator/></View> :
+            <View style={styles.mainContainer}>
+                <Text style={{fontSize: 18, fontWeight: "bold", marginBottom: 15}}>현장 등록 확인서</Text>
+                <View style={styles.container}>
+                    <View style={styles.item}>
+                        <Text style={styles.title}>시설이름</Text>
+                        <Text style={styles.content}>{confirmInfo.center_name}</Text>
+                    </View>
+                    <View style={styles.item}>
+                        <Text style={styles.title}>시설주소</Text>
+                        <Text style={styles.content}>{confirmInfo.center_address}</Text>
+                    </View>
+                    <View style={styles.item}>
+                        <Text style={styles.title}>연락처</Text>
+                        <Text style={styles.content}>{confirmInfo.center_ph}</Text>
+                    </View>
+                    <View style={styles.item}>
+                        <Text style={styles.title}>방문시간</Text>
+                        <Text style={styles.content}>{confirmInfo.visit_date} {confirmInfo.visit_time}</Text>
+                    </View>
+                    {/*<View style={styles.item}>*/}
+                    {/*    <Text style={styles.title}>종료시간</Text>*/}
+                    {/*    <Text style={styles.content}>2022.05.04 15:30</Text>*/}
+                    {/*</View>*/}
+                    <View style={styles.item}>
+                        <Text style={{...styles.title, flex: 1}}>신규인원</Text>
+                        <Text style={{
+                            ...styles.content,
+                            flex: 1
+                        }}>{confirmInfo.new_child === null ? 0 : confirmInfo.new_child} 명</Text>
+                        <Text style={{...styles.title, flex: 1}}>기존인원</Text>
+                        <Text style={{
+                            ...styles.content,
+                            flex: 1
+                        }}>{confirmInfo.old_child === null ? 0 : confirmInfo.old_child} 명</Text>
+
+                    </View>
 
                 </View>
-
-            </View>
-            <View style={styles.container}>
-                <Text style={{...styles.title, flex: undefined, marginBottom: 5}}>
-                    특이사항
-                </Text>
-                <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100}}>
-                    <Text>
-                        {confirmInfo.etc}
+                <View style={styles.container}>
+                    <Text style={{...styles.title, flex: undefined, marginBottom: 5}}>
+                        특이사항
                     </Text>
-                </View>
+                    <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100}}>
+                        <Text>
+                            {confirmInfo.etc}
+                        </Text>
+                    </View>
 
-            </View>
-            <View style={{...styles.container, width: "50%", justifyContent: "flex-end", alignSelf: "flex-end"}}>
-                <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
-                    <Text style={{...styles.title, flex: undefined, marginRight: 10}}>현장요원</Text>
-                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{agentName}</Text>
                 </View>
-                <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
-                    <Text style={{...styles.title, flex: undefined, marginRight: 10}}>시설담당자</Text>
-                    <Text style={{...styles.content, flex: undefined, fontSize: 16}}>{confirmInfo.manager_name}</Text>
+                <View style={{...styles.container, width: "50%", justifyContent: "flex-end", alignSelf: "flex-end"}}>
+                    <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
+                        <Text style={{...styles.title, flex: undefined, marginRight: 10}}>현장요원</Text>
+                        <Text style={{
+                            ...styles.content,
+                            flex: undefined,
+                            fontSize: 16
+                        }}>{confirmInfo.agent_name.join(", ")}</Text>
+                    </View>
+                    <View style={{...styles.item, flex: undefined, justifyContent: "center"}}>
+                        <Text style={{...styles.title, flex: undefined, marginRight: 10}}>시설담당자</Text>
+                        <Text
+                            style={{...styles.content, flex: undefined, fontSize: 16}}>{confirmInfo.manager_name}</Text>
+                    </View>
                 </View>
+                {confirmInfo.complete === "complete" ?
+                    <CustomButton onPress={() => setModalVisible(false)} width={150} height={40}
+                                  backgroundColor={Style.color2} content={"닫기"}/> :
+                    <CustomButton onPress={onPress} width={150} height={40} backgroundColor={Style.color2}
+                                  content={isLoading.sendConfirm ? <ActivityIndicator/> : "서명"}/>}
             </View>
-            {confirmInfo.complete==="complete"?<CustomButton onPress={()=>setModalVisible(false)} width={150} height={40} backgroundColor={Style.color2} content={"닫기"}/>:<CustomButton onPress={onPress}width={150} height={40} backgroundColor={Style.color2} content={"서명"}/>}
-        </View>
 
     );
 }

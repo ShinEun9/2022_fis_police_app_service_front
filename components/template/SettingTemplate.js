@@ -34,7 +34,7 @@ function SettingTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title={"설정페이지"}/>
+                <CustomNavigation navigation={props.navigation} type="joinSettingNavbar" title={"설정페이지"}/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>
                 <SettingInputForm props={props} centerInfo={props.route.params} onPressLogout={onPressLogout}/>

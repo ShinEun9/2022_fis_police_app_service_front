@@ -67,7 +67,7 @@ function SearchCenterTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 0.5}}>
-                <CustomNavigation navigation={props.navigation} type="noGearTitleNavbar" title={props.route.params==="setting"?"설정페이지":"회원가입"}/>
+                <CustomNavigation navigation={props.navigation} type="joinSettingNavbar" title={props.route.params==="setting"?"설정페이지":"회원가입"}/>
             </View>
             <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
                 <SearchInputForm currentInfo={currentInfo} handleChange={handleChange}
