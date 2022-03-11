@@ -37,7 +37,6 @@ function ApplyCenterTemplate(props) {
                     h_address: res.data.center_address,
                     h_ph: res.data.o_ph
                 })
-                AsyncStorage.removeItem("@token")
             }).catch((err) => {
                 console.log(err)
                 setIsLoading({...isLoading, getCurrentInfoLoading: false})
