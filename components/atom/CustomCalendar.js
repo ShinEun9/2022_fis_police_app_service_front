@@ -42,7 +42,6 @@ function CustomCalendar({props}) {
                     {},
                 );
                 setMarkedDates({...obj1, ...obj2})
-                AsyncStorage.removeItem("@token")
             })
             .catch((err) => {
                     setIsLoading(false)

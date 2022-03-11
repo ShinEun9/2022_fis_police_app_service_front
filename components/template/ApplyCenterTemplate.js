@@ -6,6 +6,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 function ApplyCenterTemplate(props) {
     const [currentInfo, setCurrentInfo] = useState({
@@ -36,10 +37,11 @@ function ApplyCenterTemplate(props) {
                     h_address: res.data.center_address,
                     h_ph: res.data.o_ph
                 })
+                AsyncStorage.removeItem("@token")
             }).catch((err) => {
                 console.log(err)
                 setIsLoading({...isLoading, getCurrentInfoLoading: false})
-
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 
@@ -87,6 +89,7 @@ function ApplyCenterTemplate(props) {
             }).catch((err) => {
                 console.log(err)
                 setIsLoading({...isLoading, sendApplicationLoading: false})
+                showErrorMessage(err.response.data.message,setLogin,props);
 
             })
     }

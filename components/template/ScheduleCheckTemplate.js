@@ -180,8 +180,8 @@ function ScheduleCheckTemplate(props) {
                 >
                     <View style={{...styles.container, width: useWindowDimensions().width * 0.95, height: "auto"}}>
                         {whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}
-                                                                        schedule_id={selectedScheduleInfo.schedule_id}/> :
-                            <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo}/>}
+                                                                        schedule_id={selectedScheduleInfo.schedule_id} props={props}/> :
+                            <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo} props={props}/>}
 
                     </View>
                 </Modal>

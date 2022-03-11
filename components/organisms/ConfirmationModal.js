@@ -4,8 +4,12 @@ import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import CustomButton from "../atom/CustomButton";
+import {showErrorMessage} from "../showErrorMessage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
-function ConfirmationModal({setModalVisible, schedule_id, agentList}) {
+function ConfirmationModal({setModalVisible, schedule_id, props}) {
+    const [login, setLogin]=useRecoilState(loginState)
     const [confirmInfo, setConfirmInfo] = useState([]);
     const [isLoading, setIsLoading] = useState({
         getData: true,
@@ -28,6 +32,8 @@ function ConfirmationModal({setModalVisible, schedule_id, agentList}) {
             }).catch((err) => {
                 console.log(err)
                 setIsLoading({...isLoading, getData: false})
+                showErrorMessage(err.response.data.message, setLogin, props)
+
             })
     }
     const onPress = () => {
@@ -52,12 +58,14 @@ function ConfirmationModal({setModalVisible, schedule_id, agentList}) {
             .then((res) => {
                 console.log(res.data)
                 setIsLoading({...isLoading, sendConfirm: false})
+                setModalVisible(false)
+
 
             }).catch((err) => {
                 console.log(err)
                 setIsLoading({...isLoading, sendConfirm: false})
+                showErrorMessage(err.response.data.message,setLogin,props);
             })
-        setModalVisible(false)
     }
     return (
         isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator/></View> :
