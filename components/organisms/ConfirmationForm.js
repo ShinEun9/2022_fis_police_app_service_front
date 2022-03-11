@@ -18,8 +18,12 @@ import {FontAwesome} from "@expo/vector-icons";
 import DatePicker from "../atom/DatePicker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {showErrorMessage} from "../showErrorMessage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
-function ConfirmationForm({setModalVisible, defaultValue}) {
+function ConfirmationForm({setModalVisible, defaultValue, props}) {
+    const [login, setLogin] = useRecoilState(loginState)
     const [currentInfo, setCurrentInfo] = useState({
         c_name: "",
         c_address: "",
@@ -72,7 +76,7 @@ function ConfirmationForm({setModalVisible, defaultValue}) {
             }).catch((err) => {
                 console.log(err)
                 setIsLoading(false)
-
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 

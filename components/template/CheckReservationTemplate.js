@@ -135,6 +135,8 @@ function CheckReservationTemplate(props) {
                 console.log(agentList)
             }).catch((err) => {
                 setIsLoading(false)
+                showErrorMessage(err.response.data.message,setLogin,props);
+
                 console.log("현장요원 에러")
                 console.log(err)
             })

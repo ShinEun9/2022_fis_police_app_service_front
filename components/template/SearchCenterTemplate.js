@@ -7,6 +7,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
+import {showErrorMessage} from "../showErrorMessage";
 
 
 function SearchCenterTemplate(props) {
@@ -39,6 +40,8 @@ function SearchCenterTemplate(props) {
             .catch((err) => {
                 console.log(err)
                 setIsLoading(false)
+                showErrorMessage(err.response.data.message, setLogin, props)
+
             })
     }
 

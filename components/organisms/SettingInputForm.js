@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import CustomImageButton from "../atom/CustomImageButton";
+import {showErrorMessage} from "../showErrorMessage";
 
 function SettingInputForm({props, centerInfo, onPressLogout}) {
     const [currentInfo, setCurrentInfo] = useState({})
@@ -41,6 +42,8 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
             .catch((err) => {
                 setIsLoading({...isLoading, getDataLoading: false})
                 console.log(err)
+                showErrorMessage(err.response.data.message, setLogin, props,)
+
             })
     }
 
@@ -63,6 +66,8 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
             }).catch((err) => {
                 console.log(err);
                 setIsLoading({...isLoading, editButtonLoading: false})
+                showErrorMessage(err.response.data.message,setLogin,props);
+
             })
     }
 

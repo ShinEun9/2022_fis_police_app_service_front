@@ -85,6 +85,7 @@ function ScheduleAcceptTemplate(props) {
             })
             .catch((err) => {
                 console.log(err)
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 
@@ -99,8 +100,7 @@ function ScheduleAcceptTemplate(props) {
         if (keyValue[0] === "accept") {
             // console.log(schedule_id)
             Alert.alert(
-                "수락하시겠습니까?",
-                "My Alert Msg",
+                "수락하시겠습니까?","",
                 [
                     {
                         text: "취소",
@@ -121,7 +121,7 @@ function ScheduleAcceptTemplate(props) {
         } else {
             Alert.alert(
                 "거절 하시겠습니까?",
-                "My Alert Msg",
+                "",
                 [
                     {
                         text: "취소",
