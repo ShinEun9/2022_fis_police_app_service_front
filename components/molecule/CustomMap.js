@@ -10,7 +10,7 @@ import async from "async";
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
 
-let LATITUDE_DELTA = 0.005;
+let LATITUDE_DELTA = 0.004;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
@@ -29,7 +29,12 @@ const customLocation ={
 }
 let newLocation={}
 export default function CustomMap() {
-    const [location, setLocation] = useState();
+    const [location, setLocation] = useState({
+        latitude:0,
+        longitude:0,
+        latitudeDelta:0,
+        longitudeDelta:0
+    });
     const [ok,setOk]=useState(true);
     const ask = async ()=>{
         const {granted} = await Location.requestForegroundPermissionsAsync();

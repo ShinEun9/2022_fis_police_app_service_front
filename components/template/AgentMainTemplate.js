@@ -43,7 +43,10 @@ function AgentMainTemplate({props}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
     const [login, setLogin] = useRecoilState(loginState);
-
+    const [location, setLocation] = useState({
+        latitude:0,
+        longitude:0
+    })
     const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
     const [latitude, setLatitude] = useState();
@@ -70,15 +73,17 @@ function AgentMainTemplate({props}) {
     useEffect((options, callback) => {
         Location.watchPositionAsync({
             accuracy: Location.Accuracy.Balanced,
-            timeInterval: 300,
-            distanceInterval: 1
+            timeInterval: 10000,
+            // distanceInterval: 1
         }, position => {
             const {latitude, longitude} = position.coords;
-            setLatitude(latitude)
-            setLongitude(longitude)
+
         })
         console.log("send")
+        setLocation({latitude,longitude})
+
     })// 시간 간격마다 사용자의 위치 변화 추적 근데 안됨,,,,,,왜!!!!!! https://velog.io/@flowersayo/React-NativeExpo%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-GPS-%EC%9C%84%EC%B9%98%EC%B6%94%EC%A0%81-%EB%9F%AC%EB%8B%9D-%ED%8A%B8%EB%9E%98%ED%82%B9-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0
+
 
 
     const getToken = async () => {
@@ -90,12 +95,14 @@ function AgentMainTemplate({props}) {
         await axios.get(`http://localhost:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setSchedule(res.data);
                 setIsLoading(false)
             })
             .catch((err) => {
                 console.log(err)
+                setIsLoading(false)
+
             })
     }
 
