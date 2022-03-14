@@ -44,62 +44,74 @@ function AgentMainTemplate({props}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
     const [login, setLogin] = useRecoilState(loginState);
-
     const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
-    const [latitude, setLatitude] = useState();
-    const [longitude, setLongitude] = useState();
 
-    const ask = async (options, callback) => {
+
+    const ask = async (options) => {
         const {granted} = await Location.requestForegroundPermissionsAsync();
         if (!granted) {
             setOk(false);
         }
-        const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync({distanceInterval: 2})
-        newLocation = {
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-        }
-        setaLocation(newLocation)
     }
-    useEffect(() => {
-        ask();
-    }, []); // 처음 로딩했을 때 권한 요청 & 처음 위치 get
-
-    useEffect((options, callback) => {
-        Location.watchPositionAsync({
-            accuracy: Location.Accuracy.Balanced,
-            timeInterval: 300,
-            distanceInterval: 1
-        }, position => {
-            const {latitude, longitude} = position.coords;
-            setLatitude(latitude)
-            setLongitude(longitude)
-        })
-        console.log("send")
-    })// 시간 간격마다 사용자의 위치 변화 추적 근데 안됨,,,,,,왜!!!!!! https://velog.io/@flowersayo/React-NativeExpo%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-GPS-%EC%9C%84%EC%B9%98%EC%B6%94%EC%A0%81-%EB%9F%AC%EB%8B%9D-%ED%8A%B8%EB%9E%98%ED%82%B9-%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0
-
-
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
 
+    useEffect(() => {
+        ask();
+    }, []); // 처음 로딩했을 때 권한 요청 & 처음 위치 get
+
+    const sendLocation = async (token,lat,lng) => {
+        const location={
+            a_cur_lat:lat.toString(),
+            a_cur_long:lng.toString()
+        }
+        console.log(location)
+        await axios.post(`http://localhost:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log("send")
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const toSendLoc = (latitude,longitude) => {
+        getToken().then((res) => {
+            sendLocation(res,latitude,longitude)
+        })
+    }
+
+    useEffect((options, callback) => {
+        if(ok===true) {
+            Location.watchPositionAsync({
+                    accuracy: Location.Accuracy.Balanced,
+                    timeInterval: 1000,
+                    // distanceInterval: 1
+                }, position => {
+                    // console.log(position)
+                    const {latitude, longitude} = position.coords;
+                    toSendLoc(latitude, longitude)
+                },
+            )
+        }
+    }, [])
+
     const getTodaySchedule = async (token) => {
         await axios.get(`http://localhost:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setSchedule(res.data);
                 setIsLoading(false)
             })
             .catch((err) => {
-                console.log(err)
                 console.log(err.response)
                 setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props, "main")
+
             })
     }
 
@@ -126,10 +138,11 @@ function AgentMainTemplate({props}) {
 
     }
 
+
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
-                <CustomNavigation props={props} type="agentMain" />
+                <CustomNavigation props={props} type="agentMain"/>
             </View>
             <View style={{flex: 9}}>
                 <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
@@ -142,14 +155,14 @@ function AgentMainTemplate({props}) {
                         marginBottom: 5
                     }}>
                         <Text style={{fontSize: 24, marginRight: 10}}>오늘 일정</Text>
-                        <TouchableOpacity style={{flexDirection:"row", alignItems:"center"}} onPress={() => {
+                        <TouchableOpacity style={{flexDirection: "row", alignItems: "center"}} onPress={() => {
                             setIsLoading(true)
                             getToken().then((res) => {
                                 getTodaySchedule(res)
                             })
                         }}>
                             <Text style={{color: "gray"}}>일정 새로고침 </Text>
-                            <FontAwesome name="refresh" size={15} color="gray" />
+                            <FontAwesome name="refresh" size={15} color="gray"/>
                         </TouchableOpacity>
 
                     </View>
@@ -164,7 +177,7 @@ function AgentMainTemplate({props}) {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <ActivityIndicator />
+                            <ActivityIndicator/>
                         </View> :
                         <ListContainer onPress={onPress} info={schedule} minHeight="300"
                                        listButtonContent="늦음"/>

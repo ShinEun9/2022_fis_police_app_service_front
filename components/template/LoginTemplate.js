@@ -74,7 +74,7 @@ function LoginTemplate({props}) {
                     }
                 }).catch((err) => {
                     setIsLoading(false);
-                    console.log(err.response.message)
+                    console.log(err)
                 })
         }
 

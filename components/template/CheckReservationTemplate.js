@@ -32,6 +32,8 @@ import {showErrorMessage} from "../showErrorMessage";
 
 const screen = Dimensions.get("window");
 let nowSchedule = -1;
+let c_latitude;
+let c_longitude;
 
 
 function CheckReservationTemplate(props) {
@@ -46,7 +48,6 @@ function CheckReservationTemplate(props) {
     const [isLoading, setIsLoading] = useState(true)
     const [login, setLogin] = useRecoilState(loginState);
 
-
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
@@ -55,7 +56,6 @@ function CheckReservationTemplate(props) {
         getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
-            // getConfirmation(token)
         })
     }, [])
 
@@ -107,7 +107,6 @@ function CheckReservationTemplate(props) {
                 console.log(res.data)
                 let list = []
                 res.data.map((data, index) => {
-
                     if(data.a_picture===null){
                         list[index] = {
                             key: index,
@@ -129,6 +128,8 @@ function CheckReservationTemplate(props) {
                         }
                     }
                     nowSchedule = data.schedule_id
+                    c_latitude=data.c_latitude
+                    c_longitude=data.c_longitude
                 })
                 setIsLoading(false)
                 setAgentList(list)
@@ -155,7 +156,7 @@ function CheckReservationTemplate(props) {
                         <Text style={styles.text}>{agentList.late_comment}</Text>
                     </View>
                     <View style={styles.map}>
-                        <CustomMap/>
+                        <CustomMap c_latitude={c_latitude} c_longitude={c_longitude}/>
                     </View>
                     <View style={styles.info}>
                         <ScrollView horizontal pagingEnabled>
