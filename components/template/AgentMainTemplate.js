@@ -59,9 +59,6 @@ function AgentMainTemplate({props}) {
         return t
     }
 
-    useEffect(() => {
-        ask();
-    }, []); // 처음 로딩했을 때 권한 요청 & 처음 위치 get
 
     const sendLocation = async (token,lat,lng) => {
         const location={
@@ -69,7 +66,7 @@ function AgentMainTemplate({props}) {
             a_cur_long:lng.toString()
         }
         console.log(location)
-        await axios.post(`http://localhost:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://54.175.8.114:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("send")
             })
@@ -85,6 +82,7 @@ function AgentMainTemplate({props}) {
     }
 
     useEffect((options, callback) => {
+        ask();
         if(ok===true) {
             Location.watchPositionAsync({
                     accuracy: Location.Accuracy.Balanced,
@@ -100,7 +98,7 @@ function AgentMainTemplate({props}) {
     }, [])
 
     const getTodaySchedule = async (token) => {
-        await axios.get(`http://localhost:8080/app/schedule/today`,
+        await axios.get(`http://54.175.8.114:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 // console.log(res);
