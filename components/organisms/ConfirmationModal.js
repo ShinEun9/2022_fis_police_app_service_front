@@ -23,7 +23,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     }
 
     const getData = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://localhost:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("확인서")
                 console.log(res.data)
@@ -54,7 +54,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const sendData = async (token) => {
         let confirm_id = {confirm_id: confirmInfo.confirm_id}
         console.log(confirm_id)
-        await axios.post(`http://54.175.8.114:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://localhost:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
                 setIsLoading({...isLoading, sendConfirm: false})

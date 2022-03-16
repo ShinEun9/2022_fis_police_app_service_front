@@ -47,22 +47,29 @@ function ScheduleCheckTemplate(props) {
         return t
     }
 
+    const getData = () => {
+        getToken.then((token) => {
+            getFutureData(token)
+        })
+    }
+
     const getFutureData = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/schedule/agent`,
+        console.log("getFutureData 요청")
+        await axios.get(`http://localhost:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 getPastData(token, res.data)
             })
             .catch((err) => {
-                console.log(err)
-                console.log(err.response)
-                showErrorMessage(err.response.data.message, setLogin, props)
+                setIsLoading(true)
+                console.log("getFutureData 실패")
+                showErrorMessage(err.response.data.message, setLogin, props, getData)
                 setIsLoading(false)
             })
     }
 
     const getPastData = async (token, futureData) => {
-        await axios.get(`http://54.175.8.114:8080/app/schedule/old`,
+        await axios.get(`http://localhost:8080/app/schedule/old`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 // console.log(res.data)
@@ -73,8 +80,8 @@ function ScheduleCheckTemplate(props) {
             .catch((err) => {
                 // console.log(err)
                 // console.log(err.response.data.message)
-                setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props)
+                setIsLoading(false)
             })
     }
 
@@ -180,8 +187,10 @@ function ScheduleCheckTemplate(props) {
                 >
                     <View style={{...styles.container, width: useWindowDimensions().width * 0.95, height: "auto"}}>
                         {whichModal === "complete" ? <ConfirmationModal setModalVisible={setModalVisible}
-                                                                        schedule_id={selectedScheduleInfo.schedule_id} props={props}/> :
-                            <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo} props={props}/>}
+                                                                        schedule_id={selectedScheduleInfo.schedule_id}
+                                                                        props={props}/> :
+                            <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo}
+                                              props={props}/>}
 
                     </View>
                 </Modal>

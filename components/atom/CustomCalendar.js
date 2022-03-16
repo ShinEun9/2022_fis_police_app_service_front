@@ -20,7 +20,7 @@ function CustomCalendar({props}) {
     }
 
     const getData = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/confirm/calendar`,
+        await axios.get(`http://localhost:8080/app/confirm/calendar`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data);
@@ -42,11 +42,12 @@ function CustomCalendar({props}) {
                     {},
                 );
                 setMarkedDates({...obj1, ...obj2})
+                AsyncStorage.removeItem("@token");
             })
             .catch((err) => {
                     setIsLoading(false)
-                    console.log(err)
-                    console.log(err.response.data.message);
+                    // console.log(err)
+                    // console.log(err.response.data.message);
                     showErrorMessage(err.response.data.message, setLogin, props, "main")
                 }
             )
