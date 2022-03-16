@@ -32,7 +32,7 @@ function SearchCenterTemplate(props) {
         let {c_name} = currentInfo;
         console.log(c_name)
         let c_address, c_ph;
-        await axios.get(`http://54.175.8.114:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
+        await axios.get(`http://localhost:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
             .then((res) => {
                 setIsLoading(false)
                 setCenterList(res.data.data)

@@ -17,13 +17,34 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {"googleMapsApiKey":"REACT_APP_MAP_APIKEY"},
+      "bundleIdentifier":"com.example",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIBackgroundModes": ["location", "fetch"],
+        "CFBundleAllowMixedLocalizations": true,
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "App requires geolocation to improve the quality of the service",
+        "NSLocationAlwaysUsageDescription": "App requires geolocation to improve the quality of the service",
+        "NSLocationWhenInUseUsageDescription": "App requires geolocation to improve the quality of the service",
+        "NSCameraUsageDescription": "The picture will be used to inform the state of the packages during delivery"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config":{"googleMaps": {"apiKey": "REACT_APP_MAP_APIKEY"}},
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "permissions":[
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

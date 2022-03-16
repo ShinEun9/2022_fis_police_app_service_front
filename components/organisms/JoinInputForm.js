@@ -24,7 +24,7 @@ function JoinInputForm({props, center_id}) {
 
     const onPress = async () => {
         setIsLoading(true)
-        await axios.post(`http://54.175.8.114:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
+        await axios.post(`http://localhost:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
             console.log(res)
             setIsLoading(false)
 

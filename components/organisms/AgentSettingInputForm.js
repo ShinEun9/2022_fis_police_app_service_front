@@ -29,7 +29,7 @@ function AgentSettingInputForm({onPressLogout, props}) {
     }
 
     const getData = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/agent/setting`,
+        await axios.get(`http://localhost:8080/app/agent/setting`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
