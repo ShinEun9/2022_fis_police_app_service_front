@@ -67,15 +67,14 @@ function AgentMainTemplate({props}) {
             a_cur_lat:lat.toString(),
             a_cur_long:lng.toString()
         }
-        console.log(location)
-
-        await axios.post(`http://localhost:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://54.175.8.114:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(location)
                 console.log("send")
             })
             .catch((err) => {
                 console.log("전송에러")
+                console.log(token)
                 console.log(err)
             })
     }
@@ -90,8 +89,7 @@ function AgentMainTemplate({props}) {
         if(ok===true) {
             Location.watchPositionAsync({
                     accuracy: Location.Accuracy.Balanced,
-                    timeInterval: 60000,
-                    distanceInterval: 1
+                    timeInterval: 30000,
                 }, position => {
                     // console.log(position)
                     const {latitude, longitude} = position.coords;
@@ -102,7 +100,7 @@ function AgentMainTemplate({props}) {
     }, [])
 
     const getTodaySchedule = async (token) => {
-        await axios.get(`http://localhost:8080/app/schedule/today`,
+        await axios.get(`http://54.175.8.114:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 // console.log(res);
@@ -140,8 +138,8 @@ function AgentMainTemplate({props}) {
 
     }
 
-
     return (
+
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1}}>
                 <CustomNavigation props={props} type="agentMain"/>

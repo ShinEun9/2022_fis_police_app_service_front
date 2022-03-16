@@ -18,6 +18,7 @@ let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
 export default function CustomMap({c_latitude, c_longitude}) {
+
     // const [location, setLocation] = useState({
     //     latitude:0,
     //     longitude:0,
@@ -45,7 +46,20 @@ export default function CustomMap({c_latitude, c_longitude}) {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
     }
-    const [agentLoc, setAgentLoc] = useState([])
+    const [agentLoc, setAgentLoc] = useState([{
+        key:-1,
+        coords:{
+            latitude:0,
+            longitude:0
+        }
+    }])
+
+    const example={
+        latitude:37.477732,
+        longitude: 126.880938,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+    }
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
@@ -57,12 +71,12 @@ export default function CustomMap({c_latitude, c_longitude}) {
             getToken().then((token) => {
                 getAgentLocation(token)
             })
-        },60000)
+        },3000000000000000000)
     }, [])
 
 
     const getAgentLocation = async (token) => {
-        await axios.get(`http://localhost:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://54.175.8.114:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("현장요원 위치")
                 console.log(res.data)
@@ -71,33 +85,30 @@ export default function CustomMap({c_latitude, c_longitude}) {
                     buf[index] = {
                         key: data.agent_id,
                         coords: {
-                            latitude: parseInt(data.a_cur_lat),
-                            longitude: parseInt(data.a_cur_long)
+                            latitude: parseFloat(data.a_cur_lat),
+                            longitude: parseFloat(data.a_cur_long)
                         }
                     }
                 })
                 setAgentLoc(buf)
                 console.log("set")
             }).catch((err) => {
-                console.log("getError")
                 console.log(err)
             })
     }
+    console.log(agentLoc)
     return (
         // isLoading ? <View
         //     style={{flex: 9, justifyContent: "center", alignItems: "center"}}><ActivityIndicator/></View> : <MapView style={styles.map} region={location} loadingEnabled>
         //     <Marker coordinate={location}/>
         // </MapView>
-        <MapView style={styles.map} region={location} loadingEnabled provider={PROVIDER_GOOGLE}>
-            <Marker coordinate={location}/>
-            {agentLoc.map((data, index) => {
-                console.log("움직인다")
-                return <Marker cordinate={data.coords}/>
-            })}
-            {/*{example.map((data)=>{*/}
-            {/*    return <Marker key={data.key} coordinate={data.coords}/>*/}
-            {/*})}*/}
+        <MapView style={styles.map} region={example} loadingEnabled provider={PROVIDER_GOOGLE}>
+            <Marker coordinate={example}/>
 
+            {agentLoc.map((data, index) => {
+                return <Marker key={data.key} coordinate={data.coords}/>
+
+            })}
         </MapView>
 
 
