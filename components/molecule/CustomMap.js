@@ -1,5 +1,5 @@
 import * as React from 'react';
-import MapView from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {Marker} from "react-native-maps";
 import {StyleSheet, Text, View, Dimensions, ActivityIndicator} from 'react-native';
 import * as Location from 'expo-location';
@@ -9,44 +9,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 
+
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
 
 let LATITUDE_DELTA = 0.004;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let newLocation = {}
-const example = [
-    {
-        key: 1,
-        coords: {
-            latitude: 37.579043,
-            longitude: 127.064816
-        }
-    },
-    {
-        key: 5,
-        coords: {
-            latitude:  37.577869,
-            longitude: 127.063905
-        }
-    },
-    // {
-    //     key: 1,
-    //     coords: {
-    //         latitude: 37.57727289,
-    //         longitude: 127.065358
-    //     }
-    // },
-    // {
-    //     key: 1,
-    //     coords: {
-    //         latitude: 37.487428,
-    //         longitude: 126.891959
-    //     }
-    // }
-]
+
 export default function CustomMap({c_latitude, c_longitude}) {
+
     // const [location, setLocation] = useState({
     //     latitude:0,
     //     longitude:0,
@@ -69,12 +41,25 @@ export default function CustomMap({c_latitude, c_longitude}) {
     //     setLocation(newLocation)
     // }
     const location = {
-        latitude: c_latitude,
+        latitude:c_latitude,
         longitude: c_longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
     }
-    const [agentLoc, setAgentLoc] = useState([])
+    const [agentLoc, setAgentLoc] = useState([{
+        key:-1,
+        coords:{
+            latitude:0,
+            longitude:0
+        }
+    }])
+
+    const example={
+        latitude:37.477732,
+        longitude: 126.880938,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+    }
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
@@ -86,12 +71,12 @@ export default function CustomMap({c_latitude, c_longitude}) {
             getToken().then((token) => {
                 getAgentLocation(token)
             })
-        },300000)
-
+        },3000000000000000000)
     }, [])
 
+
     const getAgentLocation = async (token) => {
-        await axios.get(`http://localhost:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://54.175.8.114:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("현장요원 위치")
                 console.log(res.data)
@@ -100,32 +85,30 @@ export default function CustomMap({c_latitude, c_longitude}) {
                     buf[index] = {
                         key: data.agent_id,
                         coords: {
-                            latitude: parseInt(data.a_cur_lat),
-                            longitude: parseInt(data.a_cur_long)
+                            latitude: parseFloat(data.a_cur_lat),
+                            longitude: parseFloat(data.a_cur_long)
                         }
                     }
                 })
                 setAgentLoc(buf)
+                console.log("set")
             }).catch((err) => {
                 console.log(err)
             })
     }
-
+    console.log(agentLoc)
     return (
         // isLoading ? <View
         //     style={{flex: 9, justifyContent: "center", alignItems: "center"}}><ActivityIndicator/></View> : <MapView style={styles.map} region={location} loadingEnabled>
         //     <Marker coordinate={location}/>
         // </MapView>
-        <MapView style={styles.map} region={location} loadingEnabled>
-            <Marker coordinate={location}/>
-            {agentLoc.map((data, index) => {
-                console.log("움직인다")
-                return <Marker cordinate={data.coords}/>
-            })}
-            {/*{example.map((data)=>{*/}
-            {/*    return <Marker key={data.key} coordinate={data.coords}/>*/}
-            {/*})}*/}
+        <MapView style={styles.map} region={example} loadingEnabled provider={PROVIDER_GOOGLE}>
+            <Marker coordinate={example}/>
 
+            {agentLoc.map((data, index) => {
+                return <Marker key={data.key} coordinate={data.coords}/>
+
+            })}
         </MapView>
 
 

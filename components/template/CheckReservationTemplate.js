@@ -66,7 +66,7 @@ function CheckReservationTemplate(props) {
 
 
     const getHistoryList = async (token) => {
-        await axios.get(`http://localhost:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://54.175.8.114:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("과거기록")
                 console.log(res.data)
@@ -89,7 +89,7 @@ function CheckReservationTemplate(props) {
     }
 
     // const getConfirmation = async (token) => {
-    //     await axios.get(`http://localhost:8080/app/confirm/${nowSchedule}`, {headers: {Authorization: `Bearer ${token}`}})
+    //     await axios.get(`http://54.175.8.114:8080/app/confirm/${nowSchedule}`, {headers: {Authorization: `Bearer ${token}`}})
     //         .then((res) => {
     //             console.log("확인서")
     //             console.log(res.data)
@@ -101,7 +101,7 @@ function CheckReservationTemplate(props) {
 
 
     const getAgentList = async (token) => {
-        await axios.get(`http://localhost:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://54.175.8.114:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("현장요원")
                 console.log(res.data)
@@ -128,7 +128,7 @@ function CheckReservationTemplate(props) {
                         }
                     }
                     nowSchedule = data.schedule_id
-                    c_latitude=data.c_latitude
+                    c_latitude=data.c_latitude,
                     c_longitude=data.c_longitude
                 })
                 setIsLoading(false)
@@ -137,7 +137,6 @@ function CheckReservationTemplate(props) {
             }).catch((err) => {
                 setIsLoading(false)
                 showErrorMessage(err.response.data.message,setLogin,props);
-
                 console.log("현장요원 에러")
                 console.log(err)
             })

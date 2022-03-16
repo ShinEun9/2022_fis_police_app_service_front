@@ -49,8 +49,10 @@ function ScheduleCheckTemplate(props) {
 
 
     const getFutureData = async (token) => {
+
         console.log("getFutureData 요청")
-        await axios.get(`http://localhost:8080/app/schedule/agent`,
+
+        await axios.get(`http://54.175.8.114:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 getPastData(token, res.data)
@@ -64,7 +66,7 @@ function ScheduleCheckTemplate(props) {
     }
 
     const getPastData = async (token, futureData) => {
-        await axios.get(`http://localhost:8080/app/schedule/old`,
+        await axios.get(`http://54.175.8.114:8080/app/schedule/old`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 // console.log(res.data)

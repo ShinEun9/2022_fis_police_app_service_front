@@ -23,7 +23,7 @@ export async function showErrorMessage(message, setLogin, props, page = "notMain
     }
 
     const apiRequest = async (rT) => {
-        await axios.get(`http://localhost:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${rT}`}})
+        await axios.get(`http://54.175.8.114:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${rT}`}})
             .then((res) => {
                 console.log("만료됐으니깐 다시 토큰 불러옴 성공")
                 AsyncStorage.setItem("@token", res.data.accessToken);

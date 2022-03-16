@@ -40,7 +40,7 @@ function CustomModal({
             setModalVisible(!modalVisible)
         }
         else{
-            // await axios.post(`http://localhost:8080/app/confirm/check/${schedule_id}`,confirm_id)
+            // await axios.post(`http://54.175.8.114:8080/app/confirm/check/${schedule_id}`,confirm_id)
             console.log("제출했슴둥")
             setModalVisible(!modalVisible)
         }
