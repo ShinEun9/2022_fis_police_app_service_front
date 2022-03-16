@@ -54,7 +54,9 @@ function ScheduleCheckTemplate(props) {
     }
 
     const getFutureData = async (token) => {
+
         console.log("getFutureData 요청")
+
         await axios.get(`http://localhost:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {

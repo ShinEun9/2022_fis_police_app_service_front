@@ -49,8 +49,8 @@ function AgentMainTemplate({props}) {
 
 
     const ask = async (options) => {
-        const {granted} = await Location.requestForegroundPermissionsAsync();
-        if (!granted) {
+        const {status}=await Location.requestForegroundPermissionsAsync();
+        if (status!=="granted") {
             setOk(false);
         }
     }
@@ -58,7 +58,9 @@ function AgentMainTemplate({props}) {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
-
+    useEffect(()=>{
+        ask();
+    })
 
     const sendLocation = async (token,lat,lng) => {
         const location={
@@ -66,11 +68,14 @@ function AgentMainTemplate({props}) {
             a_cur_long:lng.toString()
         }
         console.log(location)
+
         await axios.post(`http://localhost:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
+                console.log(location)
                 console.log("send")
             })
             .catch((err) => {
+                console.log("전송에러")
                 console.log(err)
             })
     }
@@ -81,13 +86,12 @@ function AgentMainTemplate({props}) {
         })
     }
 
-    useEffect((options, callback) => {
-        ask();
+    useEffect(() => {
         if(ok===true) {
             Location.watchPositionAsync({
                     accuracy: Location.Accuracy.Balanced,
-                    timeInterval: 1000,
-                    // distanceInterval: 1
+                    timeInterval: 60000,
+                    distanceInterval: 1
                 }, position => {
                     // console.log(position)
                     const {latitude, longitude} = position.coords;
