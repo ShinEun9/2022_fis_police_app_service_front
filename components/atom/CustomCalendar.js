@@ -42,11 +42,12 @@ function CustomCalendar({props}) {
                     {},
                 );
                 setMarkedDates({...obj1, ...obj2})
+                AsyncStorage.removeItem("@token");
             })
             .catch((err) => {
                     setIsLoading(false)
-                    console.log(err)
-                    console.log(err.response.data.message);
+                    // console.log(err)
+                    // console.log(err.response.data.message);
                     showErrorMessage(err.response.data.message, setLogin, props, "main")
                 }
             )

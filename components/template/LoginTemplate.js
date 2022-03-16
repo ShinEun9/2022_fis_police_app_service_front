@@ -39,7 +39,6 @@ function LoginTemplate({props}) {
         //로그인 api 요청
 
         setIsLoading(true)
-
         if(currentInfo.role===""||currentInfo.u_nickname===""||currentInfo.u_pwd===""){
             setIsLoading(false)
             Alert.alert(
@@ -64,11 +63,13 @@ function LoginTemplate({props}) {
                     if (res.data.u_auth === "AGENT") {
                         setAsyncStorage("@u_auth","AGENT")
                         setAsyncStorage("@token",res.data.token);
+                        setAsyncStorage("@refresh_token",res.data.refreshToken)
                         setIsLoading(false);
                         setLogin("AGENT")
                     }else if(res.data.u_auth === "OFFICIAL"){
                         setAsyncStorage("@u_auth","OFFICIAL")
                         setAsyncStorage("@token",res.data.token);
+                        setAsyncStorage("@refresh_token",res.data.refreshToken)
                         setIsLoading(false);
                         setLogin("OFFICIAL")
                     }

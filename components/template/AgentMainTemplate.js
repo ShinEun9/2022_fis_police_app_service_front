@@ -67,6 +67,8 @@ function AgentMainTemplate({props}) {
             a_cur_lat:lat.toString(),
             a_cur_long:lng.toString()
         }
+        console.log(location)
+
         await axios.post(`http://localhost:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(location)

@@ -41,7 +41,6 @@ function SearchCenterTemplate(props) {
                 console.log(err)
                 setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props)
-
             })
     }
 
@@ -49,20 +48,20 @@ function SearchCenterTemplate(props) {
         // 시설 search api 요청
 
         setIsLoading(true);
-        getToken().then((token)=>{
+        getToken().then((token) => {
             searchRequest(token);
         })
 
     }
 
     const goSomePage = (keyValue) => {
-        if(props.route.params==="setting"){
+        if (props.route.params === "setting") {
             props.navigation.navigate({
                 name: 'SettingTemplate',
                 params: {center_id: keyValue[0], c_name: keyValue[1]},
                 merge: true,
             })
-        }else{
+        } else {
             props.navigation.navigate('JoinInfoTemplate', keyValue[0])
         }
     }
@@ -70,7 +69,8 @@ function SearchCenterTemplate(props) {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 0.5}}>
-                <CustomNavigation props={props} type="joinSettingNavbar" title={props.route.params==="setting"?"설정페이지":"회원가입"}/>
+                <CustomNavigation props={props} type="joinSettingNavbar"
+                                  title={props.route.params === "setting" ? "설정페이지" : "회원가입"}/>
             </View>
             <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
                 <SearchInputForm currentInfo={currentInfo} handleChange={handleChange}
@@ -79,9 +79,11 @@ function SearchCenterTemplate(props) {
             <View style={{flex: 7, marginTop: 10, justifyContent: "flex-start", alignItems: "center"}}>
                 {centerList === null ? null :
                     centerList.map((center) => {
-                        return <View key={center.center_id}style={{marginBottom: 15}}>
-                            <CustomRightImageButton keyValue={[center.center_id, center.c_name]} onPress={goSomePage} name="right" size={20} color="black"
-                                                    content={<View style={{height: "100%", justifyContent: 'space-between'}}>
+                        return <View key={center.center_id} style={{marginBottom: 15}}>
+                            <CustomRightImageButton keyValue={[center.center_id, center.c_name]} onPress={goSomePage}
+                                                    name="right" size={20} color="black"
+                                                    content={<View
+                                                        style={{height: "100%", justifyContent: 'space-between'}}>
                                                         <Text style={{fontSize: 20}}>{center.c_name}</Text>
                                                         <Text>{center.c_address.substr(0, 25)}...</Text>
                                                         <Text>{center.c_ph}</Text>
