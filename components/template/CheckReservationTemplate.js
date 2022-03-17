@@ -28,6 +28,7 @@ import Modal from "react-native-modal";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
+import CustomMarker from "../atom/CustomMarker";
 
 
 const screen = Dimensions.get("window");
@@ -107,19 +108,18 @@ function CheckReservationTemplate(props) {
                 console.log(res.data)
                 let list = []
                 res.data.map((data, index) => {
-                    if(data.a_picture===null){
+                    if (data.a_picture === null) {
                         list[index] = {
-                            key: index,
+                            key: data.agent_id,
                             a_name: data.a_name,
                             a_ph: data.a_ph,
                             a_picture: 'https://ifh.cc/g/pvXWYR.png',
                             late_comment: data.late_comment,
                             schedule_id: data.schedule_id,
                         }
-                    }
-                    else {
+                    } else {
                         list[index] = {
-                            key: index,
+                            key: data.agent_id,
                             a_name: data.a_name,
                             a_ph: data.a_ph,
                             a_picture: 'data:image/;base64,' + data.a_picture,
@@ -128,15 +128,15 @@ function CheckReservationTemplate(props) {
                         }
                     }
                     nowSchedule = data.schedule_id
-                    c_latitude=data.c_latitude,
-                    c_longitude=data.c_longitude
+                    c_latitude = data.c_latitude,
+                        c_longitude = data.c_longitude
                 })
                 setIsLoading(false)
                 setAgentList(list)
                 console.log(agentList)
             }).catch((err) => {
                 setIsLoading(false)
-                showErrorMessage(err.response.data.message,setLogin,props);
+                showErrorMessage(err.response.data.message, setLogin, props);
                 console.log("현장요원 에러")
                 console.log(err)
             })
