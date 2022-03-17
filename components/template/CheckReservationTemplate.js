@@ -28,6 +28,7 @@ import Modal from "react-native-modal";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
+import CustomMarker from "../atom/CustomMarker";
 
 
 const screen = Dimensions.get("window");
@@ -109,7 +110,7 @@ function CheckReservationTemplate(props) {
                 res.data.map((data, index) => {
                     if (data.a_picture === null) {
                         list[index] = {
-                            key: index,
+                            key: data.agent_id,
                             a_name: data.a_name,
                             a_ph: data.a_ph,
                             a_picture: 'https://ifh.cc/g/pvXWYR.png',
@@ -118,7 +119,7 @@ function CheckReservationTemplate(props) {
                         }
                     } else {
                         list[index] = {
-                            key: index,
+                            key: data.agent_id,
                             a_name: data.a_name,
                             a_ph: data.a_ph,
                             a_picture: 'data:image/;base64,' + data.a_picture,
