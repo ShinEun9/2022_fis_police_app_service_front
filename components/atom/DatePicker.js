@@ -4,7 +4,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {AntDesign} from "@expo/vector-icons";
 import {Style} from "../../Style";
 
-function DatePicker({id, handleChange, currentInfo}) {
+function DatePicker({id, handleChange, currentInfo, width}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -24,7 +24,7 @@ function DatePicker({id, handleChange, currentInfo}) {
         <View>
             <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
                 <View style={{
-                    width: 235,
+                    width: width,
                     height: 40,
                     flexDirection: 'row',
                     borderWidth: "2",

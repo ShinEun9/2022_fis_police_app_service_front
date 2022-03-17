@@ -8,11 +8,6 @@ import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "./CustomImageButton";
 
 
-const StyledModalGradeWrapper = styled.View`
-  flex: 1;
-  width: 320px;
-  justify-content: center;
-`;
 const screen = Dimensions.get("window");
 
 
@@ -40,18 +35,13 @@ function CustomImageModal({modalContent, onPress, name, size, color, content}) {
                 onBackdropPress={() => {
                     setIsModalVisible(false)
                 }}
-                style={{flex: 1, justifyContent: "center", alignItems: "center"}}
             >
 
                 <View style={styles.container}>
                     <View style={styles.customButton}>
                         <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
                     </View>
-                    <StyledModalGradeWrapper>
-                        <View style={styles.content}>{modalContent}</View>
-                    </StyledModalGradeWrapper>
-
-
+                    {modalContent}
                 </View>
             </Modal>
         </View>
@@ -62,15 +52,16 @@ export default CustomImageModal;
 
 const styles = StyleSheet.create({
         customButton: {
-            paddingVertical: 10,
-            marginLeft: 300
+            alignSelf: "flex-end",
+            marginRight: 10
         },
         container: {
-            flexDirection: "column",
             alignItems: "center",
             /* 모달창 크기 조절 */
             width: screen.width * 0.9,
-            height: screen.height * 0.55,
+            height: "auto",
+            paddingTop: 10,
+            paddingBottom: 20,
             backgroundColor: "white",
             borderRadius: 10,
         },
@@ -83,6 +74,10 @@ const styles = StyleSheet.create({
             fontSize: 20,
             color: "white"
         },
+        content: {
+            height: 400,
+            width: 300,
+        }
 
     }
 )

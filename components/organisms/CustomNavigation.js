@@ -26,6 +26,7 @@ function CustomNavigation({props, type, title}) {
     }
 
     const onPressOfficialSetting = () => {
+        console.log("setting")
         props.navigation.navigate("SettingTemplate")
     }
     const onPressAgentSetting = () => {
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
         flex: 3
     },
     titleText: {
-        fontSize: 20,
+        fontSize: Dimensions.get("window").width>380?21:19,
         fontWeight: "600",
         textAlign: "center",
         marginRight: 5

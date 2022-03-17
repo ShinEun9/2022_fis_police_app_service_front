@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, StyleSheet, ActivityIndicator} from "react-native";
+import {Text, SafeAreaView, View, StyleSheet, ActivityIndicator, ScrollView, Dimensions} from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
@@ -88,22 +88,27 @@ function ApplyCenterTemplate(props) {
             }).catch((err) => {
                 console.log(err)
                 setIsLoading({...isLoading, sendApplicationLoading: false})
-                showErrorMessage(err.response.data.message,setLogin,props);
+                showErrorMessage(err.response.data.message, setLogin, props);
 
             })
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{flex: 1, zIndex:1}}>
+            <View style={{flex: 0.6, zIndex: 1}}>
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
-            <View style={styles.Guide}>
-                <Text>가이드가이드가이드</Text>
+            <View style={{flex: 2.1, backgroundColor: "orange"}}>
+                <View style={styles.Guide}>
+                    <Text>가이드가이드가이드</Text>
+                </View>
             </View>
-            <View style={{...styles.InputForm, zIndex:0}}>
-                {isLoading.getCurrentInfoLoading ? <ActivityIndicator/> :
-                    <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo} isLoading={isLoading.sendApplicationLoading}/>}
+            <View style={{flex: 5}}>
+                <ScrollView>
+                        {isLoading.getCurrentInfoLoading ? <ActivityIndicator/> :
+                            <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}
+                                            isLoading={isLoading.sendApplicationLoading}/>}
+                </ScrollView>
             </View>
         </SafeAreaView>
     );
@@ -116,15 +121,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     Guide: {
-        flex: 3,
+        width: Dimensions.get("window").width,
+        height: "100%",
         alignItems: "center",
         justifyContent: "flex-start",
-        backgroundColor:"pink"
-    },
-    InputForm: {
-        flex: 6.7,
-        justifyContent:"center",
-        alignItems:"center"
-
+        backgroundColor: "pink"
     }
 })
