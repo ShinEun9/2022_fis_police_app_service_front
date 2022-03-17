@@ -71,7 +71,7 @@ export default function CustomMap({c_latitude, c_longitude}) {
             getToken().then((token) => {
                 getAgentLocation(token)
             })
-        },300000000000000000000)
+        },300000000000000000000
     }, [])
 
 

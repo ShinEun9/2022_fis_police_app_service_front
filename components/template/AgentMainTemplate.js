@@ -89,7 +89,8 @@ function AgentMainTemplate({props}) {
         if(ok===true) {
             Location.watchPositionAsync({
                     accuracy: Location.Accuracy.Balanced,
-                    timeInterval: 6000,
+                    timeInterval: 3000,
+                // distanceInterval:5
                 }, position => {
                     // console.log(position)
                     const {latitude, longitude} = position.coords;
