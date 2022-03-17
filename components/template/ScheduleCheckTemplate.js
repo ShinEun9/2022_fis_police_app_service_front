@@ -47,11 +47,6 @@ function ScheduleCheckTemplate(props) {
         return t
     }
 
-    const getData = () => {
-        getToken.then((token) => {
-            getFutureData(token)
-        })
-    }
 
     const getFutureData = async (token) => {
 
@@ -65,7 +60,7 @@ function ScheduleCheckTemplate(props) {
             .catch((err) => {
                 setIsLoading(true)
                 console.log("getFutureData 실패")
-                showErrorMessage(err.response.data.message, setLogin, props, getData)
+                showErrorMessage(err.response.data.message, setLogin, props)
                 setIsLoading(false)
             })
     }

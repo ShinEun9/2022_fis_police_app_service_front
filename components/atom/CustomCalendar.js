@@ -42,7 +42,7 @@ function CustomCalendar({props}) {
                     {},
                 );
                 setMarkedDates({...obj1, ...obj2})
-                AsyncStorage.removeItem("@token");
+                // AsyncStorage.removeItem("@token");
             })
             .catch((err) => {
                     setIsLoading(false)
@@ -63,49 +63,49 @@ function CustomCalendar({props}) {
 
 
     return (
-        <View>
-            {isLoading ? <ActivityIndicator/> :
-                <>
-                    <Calendar
-                        // Initially visible month. Default = Date()
-                        current={new Date().toString()}
-                        monthFormat={'yyyy MM'}
-                        hideArrows={false}
-                        renderArrow={(direction) => {
-                            return direction === "right" ?
-                                <FontAwesome name="angle-right" size={24} color="black"/> :
-                                <FontAwesome name="angle-left" size={24} color="black"/>
-                        }}
+            <View style={{width: 300, height: 420, justifyContent: isLoading?"center":"space-between"}}>
+                {isLoading ? <ActivityIndicator/> :
+                    <>
+                        <Calendar
+                            // Initially visible month. Default = Date()
+                            current={new Date().toString()}
+                            monthFormat={'yyyy MM'}
+                            hideArrows={false}
+                            renderArrow={(direction) => {
+                                return direction === "right" ?
+                                    <FontAwesome name="angle-right" size={24} color="black"/> :
+                                    <FontAwesome name="angle-left" size={24} color="black"/>
+                            }}
 
-                        hideExtraDays={false}
-                        disableMonthChange={true}
-                        firstDay={1}
-                        onPressArrowLeft={substractMonth => substractMonth()}
-                        onPressArrowRight={addMonth => addMonth()}
-                        disableAllTouchEventsForDisabledDays={true}
-                        markedDates={markedDates}
-                    />
+                            hideExtraDays={false}
+                            disableMonthChange={true}
+                            firstDay={1}
+                            onPressArrowLeft={substractMonth => substractMonth()}
+                            onPressArrowRight={addMonth => addMonth()}
+                            disableAllTouchEventsForDisabledDays={true}
+                            markedDates={markedDates}
+                        />
 
-                    <View>
-                        <View style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "flex-end",
-                            marginTop: 10,
-                            marginBottom: 5
-                        }}>
-                            <FontAwesome name="square" size={20} color={Style.color6}/>
-                            <Text style={{marginLeft: 10, color: Style.color5}}>근무일</Text>
+                        <View>
+                            <View style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "flex-end",
+                                marginTop: 10,
+                                marginBottom: 5
+                            }}>
+                                <FontAwesome name="square" size={20} color={Style.color6}/>
+                                <Text style={{marginLeft: 10, color: Style.color5}}>근무일</Text>
+                            </View>
+                            <View style={{flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
+
+                                <FontAwesome name="square" size={20} color={Style.color2}/>
+                                <Text style={{marginLeft: 10, color: Style.color5}}>근무 예정일</Text>
+                            </View>
+
                         </View>
-                        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "flex-end"}}>
-
-                            <FontAwesome name="square" size={20} color={Style.color2}/>
-                            <Text style={{marginLeft: 10, color: Style.color5}}>근무 예정일</Text>
-                        </View>
-
-                    </View>
-                </>
-            }
+                    </>
+                }
         </View>
     )
 }

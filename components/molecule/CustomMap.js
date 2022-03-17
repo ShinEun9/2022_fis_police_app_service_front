@@ -71,7 +71,7 @@ export default function CustomMap({c_latitude, c_longitude}) {
             getToken().then((token) => {
                 getAgentLocation(token)
             })
-        },3000)
+        },300000000000000000000
     }, [])
 
 
@@ -120,6 +120,6 @@ const styles = StyleSheet.create({
     map: {
         marginBottom: 300,
         width: (screen.width),
-        height: (screen.height) / 3,
+        height: 300
     },
 });

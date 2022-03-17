@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {StackActions} from "react-navigation";
 import axios from "axios";
 
-export async function showErrorMessage(message, setLogin, props, doFunction, page = "notMain") {
+export async function showErrorMessage(message, setLogin, props, page = "notMain") {
 
     const onPress = async () => {
         await AsyncStorage.removeItem("@u_auth")
@@ -28,7 +28,6 @@ export async function showErrorMessage(message, setLogin, props, doFunction, pag
                 console.log("만료됐으니깐 다시 토큰 불러옴 성공")
                 AsyncStorage.setItem("@token", res.data.accessToken);
                 AsyncStorage.setItem("@refresh_token", res.data.refreshToken);
-                doFunction();
             }).catch((err) => {
                 Alert.alert("로그인 시간이 만료되었습니다.", "다시 로그인해주세요", [
                     {

@@ -59,7 +59,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
             <View style={styles.Input}>
                 <Text style={styles.Text}>지문 등록 희망 날짜 :</Text>
                 <View style={styles.datePicker}>
-                    <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo}/>
+                    <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo} width={useWindowDimensions().width * 0.60} />
                 </View>
             </View>
             <View style={styles.Button}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         paddingVertical: 22
     },
     datePicker: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         paddingVertical: 9
     },
     Button: {
