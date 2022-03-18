@@ -82,7 +82,7 @@ function AgentMainTemplate({props}) {
             .catch((err) => {
                 console.log("전송에러")
                 console.log(token)
-                console.log(err)
+                console.log(err.response.data.message)
             })
     }
 
@@ -96,7 +96,7 @@ function AgentMainTemplate({props}) {
         if(ok===true) {
             Location.watchPositionAsync({
                     accuracy: Location.Accuracy.Balanced,
-                    timeInterval: 3000,
+                    timeInterval: 30000000000000000,
                 // distanceInterval:5
                 }, position => {
                     // console.log(position)
