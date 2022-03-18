@@ -58,6 +58,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const sendData = async (token) => {
         let confirm_id = {confirm_id: confirmInfo.confirm_id}
         console.log(confirm_id)
+        console.log(schedule_id)
         await axios.post(`http://54.175.8.114:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
