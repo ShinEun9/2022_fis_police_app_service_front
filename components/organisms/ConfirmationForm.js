@@ -22,7 +22,7 @@ import {showErrorMessage} from "../showErrorMessage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 
-function ConfirmationForm({setModalVisible, defaultValue, props}) {
+function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction}) {
     const [login, setLogin] = useRecoilState(loginState)
     const [currentInfo, setCurrentInfo] = useState({
         c_name: "",
@@ -70,6 +70,7 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
                 console.log(res)
                 setIsLoading(false)
                 setModalVisible(false)
+                getDataFunction();
             }).catch((err) => {
                 console.log(err)
                 setIsLoading(false)

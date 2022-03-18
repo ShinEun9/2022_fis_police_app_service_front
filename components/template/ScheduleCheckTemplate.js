@@ -117,9 +117,6 @@ function ScheduleCheckTemplate(props) {
         setModalVisible(true);
     }
 
-    useEffect(() => {
-        console.log(selectedScheduleInfo)
-    }, [selectedScheduleInfo])
 
     return (
         <SafeAreaView style={{flex: 1,}}>
@@ -190,7 +187,12 @@ function ScheduleCheckTemplate(props) {
                                                                         schedule_id={selectedScheduleInfo.schedule_id}
                                                                         props={props}/> :
                             <ConfirmationForm setModalVisible={setModalVisible} defaultValue={selectedScheduleInfo}
-                                              props={props}/>}
+                                              props={props} getDataFunction={() => {
+                                getToken().then((token) => {
+                                    getFutureData(token)
+                                })
+                            }
+                            }/>}
 
                     </View>
                 </Modal>
