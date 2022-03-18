@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
-    ActivityIndicator
+    ActivityIndicator, Dimensions
 } from "react-native";
 import CustomInput from "../atom/CustomInput";
 import CustomMultilineInput from "../atom/CustomMultilineInput";
@@ -37,10 +37,10 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
         etc: "",
     })
     const [isLoading, setIsLoading] = useState(false)
-
     useEffect(() => {
-        let date = new Date()
-        let fullDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}.`
+        let date = new Date();
+        let tmp = defaultValue['visit_time'].split(":")
+        date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), tmp[0], tmp[1])
 
         setCurrentInfo({
             ...currentInfo,
@@ -48,7 +48,7 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
             c_address: defaultValue.c_address,
             c_ph: defaultValue.c_ph,
             visit_date: new Date(defaultValue.visit_date),
-            visit_time: new Date(`${fullDate}${defaultValue.visit_time}`)
+            visit_time: date
         })
 
     }, [])
@@ -63,11 +63,8 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
         let info = {
             new_child, old_child, senile, disabled, etc
         }
-        console.log("안되면 화날듯", info)
 
         const {schedule_id} = defaultValue;
-        const {visit_time} = currentInfo
-        console.log(currentInfo)
         await axios.post(`http://54.175.8.114:8080/app/confirm/write/${schedule_id}`, info, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
@@ -95,9 +92,6 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
         })
     }
 
-    useEffect(() => {
-        console.log(currentInfo);
-    }, [currentInfo])
 
     return (
         <ScrollView style={{width: "100%", paddingHorizontal: 20}}>
@@ -124,7 +118,8 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
             <View style={styles.Input}>
                 <Text style={styles.Text}>방문 날짜 :</Text>
                 <View style={styles.timepicker}>
-                    <DatePicker id="visit_date" handleChange={handleChange} currentInfo={currentInfo}/>
+                    <DatePicker id="visit_date" handleChange={handleChange} currentInfo={currentInfo}
+                                width={`${Dimensions.get('window').width * 0.595}`}/>
                 </View>
 
             </View>
@@ -132,7 +127,8 @@ function ConfirmationForm({setModalVisible, defaultValue, props}) {
             <View style={styles.Input}>
                 <Text style={styles.Text}>방문 시간 :</Text>
                 <View style={styles.timepicker}>
-                    <Timepicker id="visit_time" handleChange={handleChange} currentInfo={currentInfo}/>
+                    <Timepicker id="visit_time" handleChange={handleChange} currentInfo={currentInfo}
+                                width={`${Dimensions.get('window').width * 0.595}`}/>
                 </View>
 
             </View>

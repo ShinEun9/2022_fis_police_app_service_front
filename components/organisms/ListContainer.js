@@ -34,7 +34,6 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
             </ScrollView>
         </View>
     } else if (type === "noButtonListContainer") {
-        console.log(info)
         element = <View style={{
             backgroundColor: `${Style.color3}`,
             padding: 10,
