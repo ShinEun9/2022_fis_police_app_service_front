@@ -52,7 +52,7 @@ function ScheduleCheckTemplate(props) {
         await axios.get(`http://54.175.8.114:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                // console.log(res.data)
+                console.log(res.data)
                 getPastData(token, res.data)
             })
             .catch((err) => {

@@ -67,8 +67,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
 
 
             }).catch((err) => {
-                console.log(err)
-                console.log("hihihihi2323232323")
+                console.log(err.response.data.message)
 
                 setIsLoading({...isLoading, sendConfirm: false})
                 showErrorMessage(err.response.data.message, setLogin, props);
