@@ -61,12 +61,15 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         await axios.post(`http://54.175.8.114:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
+                console.log("hihihihi")
                 setIsLoading({...isLoading, sendConfirm: false})
                 setModalVisible(false)
 
 
             }).catch((err) => {
                 console.log(err)
+                console.log("hihihihi2323232323")
+
                 setIsLoading({...isLoading, sendConfirm: false})
                 showErrorMessage(err.response.data.message, setLogin, props);
             })
@@ -75,7 +78,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator/></View> :
             <View style={styles.mainContainer}>
                 {confirmInfo === null ?
-                    <Text>확인서 없음</Text>
+                   <Text>확인서 없음</Text>
                     :
                     <>
                         <Text style={{fontSize: 18, fontWeight: "bold", marginBottom: 15}}>현장 등록 확인서</Text>
