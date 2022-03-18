@@ -75,8 +75,6 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
             })
     }
 
-
-
     return (
         <MapView style={styles.map} initialRegion={example} loadingEnabled provider={PROVIDER_GOOGLE}>
             <Marker coordinate={example} title={c_name} />
