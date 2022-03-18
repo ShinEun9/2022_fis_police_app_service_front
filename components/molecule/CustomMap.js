@@ -42,13 +42,6 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
         longitudeDelta: LONGITUDE_DELTA,
     }
 
-    const [agentLoc, setAgentLoc] = useState([{
-        key:-1,
-        coords:{
-            latitude:0,
-            longitude:0
-        }
-    }])
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
