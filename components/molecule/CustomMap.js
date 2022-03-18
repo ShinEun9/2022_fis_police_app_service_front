@@ -1,15 +1,10 @@
 import * as React from 'react';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import {Marker} from "react-native-maps";
-import {StyleSheet, Text, View, Dimensions, ActivityIndicator,Image} from 'react-native';
-import * as Location from 'expo-location';
+import {StyleSheet, Dimensions} from 'react-native';
 import {useEffect, useState} from "react";
-import async from "async";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import CustomMarker from "../atom/CustomMarker";
-
-
 
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
@@ -60,7 +55,9 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
             getToken().then((token) => {
                 getAgentLocation(token)
             })
-        }, 300000000000000000000)
+
+        },3000)
+
     }, [])
 
     const getAgentLocation = async (token) => {
@@ -88,19 +85,11 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
 
 
     return (
-        // isLoading ? <View
-        //     style={{flex: 9, justifyContent: "center", alignItems: "center"}}><ActivityIndicator/></View> : <MapView style={styles.map} region={location} loadingEnabled>
-        //     <Marker coordinate={location}/>
-        // </MapView>
-        <MapView style={styles.map} region={example} loadingEnabled provider={PROVIDER_GOOGLE}>
-            <Marker coordinate={example} title={c_name}/>
+        <MapView style={styles.map} initialRegion={example} loadingEnabled provider={PROVIDER_GOOGLE}>
+            <Marker coordinate={example} title={c_name} />
             {agentLoc.map((data, index) => {
-                return <Marker key={data.key} coordinate={data.coords} />
+                return <Marker key={data.key} coordinate={data.coords} image={{uri:`https://ifh.cc/g/OyMDXA.png`}} />
             })}
-
-            {/*{console.log("되나?")}*/}
-            {/*<CustomMarker/>*/}
-            {/*{console.log("된다?")}*/}
         </MapView>
 
 
@@ -110,7 +99,6 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
 
 const styles = StyleSheet.create({
     map: {
-
         marginBottom: 300,
         width: (screen.width),
         height: 300

@@ -7,41 +7,33 @@ import {
     ScrollView,
     Dimensions,
     Image,
-    Alert,
     ActivityIndicator,
-    useWindowDimensions
 } from "react-native";
 import CustomMap from "../molecule/CustomMap";
 import {Style} from "../../Style";
 import CustomNavigation from "../organisms/CustomNavigation";
-import CustomModal from "../atom/CustomModal";
 import CustomImageModal from "../atom/CustomImageModal";
 import ConfirmationModal from "../organisms/ConfirmationModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import ApplyRecord from "../organisms/ApplyRecord";
-import ConfirmationForm from "../organisms/ConfirmationForm";
-
 import CustomButton from "../atom/CustomButton";
 import Modal from "react-native-modal";
-
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
-import CustomMarker from "../atom/CustomMarker";
+
 
 
 const screen = Dimensions.get("window");
 let nowSchedule = -1;
 let c_latitude;
 let c_longitude;
-
+let centerName;
 
 function CheckReservationTemplate(props) {
 
     const [selectedSchedule, setSelectedSchedule] = useState()
-    const [confirmation, setConfirmation] = useState([])
-    const [confirm, setConfirm] = useState(false)
     const [modalVisible, setModalVisible] = useState(false);
 
     const [historyList, setHistoryList] = useState([])
@@ -77,10 +69,12 @@ function CheckReservationTemplate(props) {
                         key: index,
                         visit_date: data.visit_date,
                         new_child: data.new_child,
-                        old_child: data.old_child
+                        old_child: data.old_child,
+                        center_name:data.center_name
                     }
                 })
                 const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date))
+                centerName=buf[0].center_name
                 setHistoryList(sortBuf)
             }).catch((err) => {
                 console.log(err);
@@ -88,18 +82,6 @@ function CheckReservationTemplate(props) {
                 showErrorMessage(err.response.data.message);
             })
     }
-
-    // const getConfirmation = async (token) => {
-    //     await axios.get(`http://54.175.8.114:8080/app/confirm/${nowSchedule}`, {headers: {Authorization: `Bearer ${token}`}})
-    //         .then((res) => {
-    //             console.log("확인서")
-    //             console.log(res.data)
-    //             setConfirmation(res.data)
-    //         }).catch((err) => {
-    //             console.log(err)
-    //         })
-    // }
-
 
     const getAgentList = async (token) => {
         await axios.get(`http://54.175.8.114:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
@@ -143,7 +125,7 @@ function CheckReservationTemplate(props) {
             })
     }
 
-
+    {console.log()}
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.nav}>
@@ -161,25 +143,32 @@ function CheckReservationTemplate(props) {
                         <ActivityIndicator/>
                     </View>
                     : <ScrollView contentContainerStyle={{height: "auto"}}>
-                        <View style={styles.comment}>
-                            <Text style={styles.text}>{agentList.late_comment} hihihihi</Text>
-                        </View>
+                        {/*<View style={styles.comment}>*/}
+                        {/*    <Text style={styles.text}>{agentList.late_comment}</Text>*/}
+                        {/*</View>*/}
                         <View style={styles.map}>
-                            <CustomMap c_latitude={c_latitude} c_longitude={c_longitude}/>
+                            <CustomMap c_latitude={c_latitude} c_longitude={c_longitude} c_name={centerName}/>
                         </View>
                         <View style={styles.info}>
                             <ScrollView horizontal pagingEnabled>
 
                                 {agentList.map((data, index) => {
-                                    return <View key={index} style={styles.agent}>
-                                        <Image
-                                            style={styles.image}
-                                            source={{uri: data.a_picture}}/>
-                                        <View style={styles.textContainer}>
-                                            <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
-                                            <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
-
+                                    return <View key={index}>
+                                        <View style={{...styles.agent,paddingVertical:3}}>
+                                            <Image
+                                                style={styles.image}
+                                                source={{uri: data.a_picture}}/>
+                                            <View style={styles.textContainer}>
+                                                <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
+                                                <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
+                                            </View>
                                         </View>
+                                        <ScrollView  pagingEnabled>
+                                            <View style={{display: 'flex',alignItems: 'center',justifyContent: 'center',paddingVertical:3,width:screen.width}}>
+                                                <Text style={{...styles.text,fontWeight: "700"}}>{data.late_comment}</Text>
+                                            </View>
+                                        </ScrollView>
+
                                     </View>
                                 })}
 
@@ -253,16 +242,14 @@ const styles = StyleSheet.create(
             height: 40,
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "pink"
         }
         ,
         info: {
-            height: 200,
+            height: 218,
             justifyContent: "center"
         }
         ,
         agent: {
-            backgroundColor:"orange",
             alignItems: "center",
             flexDirection: "row",
             width: screen.width

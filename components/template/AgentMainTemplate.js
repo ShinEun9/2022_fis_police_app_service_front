@@ -27,7 +27,7 @@ import {FontAwesome} from "@expo/vector-icons";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
-
+import * as TaskManager from "expo-task-manager"
 
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
@@ -47,12 +47,19 @@ function AgentMainTemplate({props}) {
     const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
 
+    const TASK_NAME ="BACKGROUND_LOCATION_TASK"
 
     const ask = async (options) => {
         const {status}=await Location.requestForegroundPermissionsAsync();
         if (status!=="granted") {
             setOk(false);
         }
+        // else{
+        //     const {backgroundPermission}=await Location.requestBackgroundPermissionsAsync()
+        //     if (backgroundPermission!=="granted") {
+        //         setOk(false);
+        //     }
+        // }
     }
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
