@@ -4,7 +4,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {Style} from "../../Style";
 import {AntDesign, FontAwesome} from "@expo/vector-icons";
 
-function Timepicker({id, currentInfo, handleChange}) {
+function Timepicker({id, currentInfo, handleChange, width}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     const showDatePicker = () => {
@@ -25,7 +25,7 @@ function Timepicker({id, currentInfo, handleChange}) {
         <View>
             <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
                 <View style={{
-                    width: 233,
+                    width: parseInt(width),
                     height: 40,
                     flexDirection: 'row',
                     borderWidth: "2",

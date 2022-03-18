@@ -39,27 +39,25 @@ function ScheduleCheckTemplate(props) {
     const [whichModal, setWhichModal] = useState()
 
     const [isLoading, setIsLoading] = useState(true);
-
     const [login, setLogin] = useRecoilState(loginState);
+
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
 
-
     const getFutureData = async (token) => {
-
         console.log("getFutureData 요청")
-
         await axios.get(`http://54.175.8.114:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
+                // console.log(res.data)
                 getPastData(token, res.data)
             })
             .catch((err) => {
                 setIsLoading(true)
-                console.log("getFutureData 실패")
+                // console.log("getFutureData 실패")
                 showErrorMessage(err.response.data.message, setLogin, props)
                 setIsLoading(false)
             })
@@ -69,7 +67,7 @@ function ScheduleCheckTemplate(props) {
         await axios.get(`http://54.175.8.114:8080/app/schedule/old`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                // console.log(res.data)
+                console.log(res.data);
                 setIsLoading(false)
                 setTodayAndFutureSchedule(futureData)
                 setPastSchedule(res.data)
@@ -110,6 +108,7 @@ function ScheduleCheckTemplate(props) {
         tmp = [...todayAndFutureSchedule, ...pastSchedule];
         for (let i = 0; i < tmp.length; i++) {
             if (tmp[i].schedule_id === keyValue) {
+                // console.log(tmp[i])
                 setSelectedScheduleInfo(tmp[i]);
                 setWhichModal(tmp[i].complete);
                 break;
@@ -117,6 +116,10 @@ function ScheduleCheckTemplate(props) {
         }
         setModalVisible(true);
     }
+
+    useEffect(() => {
+        console.log(selectedScheduleInfo)
+    }, [selectedScheduleInfo])
 
     return (
         <SafeAreaView style={{flex: 1,}}>

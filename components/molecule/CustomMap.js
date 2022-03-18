@@ -11,7 +11,6 @@ import CustomMarker from "../atom/CustomMarker";
 
 
 
-
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
 
@@ -22,15 +21,22 @@ let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export default function CustomMap({c_latitude, c_longitude,c_name}) {
 
     const location = {
-        latitude:c_latitude,
+        latitude: c_latitude,
         longitude: c_longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
     }
+    const [agentLoc, setAgentLoc] = useState([{
+        key: -1,
+        coords: {
+            latitude: 0,
+            longitude: 0
+        }
+    }])
 
 
-    const example={
-        latitude:37.477732,
+    const example = {
+        latitude: 37.477732,
         longitude: 126.880938,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
@@ -50,11 +56,11 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
     }
 
     useEffect(() => {
-        setInterval(function (){
+        setInterval(function () {
             getToken().then((token) => {
                 getAgentLocation(token)
             })
-        },300000000000000000000
+        }, 300000000000000000000)
     }, [])
 
     const getAgentLocation = async (token) => {
