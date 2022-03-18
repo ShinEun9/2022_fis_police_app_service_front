@@ -27,7 +27,8 @@
         "NSLocationAlwaysAndWhenInUseUsageDescription": "App requires geolocation to improve the quality of the service",
         "NSLocationAlwaysUsageDescription": "App requires geolocation to improve the quality of the service",
         "NSLocationWhenInUseUsageDescription": "App requires geolocation to improve the quality of the service",
-        "NSCameraUsageDescription": "The picture will be used to inform the state of the packages during delivery"
+        "NSCameraUsageDescription": "The picture will be used to inform the state of the packages during delivery",
+
       },
       "bundleIdentifier": "com.yourcompany.yourappname",
       "buildNumber": "1.0.0"
