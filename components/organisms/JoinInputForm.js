@@ -67,7 +67,7 @@ function JoinInputForm({props, center_id}) {
                            currentInfo={currentInfo}/>
 
             <View style={{marginTop: 30}}>
-                <CustomButton onPress={onPress} content={isLoading?<ActivityIndicator />: "회원가입"}
+                <CustomButton onPress={onPress} content={isLoading?<ActivityIndicator color="gray" />: "회원가입"}
                               width="100" height="50" backgroundColor={Style.color2}/>
             </View>
         </>

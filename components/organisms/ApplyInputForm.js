@@ -63,7 +63,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
                 </View>
             </View>
             <View style={styles.Button}>
-                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={isLoading?<ActivityIndicator />:"제출"}/>
+                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={isLoading?<ActivityIndicator color="gray"/>:"제출"}/>
             </View>
 
         </View>

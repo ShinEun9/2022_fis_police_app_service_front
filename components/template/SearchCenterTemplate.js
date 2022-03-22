@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, SafeAreaView, Text} from "react-native";
+import {View, SafeAreaView, Text, Platform} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
@@ -68,8 +68,9 @@ function SearchCenterTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 0.5}}>
-                <CustomNavigation props={props} type="joinSettingNavbar"
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.5}}>
+
+            <CustomNavigation props={props} type="joinSettingNavbar"
                                   title={props.route.params === "setting" ? "설정페이지" : "회원가입"}/>
             </View>
             <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>

@@ -7,7 +7,7 @@ import {
     ScrollView,
     Dimensions,
     Image,
-    ActivityIndicator,
+    ActivityIndicator, Platform,
 } from "react-native";
 import CustomMap from "../molecule/CustomMap";
 import {Style} from "../../Style";
@@ -22,7 +22,6 @@ import Modal from "react-native-modal";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
-
 
 
 const screen = Dimensions.get("window");
@@ -70,11 +69,11 @@ function CheckReservationTemplate(props) {
                         visit_date: data.visit_date,
                         new_child: data.new_child,
                         old_child: data.old_child,
-                        center_name:data.center_name
+                        center_name: data.center_name
                     }
                 })
                 const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date))
-                centerName=buf[0].center_name
+                centerName = buf[0].center_name
                 setHistoryList(sortBuf)
             }).catch((err) => {
                 console.log(err);
@@ -125,10 +124,18 @@ function CheckReservationTemplate(props) {
             })
     }
 
-    {console.log()}
+    {
+        console.log()
+    }
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.nav}>
+            <View style={{
+                paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.7,
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 1
+            }}>
+
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="내 예약 확인하러 가기"/>
             </View>
 
@@ -140,7 +147,7 @@ function CheckReservationTemplate(props) {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                        <ActivityIndicator/>
+                        <ActivityIndicator color="gray"/>
                     </View>
                     : <ScrollView contentContainerStyle={{height: "auto"}}>
                         {/*<View style={styles.comment}>*/}
@@ -154,7 +161,7 @@ function CheckReservationTemplate(props) {
 
                                 {agentList.map((data, index) => {
                                     return <View key={index}>
-                                        <View style={{...styles.agent,paddingVertical:3}}>
+                                        <View style={{...styles.agent, paddingVertical: 3}}>
                                             <Image
                                                 style={styles.image}
                                                 source={{uri: data.a_picture}}/>
@@ -163,9 +170,18 @@ function CheckReservationTemplate(props) {
                                                 <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
                                             </View>
                                         </View>
-                                        <ScrollView  pagingEnabled>
-                                            <View style={{display: 'flex',alignItems: 'center',justifyContent: 'center',paddingVertical:3,width:screen.width}}>
-                                                <Text style={{...styles.text,fontWeight: "700"}}>{data.late_comment}</Text>
+                                        <ScrollView pagingEnabled>
+                                            <View style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                paddingVertical: 3,
+                                                width: screen.width
+                                            }}>
+                                                <Text style={{
+                                                    ...styles.text,
+                                                    fontWeight: "700"
+                                                }}>{data.late_comment}</Text>
                                             </View>
                                         </ScrollView>
 
@@ -235,7 +251,7 @@ const styles = StyleSheet.create(
         }
         ,
         map: {
-           height: 300
+            height: 300
         }
         ,
         comment: {
@@ -259,13 +275,6 @@ const styles = StyleSheet.create(
             alignItems:
                 "center",
             paddingVertical: 20
-        }
-        ,
-        nav: {
-            flex: 0.7,
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1
         }
         ,
         button: {

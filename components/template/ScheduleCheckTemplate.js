@@ -8,7 +8,7 @@ import {
     StyleSheet,
     ScrollView,
     useWindowDimensions,
-    Dimensions, Button, ActivityIndicator
+    Dimensions, Button, ActivityIndicator, Platform
 } from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
@@ -120,14 +120,13 @@ function ScheduleCheckTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1,}}>
-            <View style={{flex: 0.8, zIndex: 1, position: "relative"}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.8, zIndex: 1, position: "relative"}}>
                 <CustomNavigation props={props} type="AgentTitleNavbar" title="확정된 일정 열람하러 가기"/>
-
             </View>
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
                 <ScrollView style={{width: useWindowDimensions().width * 0.96}}
                             contentContainerStyle={{alignItems: "center"}}>
-                    {isLoading ? <ActivityIndicator/> :
+                    {isLoading ? <ActivityIndicator color="gray"/> :
                         <>
                             <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
 

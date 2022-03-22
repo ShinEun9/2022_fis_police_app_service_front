@@ -7,7 +7,7 @@ import {
     StyleSheet,
     useWindowDimensions,
     Alert,
-    ActivityIndicator
+    ActivityIndicator, Platform
 } from "react-native";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
@@ -100,7 +100,7 @@ function ScheduleAcceptTemplate(props) {
         if (keyValue[0] === "accept") {
             // console.log(schedule_id)
             Alert.alert(
-                "수락하시겠습니까?","",
+                "수락하시겠습니까?", "",
                 [
                     {
                         text: "취소",
@@ -143,13 +143,14 @@ function ScheduleAcceptTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1, zIndex: 1}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1, zIndex: 1}}>
                 <CustomNavigation props={props} type="AgentTitleNavbar" title="내 일정 수락하러 가기"/>
             </View>
             <View style={{flex: 9, alignItems: "center", zIndex: 0}}>
                 <ScrollView>
-                    {isLoading ? <ActivityIndicator/> :
-                        Object.keys(schedules).length === 0 ? <Text style={{fontSize:20, color: "gray"}}>수락할 스케쥴이 없습니다</Text> :
+                    {isLoading ? <ActivityIndicator color="gray"/> :
+                        Object.keys(schedules).length === 0 ?
+                            <Text style={{fontSize: 20, color: "gray"}}>수락할 스케쥴이 없습니다</Text> :
                             Object.entries(schedules).map((item, index) => {
                                 return <View key={index} style={{alignItems: "flex-start"}}>
                                     <View style={{

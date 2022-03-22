@@ -45,8 +45,8 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
             justifyContent: "center"
         }}>
             <ScrollView contentContainerStyle={{
-                alignItems: `${info.length === 0 ? "center" : "unset"}`,
-                justifyContent: `${info.length === 0 ? "center" : "unset"}`
+                alignItems: `${info.length === 0 ? "center" : "center"}`,
+                justifyContent: `${info.length === 0 ? "center" : "center"}`
             }}>
                 {info.length === 0 ? <Text style={{fontSize: 20, color:"gray"}}>일정이 존재하지 않습니다</Text> :
                     info.map((item) => {

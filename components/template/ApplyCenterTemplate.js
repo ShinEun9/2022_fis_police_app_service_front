@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, StyleSheet, ActivityIndicator, ScrollView, Dimensions} from "react-native";
+import {Text, SafeAreaView, View, StyleSheet, ActivityIndicator, ScrollView, Dimensions, Platform} from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
@@ -95,7 +95,7 @@ function ApplyCenterTemplate(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{flex: 0.6, zIndex: 1}}>
+            <View style={{flex: 0.6, zIndex: 1, paddingTop: Platform.OS === 'ios' ? 0 : 30,}}>
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
             <View style={{flex: 2.1, backgroundColor: "orange"}}>
@@ -105,7 +105,7 @@ function ApplyCenterTemplate(props) {
             </View>
             <View style={{flex: 5}}>
                 <ScrollView>
-                        {isLoading.getCurrentInfoLoading ? <ActivityIndicator/> :
+                        {isLoading.getCurrentInfoLoading ? <ActivityIndicator color="gray"/> :
                             <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}
                                             isLoading={isLoading.sendApplicationLoading}/>}
                 </ScrollView>

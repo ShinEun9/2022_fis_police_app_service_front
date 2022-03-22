@@ -29,7 +29,7 @@ function SearchInputForm({handleChange, currentInfo, submitFunction, isLoading})
                              currentInfo={currentInfo}
                              placeholder="시설 이름으로 검색"/>
             </View>
-            <CustomButton width="70" height="50" backgroundColor={Style.color2} onPress={submitFunction} content={isLoading?<ActivityIndicator />:"검색"}/>
+            <CustomButton width="70" height="50" backgroundColor={Style.color2} onPress={submitFunction} content={isLoading?<ActivityIndicator color="gray" />:"검색"}/>
         </>
     );
 }
