@@ -28,7 +28,9 @@ function Timepicker({id, currentInfo, handleChange, width}) {
                     width: parseInt(width),
                     height: 40,
                     flexDirection: 'row',
-                    // borderWidth: "2",
+
+                    borderWidth: 2,
+
                     borderColor:  Style.color5,
                     alignItems: "center",
                     justifyContent: "space-between",

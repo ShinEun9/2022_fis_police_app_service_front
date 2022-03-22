@@ -37,14 +37,18 @@ const styles = StyleSheet.create(
         input: {
             borderColor: `${Style.color5}`,
             margin: 12,
-            // borderWidth: 2,
+
+            borderWidth: 2,
+
             padding: 10,
         },
         input2: {
             borderColor: "transparent",
             borderBottomColor: `${Style.color5}`,
             margin: 12,
-            // borderWidth: 2,
+
+            borderWidth: 2,
+
             padding: 10,
         }
     }

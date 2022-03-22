@@ -2,7 +2,15 @@
   "expo": {
     "name": "2022_fis_police_app_service_front",
     "slug": "2022_fis_police_app_service_front",
+    "privacy": "unlisted",
+    "sdkVersion": "44.0.0",
     "version": "1.0.0",
+    "entryPoint": "node_modules/expo/AppEntry.js",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -44,11 +52,10 @@
         "backgroundColor": "#FFFFFF"
       },
       "permissions":[
-        "ACCESS_COARSE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "ACCESS_FINE_LOCATION"
       ],
-      "package": "com.yourcompany.yourappname",
+      "package": "com.fis_police_app.fis_police_app",
       "versionCode": 1
     },
     "web": {

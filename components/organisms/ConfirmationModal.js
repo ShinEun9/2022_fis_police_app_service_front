@@ -58,6 +58,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const sendData = async (token) => {
         let confirm_id = {confirm_id: confirmInfo.confirm_id}
         console.log(confirm_id)
+        console.log(schedule_id)
         await axios.post(`http://3.35.135.214:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
@@ -121,8 +122,10 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                             <Text style={{...styles.title, flex: undefined, marginBottom: 5}}>
                                 특이사항
                             </Text>
-                            <View style={{// borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
+
+                            <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
                             }} >
+
                                 <Text>
                                     {confirmInfo.etc}
                                 </Text>

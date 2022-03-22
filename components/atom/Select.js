@@ -20,14 +20,19 @@ function Select({label, id, items, width, handleChange, currentInfo}) {
                     marginRight: 10,
                     paddingVertical: 10,
                     paddingHorizontal: 10,
-                    // borderWidth: 2,
+
+                    borderWidth: 2,
+
                     borderColor: `${Style.color5}`,
                     paddingRight: 30,  //to ensure the text is never behind the icon
                 },
                 inputAndroid: {
+                    width: width,
                     paddingHorizontal: 10,
-                    paddingVertical: 8,
-                    // borderWidth: 0.5,
+                    paddingVertical: 10,
+
+                    borderWidth: 0.5,
+
                     borderColor: `${Style.color5}`,
                     borderRadius: 8,
                     color: 'black',

@@ -49,7 +49,7 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
                 getAgentLocation(token)
             })
 
-        },3000000000000000)
+        },3000)
 
     }, [])
 
@@ -72,10 +72,9 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
                 console.log("set")
             }).catch((err) => {
                 console.log(err)
+                console.log(err.response.data.message)
             })
     }
-
-
 
     return (
         <MapView style={styles.map} initialRegion={example} loadingEnabled provider={PROVIDER_GOOGLE}>

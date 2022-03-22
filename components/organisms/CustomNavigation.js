@@ -210,7 +210,9 @@ const styles = StyleSheet.create({
         flex: 5
     },
     titleText: {
+
         fontSize: Dimensions.get("window").width > 360 ? 21 : 16,
+
         fontWeight: "600",
         textAlign: "center",
         marginRight: 5

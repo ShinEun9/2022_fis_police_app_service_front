@@ -27,7 +27,9 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             alignItems: 'center',
-            // borderWidth: 2,
+
+            borderWidth: 2,
+
             width: Dimensions.get("window").width * 0.8,
             height: 50,
             padding: 10,

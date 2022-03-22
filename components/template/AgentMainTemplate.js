@@ -30,6 +30,7 @@ import {showErrorMessage} from "../showErrorMessage";
 import * as TaskManager from "expo-task-manager"
 import Expo from "react-native/Libraries/Components/View/ReactNativeViewViewConfig";
 
+
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
 let LATITUDE_DELTA = 0.02;
@@ -66,9 +67,9 @@ function AgentMainTemplate({props}) {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
-    useEffect(()=>{
-        ask();
-    })
+    // useEffect(()=>{
+    //     ask();
+    // })
 
     const sendLocation = async (token,lat,lng) => {
         const location={
@@ -93,19 +94,42 @@ function AgentMainTemplate({props}) {
         })
     }
 
+    // useEffect(()=>{
+    //     if(ok===true) {
+    //         const agentLocation = Geolocation.watchPosition(
+    //             (position) => {
+    //                 const latitude = position.coords.latitude
+    //                 const longitude = position.coords.longitude
+    //             },
+    //             (error) => {
+    //                 console.error(error.message)
+    //             },
+    //             {
+    //                 enableHighAccuracy: true, timeout: 15000, maximumAge: 10000
+    //             }
+    //         )
+    //     }
+    // })
+
+
+
     useEffect(() => {
-        if(ok===true) {
-            Location.watchPositionAsync({
-                    accuracy: Location.Accuracy.Balanced,
-                    timeInterval: 30000000000000000,
-                // distanceInterval:5
-                }, position => {
-                    // console.log(position)
-                    const {latitude, longitude} = position.coords;
-                    toSendLoc(latitude, longitude)
-                },
-            )
-        }
+        ask().then((res) => {
+            if(ok===true) {
+                console.log("inside")
+                Location.watchPositionAsync({
+                        accuracy:6,
+                        timeInterval: 3000,
+                        distanceInterval:5
+                    }, position => {
+                        console.log(position)
+                        const {latitude, longitude} = position.coords;
+                        toSendLoc(latitude, longitude)
+                    },
+                )
+            }
+        })
+
     }, [])
 
     const getTodaySchedule = async (token) => {

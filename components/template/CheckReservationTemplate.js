@@ -73,7 +73,7 @@ function CheckReservationTemplate(props) {
                     }
                 })
                 const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date))
-                centerName = buf[0].center_name
+
                 setHistoryList(sortBuf)
             }).catch((err) => {
                 console.log(err);
@@ -97,6 +97,7 @@ function CheckReservationTemplate(props) {
                             a_picture: 'https://ifh.cc/g/pvXWYR.png',
                             late_comment: data.late_comment,
                             schedule_id: data.schedule_id,
+                            c_name:data.c_name
                         }
                     } else {
                         list[index] = {
@@ -106,6 +107,7 @@ function CheckReservationTemplate(props) {
                             a_picture: 'data:image/;base64,' + data.a_picture,
                             late_comment: data.late_comment,
                             schedule_id: data.schedule_id,
+                            c_name:data.c_name
                         }
                     }
                     nowSchedule = data.schedule_id
@@ -113,6 +115,7 @@ function CheckReservationTemplate(props) {
                         c_longitude = data.c_longitude
                 })
                 setIsLoading(false)
+                centerName = list[0].c_name
                 setAgentList(list)
                 console.log(agentList)
             }).catch((err) => {
