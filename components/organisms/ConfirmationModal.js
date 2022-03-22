@@ -123,7 +123,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                                 특이사항
                             </Text>
 
-                            <View style={{// borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
+                            <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
                             }} >
 
                                 <Text>

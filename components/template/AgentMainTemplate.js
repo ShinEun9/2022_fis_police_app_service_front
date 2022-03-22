@@ -67,9 +67,9 @@ function AgentMainTemplate({props}) {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
-    useEffect(()=>{
-        ask();
-    })
+    // useEffect(()=>{
+    //     ask();
+    // })
 
     const sendLocation = async (token,lat,lng) => {
         const location={
@@ -114,20 +114,22 @@ function AgentMainTemplate({props}) {
 
 
     useEffect(() => {
-        console.log(ok)
-        if(ok===true) {
-            console.log("inside")
-            Location.watchPositionAsync({
-                    accuracy:6,
-                    timeInterval: 3000,
-                    distanceInterval:5
-                }, position => {
-                    console.log(position)
-                    const {latitude, longitude} = position.coords;
-                   toSendLoc(latitude, longitude)
-                },
-            )
-        }
+        ask().then((res) => {
+            if(ok===true) {
+                console.log("inside")
+                Location.watchPositionAsync({
+                        accuracy:6,
+                        timeInterval: 3000,
+                        distanceInterval:5
+                    }, position => {
+                        console.log(position)
+                        const {latitude, longitude} = position.coords;
+                        toSendLoc(latitude, longitude)
+                    },
+                )
+            }
+        })
+
     }, [])
 
     const getTodaySchedule = async (token) => {

@@ -66,11 +66,9 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             alignItems: 'center',
-<<<<<<< HEAD
-            //borderwidth: 1,
-=======
-            // borderWidth: 1,
->>>>>>> cff5fde89cb0014bd50e129f4337b508af9a30a5
+
+            borderWidth: 1,
+
             padding: 10,
             borderColor: `${Style.color5}`,
             paddingBottom: 10,
@@ -82,11 +80,9 @@ const styles = StyleSheet.create(
             borderColor: "transparent",
             borderBottomColor: `${Style.color5}`,
             margin: 12,
-<<<<<<< HEAD
-            //borderwidth: 2,
-=======
-            // borderWidth: 2,
->>>>>>> cff5fde89cb0014bd50e129f4337b508af9a30a5
+
+            borderWidth: 2,
+
             padding: 10,
         },
         inputStyle:{

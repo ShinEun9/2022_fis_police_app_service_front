@@ -27,11 +27,9 @@ function DatePicker({id, handleChange, currentInfo, width}) {
                     width: parseInt(width),
                     height: 40,
                     flexDirection: 'row',
-<<<<<<< HEAD
-                    //borderwidth: "2",
-=======
-                    // borderWidth: "2",
->>>>>>> cff5fde89cb0014bd50e129f4337b508af9a30a5
+
+                    borderWidth: 2,
+
                     borderColor: `${Style.color5}`,
                     alignItems: "center",
                     justifyContent: "space-between",
