@@ -32,7 +32,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
     }
 
     const sendMessageRequest = async(token, message)=>{
-        await axios.post(`http://54.175.8.114:8080/app/schedule/late`,
+        await axios.post(`http://3.35.135.214:8080/app/schedule/late`,
             {schedule_id: selectedScheduleId, late_comment: message},
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {

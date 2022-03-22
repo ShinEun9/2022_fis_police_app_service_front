@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity,
+    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -28,6 +28,7 @@ import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
 import * as TaskManager from "expo-task-manager"
+import Geolocation from 'react-native-geolocation-service'
 
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
@@ -45,17 +46,23 @@ function AgentMainTemplate({props}) {
     const [selectedSchedule, setSelectedSchedule] = useState();
     const [login, setLogin] = useRecoilState(loginState);
     const [alocation, setaLocation] = useState();
-    const [ok, setOk] = useState(true);
+    const [ok, setOk] = useState(false);
 
-    const TASK_NAME ="BACKGROUND_LOCATION_TASK"
+    const TASK_NAME = "BACKGROUND_LOCATION_TASK"
 
     const ask = async (options) => {
-        const {status}=await Location.requestForegroundPermissionsAsync();
-        if (status!=="granted") {
+        const {status} = await Location.requestForegroundPermissionsAsync();
+        console.log("status")
+        console.log(status)
+        if (status !== "granted") {
             setOk(false);
+        } else {
+            setOk(true)
         }
         // else{
         //     const {backgroundPermission}=await Location.requestBackgroundPermissionsAsync()
+        //     console.log("backgroundPermission")
+        //     console.log(backgroundPermission)
         //     if (backgroundPermission!=="granted") {
         //         setOk(false);
         //     }
@@ -65,16 +72,18 @@ function AgentMainTemplate({props}) {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
-    useEffect(()=>{
+
+    useEffect(() => {
         ask();
     })
 
-    const sendLocation = async (token,lat,lng) => {
-        const location={
-            a_cur_lat:lat.toString(),
-            a_cur_long:lng.toString()
+
+    const sendLocation = async (token, lat, lng) => {
+        const location = {
+            a_cur_lat: lat.toString(),
+            a_cur_long: lng.toString()
         }
-        await axios.post(`http://54.175.8.114:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://3.35.135.214:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(location)
                 console.log("send")
@@ -86,29 +95,77 @@ function AgentMainTemplate({props}) {
             })
     }
 
-    const toSendLoc = (latitude,longitude) => {
+    const toSendLoc = (latitude, longitude) => {
         getToken().then((res) => {
-            sendLocation(res,latitude,longitude)
+            sendLocation(res, latitude, longitude)
         })
     }
 
+    // useEffect(() => {
+    //     console.log(ok)
+    //     if (ok === true) {
+    //         console.log("되나111")
+    //         console.log(ok)
+    //         const agentLocation=Geolocation.watchPosition(
+    //             // {
+    //             //     accuracy: Location.Accuracy.Balanced,
+    //             //     timeInterval: 3000,
+    //             //     // distanceInterval:5
+    //             // },
+    //         position => {
+    //                 const latitude = position.coords.latitude;
+    //                 const longitude = position.coords.longitude;
+    //                 // const {latitude, longitude} = position.coords;
+    //                 toSendLoc(latitude, longitude)
+    //             },
+    //             error=>{
+    //             console.log(error)
+    //             },
+    //         {
+    //             enableHighAccuracy: true,
+    //             distanceFilter: 0,
+    //             interval: 5000,
+    //             fastestInterval: 2000,
+    //         }
+    //         )
+    //
+    //     }
+    //
+    // }, [])
     useEffect(() => {
-        if(ok===true) {
-            Location.watchPositionAsync({
+        console.log(ok)
+        if (ok === true) {
+            console.log("되나111")
+            console.log(ok)
+            Location.watchPosition(
+                {
                     accuracy: Location.Accuracy.Balanced,
-                    // timeInterval: 30000,
-                distanceInterval:5
-                }, position => {
-                    // console.log(position)
-                    const {latitude, longitude} = position.coords;
+                    timeInterval: 3000,
+                    // distanceInterval:5
+                },
+                position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    // const {latitude, longitude} = position.coords;
                     toSendLoc(latitude, longitude)
                 },
+                // error=>{
+                //     console.log(error)
+                // },
+                // {
+                //     enableHighAccuracy: true,
+                //     distanceFilter: 0,
+                //     interval: 5000,
+                //     fastestInterval: 2000,
+                // }
             )
+
         }
+
     }, [])
 
     const getTodaySchedule = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/schedule/today`,
+        await axios.get(`http://3.35.135.214:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 // console.log(res);
@@ -145,7 +202,6 @@ function AgentMainTemplate({props}) {
         props.navigation.navigate('MoneyCheckTemplate')
 
     }
-
     return (
 
         <SafeAreaView style={{flex: 1}}>
