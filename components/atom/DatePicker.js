@@ -14,10 +14,7 @@ function DatePicker({id, handleChange, currentInfo, width}) {
     };
 
     const getFormattedDate = (date) => {
-        const year = date.toLocaleDateString('ko-KR', {year: 'numeric'});
-        const month = date.toLocaleDateString('ko-KR', {month: 'long',});
-        const day = date.toLocaleDateString('ko-KR', {day: 'numeric',});
-        return `${year} ${month} ${day}`;
+        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
     }
 
     return (
