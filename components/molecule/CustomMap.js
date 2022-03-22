@@ -54,7 +54,7 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
     }, [])
 
     const getAgentLocation = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.35.135.214:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("현장요원 위치")
                 console.log(res.data)
