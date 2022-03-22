@@ -174,11 +174,11 @@ function AgentMainTemplate({props}) {
     return (
 
         <SafeAreaView style={{flex: 1}}>
-            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1, backgroundColor:"orange"}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1, }}>
                 <CustomNavigation props={props} type="agentMain"/>
             </View>
-            <View style={{flex: 9, backgroundColor:"teal"}}>
-                <View style={{flex: 5, justifyContent: "center", alignItems: 'center', backgroundColor:"yellow"}}>
+            <View style={{flex: 9, }}>
+                <View style={{flex: 5, justifyContent: "center", alignItems: 'center', }}>
                     <View style={{
                         flexDirection: "row",
                         justifyContent: "flex-start",
