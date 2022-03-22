@@ -171,7 +171,7 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
             {/*</View>*/}
             <View style={styles.Button}>
                 <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40"
-                              content={isLoading ? <ActivityIndicator/> : "제출"}/>
+                              content={isLoading ? <ActivityIndicator color="gray"/> : "제출"}/>
             </View>
         </ScrollView>
     );

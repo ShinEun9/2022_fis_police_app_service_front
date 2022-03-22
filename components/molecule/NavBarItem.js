@@ -10,7 +10,7 @@ function NavBarItem({name, title1,title2}) {
                          color={title1 === title2 ? Style.color2 : "black"}/>
             <Text style={{
                 marginLeft: 20,
-                fontSize: 20,
+                fontSize: Dimensions.get("window").width>360?20:16,
                 color: title1 === title2 ? Style.color2 : "black",
                 fontWeight: title1 === title2 ? "600" : "normal",
             }}
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     navBarItem: {
         flexDirection: "row",
         alignItems: "center",
-        width: Dimensions.get('window').width * 0.6,
+        width: "auto",
     }
 })

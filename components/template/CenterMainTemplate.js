@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, SafeAreaView, View, useWindowDimensions} from "react-native";
+import {Text, SafeAreaView, View, useWindowDimensions, Platform} from "react-native";
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
 import {Style} from "../../Style";
@@ -27,7 +27,7 @@ function CenterMainTemplate({props}) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 0.5}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.5}}>
                 <CustomNavigation props={props} type="centerMain"  />
             </View>
 

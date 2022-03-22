@@ -54,7 +54,7 @@ function AgentSettingInputForm({onPressLogout, props}) {
     }, [])
 
     return (
-        isLoading.getDataLoading ? <ActivityIndicator/> :
+        isLoading.getDataLoading ? <ActivityIndicator color="gray"/> :
             <>
                 <CustomInput type="line" id="a_name" width={Dimensions.get('window').width * 0.6} height="50"
                              placeholder="이름"

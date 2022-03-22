@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
-import {Alert, SafeAreaView, View} from "react-native";
+import {Alert, Platform, SafeAreaView, View} from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import AgentSettingInputForm from "../organisms/AgentSettingInputForm";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -33,7 +33,7 @@ function AgentSettingTemp(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1}}>
                 <CustomNavigation props={props} type="joinSettingNavbar" title={"설정페이지"}/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>

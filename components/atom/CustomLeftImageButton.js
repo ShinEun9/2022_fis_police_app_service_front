@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
+import {View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform} from "react-native";
 import {FontAwesome} from '@expo/vector-icons'
 
 function CustomLeftImageButton({ content,onPress,name,size,color}) {
@@ -7,7 +7,7 @@ function CustomLeftImageButton({ content,onPress,name,size,color}) {
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
             <View style={styles.button}>
                 <FontAwesome name={name} size={size} color={color} />
-                <View style={{flex: 1, alignItems: "center"}}><Text style={{fontSize: 20}}>{content}</Text></View>
+                <View style={{flex: 1, alignItems: "center"}}><Text style={{fontSize: Dimensions.get("window").width>360?20:18}}>{content}</Text></View>
             </View>
         </TouchableOpacity>
     );
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor:'#ECE6E6',
         justifyContent:"space-between",
-        width: Dimensions.get('window').width * 0.7,
+        width: Dimensions.get('window').width * 0.8,
     }
 })
