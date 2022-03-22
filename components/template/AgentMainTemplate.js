@@ -137,7 +137,7 @@ function AgentMainTemplate({props}) {
         if (ok === true) {
             console.log("되나111")
             console.log(ok)
-            Location.watchPosition(
+            Location.watchPositionAsync(
                 {
                     accuracy: Location.Accuracy.Balanced,
                     timeInterval: 3000,
