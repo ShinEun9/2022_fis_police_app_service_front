@@ -135,7 +135,7 @@ function ScheduleCheckTemplate(props) {
                             {/*Object.entries(schedules)하면은 구조가 [array(2), array(2), array(2)]*/}
                             {/*array(2) 첫번째 원소는 날짜, 두번째 원소는 그 날짜의 스케쥴 배열들*/}
                             {Object.entries(schedules1).map((item, index) => {
-                                return <View key={index} style={{alignItems: "flex-start"}}>
+                                return <View key={index} style={{align Items: "flex-start"}}>
                                     <View style={{
                                         backgroundColor: Style.color2,
                                         borderTopRightRadius: 10,

@@ -122,7 +122,8 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                             <Text style={{...styles.title, flex: undefined, marginBottom: 5}}>
                                 특이사항
                             </Text>
-                            <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100}}>
+                            <View style={{//borderwidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
+                                 }}>
                                 <Text>
                                     {confirmInfo.etc}
                                 </Text>
