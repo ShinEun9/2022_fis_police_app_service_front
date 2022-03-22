@@ -57,7 +57,7 @@ function LoginTemplate({props}) {
             );
         }
         else{
-            await axios.post(`http://54.175.8.114:8080/app/login`, currentInfo, {withCredentials: true})
+            await axios.post(`http://3.35.135.214:8080/app/login`, currentInfo, {withCredentials: true})
                 .then((res) => {
                     console.log(res.data)
                     if (res.data.u_auth === "AGENT") {

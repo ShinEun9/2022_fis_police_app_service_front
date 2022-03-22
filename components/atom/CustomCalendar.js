@@ -20,7 +20,7 @@ function CustomCalendar({props}) {
     }
 
     const getData = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/confirm/calendar`,
+        await axios.get(`http://3.35.135.214:8080/app/confirm/calendar`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data);

@@ -48,7 +48,7 @@ function ScheduleAcceptTemplate(props) {
     }
 
     const getIncompleteSchedule = async (token) => {
-        await axios.get(`http://54.175.8.114:8080/app/schedule/incomplete`,
+        await axios.get(`http://3.35.135.214:8080/app/schedule/incomplete`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
@@ -74,7 +74,7 @@ function ScheduleAcceptTemplate(props) {
     }, [])
 
     const acceptRequest = async (token, schedule_id, accept) => {
-        await axios.post(`http://54.175.8.114:8080/app/schedule/accept`,
+        await axios.post(`http://3.35.135.214:8080/app/schedule/accept`,
             {schedule_id, accept},
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
