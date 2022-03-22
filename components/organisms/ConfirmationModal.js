@@ -75,7 +75,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
             })
     }
     return (
-        isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator/></View> :
+        isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator color="gray"/></View> :
             <View style={styles.mainContainer}>
                 {confirmInfo === null ?
                    <Text>확인서 없음</Text>
@@ -122,8 +122,10 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                             <Text style={{...styles.title, flex: undefined, marginBottom: 5}}>
                                 특이사항
                             </Text>
-                            <View style={{//borderwidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
-                                 }}>
+
+                            <View style={{// borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
+                            }} >
+
                                 <Text>
                                     {confirmInfo.etc}
                                 </Text>
@@ -159,7 +161,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                             <CustomButton onPress={() => setModalVisible(false)} width={150} height={40}
                                           backgroundColor={Style.color2} content={"닫기"}/> :
                             <CustomButton onPress={onPress} width={150} height={40} backgroundColor={Style.color2}
-                                          content={isLoading.sendConfirm ? <ActivityIndicator/> : "서명"}/>
+                                          content={isLoading.sendConfirm ? <ActivityIndicator color="gray"/> : "서명"}/>
                         }
                     </>
                 }

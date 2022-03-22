@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Button, useWindowDimensions, Dimensions, StyleSheet} from 'react-native'
+import {View, Text, TouchableOpacity, Button, useWindowDimensions, Dimensions, StyleSheet, Platform} from 'react-native'
 import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "../atom/CustomImageButton";
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
@@ -77,17 +77,17 @@ function CustomNavigation({props, type, title}) {
                                     <>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("ScheduleAcceptTemplate")
-                                        }} style={{marginTop: 20}}>
+                                        }} style={{marginTop: 20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="calendar-check-o" title1={title} title2={"내 일정 수락하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("ScheduleCheckTemplate")
-                                        }} style={{marginTop: 20}}>
+                                        }} style={{marginTop: 20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="calendar" title1={title} title2={"확정된 일정 열람하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("MoneyCheckTemplate");
-                                        }} style={{marginTop: 20, marginBottom:20}}>
+                                        }} style={{marginTop: 20, marginBottom:20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="dollar" title1={title} title2={"급여 확인하러 가기"}/>
                                         </TouchableOpacity>
                                     </>
@@ -95,22 +95,22 @@ function CustomNavigation({props, type, title}) {
                                     <>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("ApplyCenterTemplate")
-                                        }} style={{marginTop: 20}}>
+                                        }} style={{marginTop: 20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="pencil-square-o" title1={title} title2={"지문 등록 신청하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("CheckReservationTemplate")
-                                        }} style={{marginTop: 20}}>
+                                        }} style={{marginTop: 20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="list-alt" title1={title} title2={"내 예약 확인하러 가기"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("StartupSupportTemplate");
-                                        }} style={{marginTop: 20}}>
+                                        }} style={{marginTop: 20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="lightbulb-o" title1={title} title2={"창업지원 서비스"}/>
                                         </TouchableOpacity>
                                         <TouchableOpacity onPress={() => {
                                             props.navigation.navigate("OffenderAlertTemplate")
-                                        }} style={{marginTop: 20, marginBottom: 20}}>
+                                        }} style={{marginTop: 20, marginBottom: 20, width: Dimensions.get('window').width, alignItems:"center"}}>
                                             <NavBarItem name="id-badge" title1={title} title2={"성범죄자 알리미"}/>
                                         </TouchableOpacity>
                                     </>
@@ -168,15 +168,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 20,
         position: "relative",
+        backgroundColor:"pink"
     },
     title: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        flex: 3
+        flex: 5
     },
     titleText: {
-        fontSize: Dimensions.get("window").width>380?20:19,
+
+        fontSize: Dimensions.get("window").width>360?21:16,
+
         fontWeight: "600",
         textAlign: "center",
         marginRight: 5
@@ -186,7 +189,7 @@ const styles = StyleSheet.create({
         height: "auto",
         backgroundColor: "white",
         position: "absolute",
-        top: 50,
+        top: Platform.OS==="ios"?50:80,
         zIndex: 2,
         alignItems: "center"
     },
@@ -201,6 +204,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get("window").width,
         height: Dimensions.get("window").height,
         position: "absolute",
-        top: 50,
+        top: Platform.OS==="ios"?50:80,
     }
 })

@@ -27,7 +27,7 @@ function LoginInputForm({handleChange, currentInfo, onPress, isLoading}) {
                                placeholder="비밀번호" handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <CustomButton width={`${useWindowDimensions().width * 0.6}`} height="55" backgroundColor={Style.color2}
-                          onPress={onPress} content={isLoading ? <ActivityIndicator /> : "로그인"}/>
+                          onPress={onPress} content={isLoading ? <ActivityIndicator color="gray"/> : "로그인"}/>
         </>
     );
 }

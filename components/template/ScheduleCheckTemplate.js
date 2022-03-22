@@ -8,7 +8,7 @@ import {
     StyleSheet,
     ScrollView,
     useWindowDimensions,
-    Dimensions, Button, ActivityIndicator
+    Dimensions, Button, ActivityIndicator, Platform
 } from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
@@ -120,14 +120,13 @@ function ScheduleCheckTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1,}}>
-            <View style={{flex: 0.8, zIndex: 1, position: "relative"}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.8, zIndex: 1, position: "relative"}}>
                 <CustomNavigation props={props} type="AgentTitleNavbar" title="확정된 일정 열람하러 가기"/>
-
             </View>
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
                 <ScrollView style={{width: useWindowDimensions().width * 0.96}}
                             contentContainerStyle={{alignItems: "center"}}>
-                    {isLoading ? <ActivityIndicator/> :
+                    {isLoading ? <ActivityIndicator color="gray"/> :
                         <>
                             <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>
 
@@ -135,7 +134,7 @@ function ScheduleCheckTemplate(props) {
                             {/*Object.entries(schedules)하면은 구조가 [array(2), array(2), array(2)]*/}
                             {/*array(2) 첫번째 원소는 날짜, 두번째 원소는 그 날짜의 스케쥴 배열들*/}
                             {Object.entries(schedules1).map((item, index) => {
-                                return <View key={index} style={{align Items: "flex-start"}}>
+                                return <View key={index} style={{alignItems: "flex-start"}}>
                                     <View style={{
                                         backgroundColor: Style.color2,
                                         borderTopRightRadius: 10,

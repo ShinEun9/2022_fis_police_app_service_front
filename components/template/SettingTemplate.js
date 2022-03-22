@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Alert, Platform, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import JoinInputForm from "../organisms/JoinInputForm";
 import SettingInputForm from "../organisms/SettingInputForm";
@@ -33,7 +33,7 @@ function SettingTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1}}>
                 <CustomNavigation props={props} type="joinSettingNavbar" title={"설정페이지"}/>
             </View>
             <View style={{flex: 10, justifyContent: "center", alignItems: 'center'}}>

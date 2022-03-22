@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {SafeAreaView, View, Button, useWindowDimensions, Alert} from "react-native";
+import {SafeAreaView, View, Button, useWindowDimensions, Alert, TouchableOpacity, Text} from "react-native";
 import LoginInputForm from '../organisms/LoginInputForm'
 import logo from '../media/logo.png'
 import {Image} from "react-native";
@@ -95,7 +95,9 @@ function LoginTemplate({props}) {
                 <LoginInputForm onPress={goSomePage} handleChange={handleChange} currentInfo={currentInfo} isLoading={isLoading}/>
             </View>
             <View style={{flex: 1}}>
-                <Button onPress={goAuthSelectTemp} title='회원가입 하러가기'/>
+                <TouchableOpacity onPress={goAuthSelectTemp}>
+                    <Text style={{color: "gray"}}>회원가입 하러가기</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );

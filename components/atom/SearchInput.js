@@ -27,7 +27,11 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             alignItems: 'center',
+<<<<<<< HEAD
             //borderwidth: 2,
+=======
+            // borderWidth: 2,
+>>>>>>> cff5fde89cb0014bd50e129f4337b508af9a30a5
             width: Dimensions.get("window").width * 0.8,
             height: 50,
             padding: 10,

@@ -86,7 +86,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
     }, [])
 
     return (
-        isLoading.getDataLoading ? <ActivityIndicator/> :
+        isLoading.getDataLoading ? <ActivityIndicator color="gray"/> :
             <>
                 <CustomInput type="line" id="o_name" width={Dimensions.get('window').width * 0.6} height="50"
                              placeholder="이름"
@@ -114,7 +114,9 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
                     <View style={{
                         width: Dimensions.get('window').width * 0.6,
                         height: 50,
-                        //borderwidth: 2,
+
+                        // borderWidth: 2,
+
                         borderColor: "transparent",
                         borderBottomColor: Style.color5,
                         padding: 10,
@@ -127,7 +129,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
 
                 <View style={{marginTop: 30, marginBottom: 30}}>
                     <CustomButton onPress={onPress}
-                                  content={isLoading.editButtonLoading ? <ActivityIndicator/> : "정보수정"} width="100"
+                                  content={isLoading.editButtonLoading ? <ActivityIndicator color="gray"/> : "정보수정"} width="100"
                                   height="50" backgroundColor={Style.color2}/>
                 </View>
                 <TouchableOpacity onPress={onPressLogout} style={{flexDirection:"row", alignItems:"center"}}>

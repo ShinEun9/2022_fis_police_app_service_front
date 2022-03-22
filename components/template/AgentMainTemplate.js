@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity,
+    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -28,6 +28,7 @@ import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
 import * as TaskManager from "expo-task-manager"
+import Expo from "react-native/Libraries/Components/View/ReactNativeViewViewConfig";
 
 
 const screen = Dimensions.get("window");
@@ -171,12 +172,11 @@ function AgentMainTemplate({props}) {
     return (
 
         <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1, backgroundColor:"orange"}}>
                 <CustomNavigation props={props} type="agentMain"/>
             </View>
-            <View style={{flex: 9}}>
-                <View style={{flex: 4, justifyContent: "center", alignItems: 'center'}}>
-
+            <View style={{flex: 9, backgroundColor:"teal"}}>
+                <View style={{flex: 5, justifyContent: "center", alignItems: 'center', backgroundColor:"yellow"}}>
                     <View style={{
                         flexDirection: "row",
                         justifyContent: "flex-start",
@@ -200,16 +200,16 @@ function AgentMainTemplate({props}) {
                             backgroundColor: `${Style.color3}`,
                             padding: 10,
                             paddingBottom: 0,
-                            minHeight: 300,
+                            minHeight: 250,
                             marginBottom: 20,
                             height: "auto",
                             width: Dimensions.get('window').width * 0.96,
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <ActivityIndicator/>
+                            <ActivityIndicator color="gray"/>
                         </View> :
-                        <ListContainer onPress={onPress} info={schedule} minHeight="300"
+                        <ListContainer onPress={onPress} info={schedule} minHeight="250"
                                        listButtonContent="늦음"/>
                     }
 
