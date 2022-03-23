@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, SafeAreaView, Text, Platform} from "react-native";
+import {View, SafeAreaView, Text, Platform, Dimensions, StyleSheet} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
@@ -34,6 +34,7 @@ function SearchCenterTemplate(props) {
         let c_address, c_ph;
         await axios.get(`http://3.35.135.214:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
             .then((res) => {
+                console.log(res.data.data)
                 setIsLoading(false)
                 setCenterList(res.data.data)
             })
@@ -54,6 +55,7 @@ function SearchCenterTemplate(props) {
 
     }
 
+
     const goSomePage = (keyValue) => {
         if (props.route.params === "setting") {
             props.navigation.navigate({
@@ -70,7 +72,7 @@ function SearchCenterTemplate(props) {
         <SafeAreaView style={{flex: 1}}>
             <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.5}}>
 
-            <CustomNavigation props={props} type="joinSettingNavbar"
+                <CustomNavigation props={props} type="joinSettingNavbar"
                                   title={props.route.params === "setting" ? "설정페이지" : "회원가입"}/>
             </View>
             <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
@@ -78,17 +80,23 @@ function SearchCenterTemplate(props) {
                                  submitFunction={submitFunction} isLoading={isLoading}/>
             </View>
             <View style={{flex: 7, marginTop: 10, justifyContent: "flex-start", alignItems: "center"}}>
-                {centerList === null ? null :
+                {centerList.length === 0 ? <Text style={{color: "gray"}}>검색 결과가 없습니다.</Text> :
                     centerList.map((center) => {
                         return <View key={center.center_id} style={{marginBottom: 15}}>
                             <CustomRightImageButton keyValue={[center.center_id, center.c_name]} onPress={goSomePage}
                                                     name="right" size={20} color="black"
-                                                    content={<View
-                                                        style={{height: "100%", justifyContent: 'space-between'}}>
-                                                        <Text style={{fontSize: 20}}>{center.c_name}</Text>
-                                                        <Text>{center.c_address.substr(0, 25)}...</Text>
-                                                        <Text>{center.c_ph}</Text>
-                                                    </View>}
+                                                    content={
+                                                        <View
+                                                            style={{
+                                                                height: "100%",
+                                                                justifyContent: 'space-between',
+                                                            }}>
+                                                            <Text style={styles.contentTitle}>{center.c_name}</Text>
+                                                            <Text
+                                                                style={styles.contentEtc}>{center.c_address.substr(0, 25)}...</Text>
+                                                            <Text style={styles.contentEtc}>{center.c_ph}</Text>
+                                                        </View>
+                                                    }
                             />
                         </View>
 
@@ -102,3 +110,12 @@ function SearchCenterTemplate(props) {
 }
 
 export default SearchCenterTemplate;
+
+const styles = StyleSheet.create({
+    contentTitle: {
+        fontSize: Dimensions.get('window').width > 400 ? 20 : 16,
+    },
+    contentEtc: {
+        fontSize: Dimensions.get('window').width > 400 ? 16 : 5,
+    }
+})

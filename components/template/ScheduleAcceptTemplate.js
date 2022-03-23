@@ -7,7 +7,7 @@ import {
     StyleSheet,
     useWindowDimensions,
     Alert,
-    ActivityIndicator, Platform
+    ActivityIndicator, Platform, RefreshControl
 } from "react-native";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
@@ -26,6 +26,18 @@ function ScheduleAcceptTemplate(props) {
     const [incompleteSchedule, setIncompleteSchedule] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [login, setLogin] = useRecoilState(loginState);
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+
+        getToken().then((token) => {
+            getIncompleteSchedule(token).then(() => {
+                setRefreshing(false)
+            })
+        })
+    }, []);
 
 
     // 날짜 별로 그룹핑 하는 함수 groupByDate
@@ -78,14 +90,30 @@ function ScheduleAcceptTemplate(props) {
             {schedule_id, accept},
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res);
-                getToken().then((res) => {
-                    getIncompleteSchedule(res);
-                })
+                if (accept === "accept") {
+                    Alert.alert("수락되었습니다", "수락한 일정을 확인해보세요", [{
+                        text: "확인", onPress: () => {
+                            setIsLoading(true)
+                            getToken().then((res) => {
+                                getIncompleteSchedule(res);
+                            })
+                        }
+                    }])
+                } else {
+                    Alert.alert("거절되었습니다", "", [{
+                        text: "확인", onPress: () => {
+                            setIsLoading(true)
+                            getToken().then((res) => {
+                                getIncompleteSchedule(res);
+                            })
+                        }
+                    }])
+                }
             })
             .catch((err) => {
-                console.log(err)
-                showErrorMessage(err.response.data.message, setLogin, props, onPress)
+                console.log(err.response)
+                console.log(err.response.data.message)
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 
@@ -108,12 +136,9 @@ function ScheduleAcceptTemplate(props) {
                     },
                     {
                         text: "확인", onPress: () => {
-                            // api 수락 요청
-                            setIsLoading(true)
                             getToken().then((token) => {
                                 acceptRequest(token, schedule_id, "accept")
                             })
-
                         }
                     }
                 ]
@@ -129,25 +154,30 @@ function ScheduleAcceptTemplate(props) {
                     },
                     {
                         text: "확인", onPress: () => {
-                            // api 수락 요청
-                            // visit_date와 accept 보내면 됨.
                             console.log(schedule_id)
-
+                            getToken().then((token) => {
+                                acceptRequest(token, schedule_id, "reject")
+                            })
                         }
                     }
                 ]
             );
         }
-
     }
 
     return (
         <SafeAreaView style={{flex: 1}}>
+
             <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1, zIndex: 1}}>
                 <CustomNavigation props={props} type="AgentTitleNavbar" title="내 일정 수락하러 가기"/>
             </View>
             <View style={{flex: 9, alignItems: "center", zIndex: 0}}>
-                <ScrollView>
+                <ScrollView refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }>
                     {isLoading ? <ActivityIndicator color="gray"/> :
                         Object.keys(schedules).length === 0 ?
                             <Text style={{fontSize: 20, color: "gray"}}>수락할 스케쥴이 없습니다</Text> :

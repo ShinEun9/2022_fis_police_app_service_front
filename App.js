@@ -37,6 +37,7 @@ LogBox.ignoreLogs([
 ]);
 LogBox.ignoreLogs(['Remote debugger']);
 
+LogBox.ignoreLogs(['Setting a timer']);
 
 const Stack = createStackNavigator();
 

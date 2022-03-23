@@ -21,7 +21,7 @@ import Select from "../atom/Select";
 
 function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
     return (
-        <View style={{alignItems: "center"}}>
+        <KeyboardAvoidingView style={{alignItems: "center"}}>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 이름 :</Text>
                 <CustomInput id="h_name" width={`${useWindowDimensions().width * 0.74}`} height="40"
@@ -66,7 +66,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
                 <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={isLoading?<ActivityIndicator color="gray"/>:"제출"}/>
             </View>
 
-        </View>
+        </KeyboardAvoidingView>
 
 
     );

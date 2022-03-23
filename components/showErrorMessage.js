@@ -84,6 +84,10 @@ export async function showErrorMessage(message, setLogin, props, page = "notMain
 
     } else if (message === "AlreadyCompleted") {
 
+    }else if(message === "ID Fail"){
+        Alert.alert("아이디 또는 비밀번호가 틀렸습니다.", "다시 로그인 해주세요", [{
+            text:"확인"
+        }])
     }
 
 
