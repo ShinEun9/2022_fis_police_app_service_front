@@ -26,7 +26,7 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
                                       width="60" height="50"
                                       content={"수락"}/>
                     </View>
-                    <CustomButton keyValue={["accept", keyValue]} onPress={onPress} backgroundColor={Style.color6}
+                    <CustomButton keyValue={["reject", keyValue]} onPress={onPress} backgroundColor={Style.color6}
                                   width="60" height="50"
                                   content={"거절"}/>
                 </View>

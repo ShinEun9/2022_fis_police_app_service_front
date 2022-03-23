@@ -114,9 +114,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
                     <View style={{
                         width: Dimensions.get('window').width * 0.6,
                         height: 50,
-
-                        // borderWidth: 2,
-
+                        borderWidth: 2,
                         borderColor: "transparent",
                         borderBottomColor: Style.color5,
                         padding: 10,

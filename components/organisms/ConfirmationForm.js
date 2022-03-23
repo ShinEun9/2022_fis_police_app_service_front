@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     ScrollView,
-    ActivityIndicator, Dimensions
+    ActivityIndicator, Dimensions, Alert
 } from "react-native";
 import CustomInput from "../atom/CustomInput";
 import CustomMultilineInput from "../atom/CustomMultilineInput";
@@ -69,11 +69,14 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
             .then((res) => {
                 console.log(res)
                 setIsLoading(false)
-                setModalVisible(false)
-                getDataFunction();
+                Alert.alert("확인서 제출 완료되었습니다","",[{
+                    text:"확인",onPress: ()=>{
+                        setModalVisible(false)
+                        getDataFunction();
+                    }
+                }])
             }).catch((err) => {
                 console.log(err)
-                setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props)
             })
     }

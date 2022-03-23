@@ -77,7 +77,9 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
     }
 
     return (
-        <MapView style={styles.map} initialRegion={example} loadingEnabled provider={PROVIDER_GOOGLE}>
+        <MapView style={styles.map} initialRegion={example}
+                 // loadingEnabled
+                 provider={PROVIDER_GOOGLE}>
             <Marker coordinate={example} title={c_name} />
             {agentLoc.map((data, index) => {
                 return <Marker key={data.key} coordinate={data.coords} image={{uri:`https://ifh.cc/g/OyMDXA.png`}} />

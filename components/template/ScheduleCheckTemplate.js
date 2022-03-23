@@ -8,7 +8,7 @@ import {
     StyleSheet,
     ScrollView,
     useWindowDimensions,
-    Dimensions, Button, ActivityIndicator, Platform
+    Dimensions, Button, ActivityIndicator, Platform, RefreshControl
 } from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
@@ -40,6 +40,16 @@ function ScheduleCheckTemplate(props) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [login, setLogin] = useRecoilState(loginState);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getToken().then((token) => {
+            getFutureData(token).then(()=>{
+                setRefreshing(false)
+            })
+        })
+    }, []);
 
 
     const getToken = async () => {
@@ -125,7 +135,14 @@ function ScheduleCheckTemplate(props) {
             </View>
             <View style={{flex: 9, zIndex: 0, alignItems: "center"}}>
                 <ScrollView style={{width: useWindowDimensions().width * 0.96}}
-                            contentContainerStyle={{alignItems: "center"}}>
+                            contentContainerStyle={{alignItems: "center"}}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                />
+                            }
+                >
                     {isLoading ? <ActivityIndicator color="gray"/> :
                         <>
                             <Text style={{fontSize: 24, marginBottom: 15, alignSelf: "flex-start"}}>예정일정</Text>

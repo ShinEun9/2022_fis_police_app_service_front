@@ -15,13 +15,13 @@ function AuthSelectTemplate(props) {
             </View>
             <View style={{flex: 9, justifyContent: "center", alignItems: "center"}}>
                 <View style={{marginBottom: 20}}>
-                    <CustomRightImageButton onPress={goSomePage} name={"right"} size={20} content="시설" color="black"/>
+                    <CustomRightImageButton onPress={goSomePage} name={"right"} size={20} content={<Text style={{fontSize: 24}}>시설</Text>} color="black"/>
                 </View>
                 <View style={{marginBottom: 20}}>
-                    <CustomRightImageButton onPress={goSomePage} name={"right"} size={20} content="학부모" color="black"/>
+                    <CustomRightImageButton onPress={goSomePage} name={"right"} size={20} content={<Text style={{fontSize: 24}}>학부모</Text>} color="black"/>
                 </View>
                 <View style={{marginBottom: 20}}>
-                    <CustomRightImageButton onPress={goSomePage} name={"right"} size={20} content="일반" color="black"/>
+                    <CustomRightImageButton onPress={goSomePage} name={"right"} size={20} content={<Text style={{fontSize: 24}}>일반</Text>} color="black"/>
                 </View>
             </View>
 

@@ -35,7 +35,8 @@ function ApplyCenterTemplate(props) {
                     ...currentInfo,
                     h_name: res.data.center_name,
                     h_address: res.data.center_address,
-                    h_ph: res.data.o_ph
+                    h_ph: res.data.o_ph,
+                    h_mail: res.data.o_email
                 })
             }).catch((err) => {
                 console.log(err)
@@ -103,12 +104,13 @@ function ApplyCenterTemplate(props) {
                     <Text>가이드가이드가이드</Text>
                 </View>
             </View>
-            <View style={{flex: 5}}>
-                <ScrollView>
-                        {isLoading.getCurrentInfoLoading ? <ActivityIndicator color="gray"/> :
-                            <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}
-                                            isLoading={isLoading.sendApplicationLoading}/>}
-                </ScrollView>
+            <View style={{flex: 5 , justifyContent:"center"}}>
+                {isLoading.getCurrentInfoLoading ? <ActivityIndicator color="gray"/> :
+                    <ScrollView style={{backgroundColor: "orange"}} contentContainerStyle={{paddingVertical: 20}}>
+                        <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}
+                                        isLoading={isLoading.sendApplicationLoading}/>
+                    </ScrollView>
+                }
             </View>
         </SafeAreaView>
     );

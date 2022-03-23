@@ -3,7 +3,7 @@ import CustomInput from "../atom/CustomInput";
 import PasswordInput from "../atom/PasswordInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import {ActivityIndicator, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
+import {ActivityIndicator, Alert, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {showErrorMessage} from "../showErrorMessage";
@@ -27,15 +27,24 @@ function JoinInputForm({props, center_id}) {
         await axios.post(`http://3.35.135.214:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
             console.log(res)
             setIsLoading(false)
+            Alert.alert(
+                "회원가입되었습니다",
+                "가입한 아이디, 비밀번호로 로그인하시길 바랍니다.",
+                [
+                    {
+                        text: "확인",
+                    }
+                ]
+            );
+            props.navigation.navigate("MainPage")
 
         }).catch((err) => {
-            console.log(err);
             setIsLoading(false)
+            console.log(err);
             console.log(err.response)
+            console.log(err.response.data.message)
             showErrorMessage(err.response.data.response, setLogin, props)
-
         })
-        props.navigation.navigate("MainPage")
     }
 
     const handleChange = (name, value) => {
