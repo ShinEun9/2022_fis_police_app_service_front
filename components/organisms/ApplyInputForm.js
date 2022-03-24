@@ -17,11 +17,9 @@ import {Style} from "../../Style";
 import Select from "../atom/Select";
 
 
-
-
 function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
     return (
-        <KeyboardAvoidingView style={{alignItems: "center"}}>
+        <View style={{alignItems: "center"}}>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 이름 :</Text>
                 <CustomInput id="h_name" width={`${useWindowDimensions().width * 0.74}`} height="40"
@@ -44,8 +42,8 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
                              handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
             <View style={{flexDirection: "row"}}>
-                <Text style={styles.Text}>지문 등록 참여 여부 :</Text>
-                <View style={{display: "flex",justifyContent: "center",marginLeft:10}}>
+                <Text style={styles.Text}>지문 등록 참여 여부 : </Text>
+                <View style={{...styles.picker, display: "flex", justifyContent: "center", }}>
                     <Select id="accept" label="참여 여부 선택" items={[{label: '참여', value: "accept"}, {
                         label: '미참여',
                         value: "reject"
@@ -58,15 +56,17 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>지문 등록 희망 날짜 :</Text>
-                <View style={styles.datePicker}>
-                    <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo} width={useWindowDimensions().width * 0.60} />
+                <View style={styles.picker}>
+                    <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo}
+                                width={useWindowDimensions().width * 0.60}/>
                 </View>
             </View>
             <View style={styles.Button}>
-                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40" content={isLoading?<ActivityIndicator color="gray"/>:"제출"}/>
+                <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40"
+                              content={isLoading ? <ActivityIndicator color="gray"/> : "제출"}/>
             </View>
 
-        </KeyboardAvoidingView>
+        </View>
 
 
     );
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingVertical: 22
     },
-    datePicker: {
+    picker: {
         paddingHorizontal: 8,
         paddingVertical: 9
     },
