@@ -17,6 +17,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
+import CustomButton from "../atom/CustomButton";
+import {Style} from "../../Style";
 
 function ApplyCenterTemplate(props) {
     const [currentInfo, setCurrentInfo] = useState({
@@ -29,6 +31,7 @@ function ApplyCenterTemplate(props) {
     })
     const [isLoading, setIsLoading] = useState({getCurrentInfoLoading: true, sendApplicationLoading: false})
     const [login, setLogin] = useRecoilState(loginState);
+    const [applyData,setApplyData] = useState()
 
     const handleChange = (name, value) => {
         setCurrentInfo({
@@ -55,6 +58,18 @@ function ApplyCenterTemplate(props) {
             })
     }
 
+    const getApplyData=async (token)=>{
+        await axios.get(``,{headers: {Authorization: `Bearer ${token}`}})
+            .then((res)=>{
+                console.log("신청현황")
+                console.log(res.data)
+                setApplyData(res.data)
+            }).catch((err) => {
+                console.log(err)
+                showErrorMessage(err.response.data.message)
+            })
+    }
+
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
         return t;
@@ -62,6 +77,7 @@ function ApplyCenterTemplate(props) {
     useEffect(() => {
         getToken().then((token) => {
             getCurrentInfo(token)
+            getApplyData(token)
         })
     }, [])
     const onPress = () => {
@@ -109,11 +125,20 @@ function ApplyCenterTemplate(props) {
             <View style={{flex: 0.6, zIndex: 1, paddingTop: Platform.OS === 'ios' ? 0 : 30,}}>
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
-            <View style={{flex: 2.1}}>
-                <View style={styles.Guide}>
-                    <Text>가이드가이드가이드</Text>
-                </View>
+            <View style={{flex:2.1}}>
+                <View style={styles.Guide}>가이드가이드가이드</View>
             </View>
+            {/*<View style={{flex: 2.1}}>*/}
+            {/*    <View>*/}
+            {/*        <Text>신청 현황</Text>*/}
+            {/*        <Text>지문 등록 참여 여부 : 참</Text>*/}
+            {/*        <Text>지문 등록 희망 날짜 : 2022.05.05</Text>*/}
+            {/*        <Text>신청인 : 지상은</Text>*/}
+            {/*    </View>*/}
+            {/*</View>*/}
+            {/*<View>*/}
+            {/*    <CustomButton width={20} height={8} backgroundColor={Style.color2} onPress={onPress} content={"지문 등록 신청하기"} />*/}
+            {/*</View>*/}
             <View style={{flex: 5 , justifyContent:"center"}}>
                 {isLoading.getCurrentInfoLoading ? <ActivityIndicator color="gray"/> :
                     <ScrollView contentContainerStyle={{paddingVertical: 20}}>
