@@ -7,7 +7,7 @@ import {
     ScrollView,
     Dimensions,
     Image,
-    ActivityIndicator, Platform,
+    ActivityIndicator, Platform, RefreshControl,
 } from "react-native";
 import CustomMap from "../molecule/CustomMap";
 import {Style} from "../../Style";
@@ -39,6 +39,17 @@ function CheckReservationTemplate(props) {
     const [agentList, setAgentList] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [login, setLogin] = useRecoilState(loginState);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getToken().then((token) => {
+            getHistoryList(token)
+            getAgentList(token).then(()=>{
+                setRefreshing(false);
+            })
+        })
+    }, []);
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
@@ -55,7 +66,6 @@ function CheckReservationTemplate(props) {
         setSelectedSchedule(keyValue)
         setModalVisible(true)
     }
-
 
     const getHistoryList = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
@@ -152,7 +162,13 @@ function CheckReservationTemplate(props) {
                         }}>
                         <ActivityIndicator color="gray"/>
                     </View>
-                    : <ScrollView contentContainerStyle={{height: "auto"}}>
+                    : <ScrollView  refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                                   contentContainerStyle={{height: "auto"}}>
                         {/*<View style={styles.comment}>*/}
                         {/*    <Text style={styles.text}>{agentList.late_comment}</Text>*/}
                         {/*</View>*/}
