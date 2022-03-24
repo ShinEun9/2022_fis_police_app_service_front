@@ -28,7 +28,7 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
             longitude: 0
         }
     }])
-
+    const [isLoading,setIsLoading] =useState(true)
 
     const example = {
         latitude: 37.477732,
@@ -69,8 +69,10 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
                     }
                 })
                 setAgentLoc(buf)
+                setIsLoading(false)
                 console.log("set")
             }).catch((err) => {
+                setIsLoading(false)
                 console.log(err)
                 console.log(err.response.data.message)
             })
