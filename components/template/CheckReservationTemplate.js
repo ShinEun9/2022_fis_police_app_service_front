@@ -249,8 +249,9 @@ function CheckReservationTemplate(props) {
                                     }
                                 })}
                             <View style={styles.button}>
-                                <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
-                                                  modalContent={<ApplyRecord content={historyList}/>}/>
+                                {historyList.length===0?<Text style={{color:"gray"}}>과거이력 없음</Text>: <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
+                                                                                                modalContent={<ApplyRecord content={historyList}/>}/>}
+
                             </View>
 
 
