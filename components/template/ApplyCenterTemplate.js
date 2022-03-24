@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Text, SafeAreaView, View, StyleSheet, ActivityIndicator, ScrollView, Dimensions, Platform} from "react-native";
+import {
+    Text,
+    SafeAreaView,
+    View,
+    StyleSheet,
+    ActivityIndicator,
+    ScrollView,
+    Dimensions,
+    Platform,
+    Alert
+} from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
@@ -83,7 +93,7 @@ function ApplyCenterTemplate(props) {
         }, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("전송")
-                console.log(res.data)
+                Alert.alert("신청완료 되었습니다", "", [{text: "확인"}]);
                 setIsLoading({...isLoading, sendApplicationLoading: false})
 
             }).catch((err) => {

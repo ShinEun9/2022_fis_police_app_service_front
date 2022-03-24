@@ -5,7 +5,7 @@ import {
     View,
     useWindowDimensions,
     Alert,
-    StyleSheet, Dimensions, ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, Platform,
+    StyleSheet, Dimensions, ActivityIndicator, ScrollView, TouchableOpacity, Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 
