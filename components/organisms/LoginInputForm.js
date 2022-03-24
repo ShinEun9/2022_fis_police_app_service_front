@@ -5,7 +5,7 @@ import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 import PasswordInput from "../atom/PasswordInput";
 import Select from "../atom/Select";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 function LoginInputForm({handleChange, currentInfo, onPress, isLoading}) {
     return (

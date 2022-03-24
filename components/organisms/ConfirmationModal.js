@@ -173,7 +173,8 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
 const styles = StyleSheet.create({
     mainContainer: {
         width: Dimensions.get('window').width * 0.9,
-        height: Dimensions.get('window').height * 0.65,
+        // height: Dimensions.get('window').height * 0.65,
+        height:"auto",
         padding: 10,
         alignItems: "center",
         justifyContent: "center",
