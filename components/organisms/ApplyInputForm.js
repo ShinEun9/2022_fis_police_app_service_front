@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Text,
     SafeAreaView,
@@ -7,7 +7,7 @@ import {
     StyleSheet,
     useWindowDimensions,
     Platform,
-    ActivityIndicator
+    ActivityIndicator, Alert
 } from "react-native";
 import CustomInput from "../atom/CustomInput";
 import DatePicker from "../atom/DatePicker";
@@ -15,9 +15,99 @@ import CustomMultilineInput from "../atom/CustomMultilineInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 import Select from "../atom/Select";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import {showErrorMessage} from "../showErrorMessage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 
-function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
+function ApplyInputForm({ setModalVisible,props}) {
+    const [isLoading,setIsLoading] =useState(false)
+    const [currentInfo, setCurrentInfo] = useState({
+        accept: "",
+        h_date: null,
+        h_mail: "",
+        h_name: "",
+        h_ph: "",
+        h_address: ""
+    })
+    const [login, setLogin] = useRecoilState(loginState);
+
+    const getToken = async () => {
+        const t = await AsyncStorage.getItem("@token");
+        return t;
+    }
+    useEffect(() => {
+        getToken().then((token) => {
+            getCurrentInfo(token)
+        })
+    }, [])
+    const onPress=()=>{
+        // setIsLoading(true)
+        getToken().then((token) => {
+            sendApplication(token)
+        })
+    }
+    const handleChange = (name, value) => {
+        setCurrentInfo({
+            ...currentInfo,
+            [name]: value
+        })
+    }
+    const getCurrentInfo = async (token) => {
+        await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res.data)
+                setIsLoading(false)
+                setCurrentInfo({
+                    ...currentInfo,
+                    h_name: res.data.center_name,
+                    h_address: res.data.center_address,
+                    h_ph: res.data.o_ph,
+                    h_mail: res.data.o_email
+                })
+            }).catch((err) => {
+                console.log(err)
+                setIsLoading(false)
+                showErrorMessage(err.response.data.message, setLogin, props)
+            })
+    }
+    const sendApplication = async (token) => {
+        let buf = currentInfo.h_date
+        let year = buf.getFullYear()
+        let month = '' + (buf.getMonth() + 1)
+        let day = '' + buf.getDate()
+
+        if (month.length < 2) {
+            month = '0' + month
+        }
+        if (day.length < 2) {
+            day = '0' + day
+        }
+        buf = [year, month, day].join('-')
+
+        console.log(buf)
+        console.log({...currentInfo, h_date: buf})
+        setIsLoading( true)
+        await axios.post(`http://3.35.135.214:8080/app/hope`, {
+            ...currentInfo,
+            h_date: buf
+        }, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log("전송")
+                Alert.alert("신청완료 되었습니다", "", [{text: "확인"}]);
+                setIsLoading(false)
+                setModalVisible(false)
+
+            }).catch((err) => {
+                console.log(err)
+                setIsLoading(false)
+                showErrorMessage(err.response.data.message, setLogin, props);
+
+            })
+    }
+
     return (
         <View style={{alignItems: "center"}}>
             <View style={styles.Input}>
@@ -41,7 +131,7 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
                              keyboardType="email-address"
                              handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
-            <View style={{flexDirection: "row"}}>
+            <View style={styles.Input}>
                 <Text style={styles.Text}>지문 등록 참여 여부 : </Text>
                 <View style={{...styles.picker, display: "flex", justifyContent: "center", }}>
                     <Select id="accept" label="참여 여부 선택" items={[{label: '참여', value: "accept"}, {
@@ -55,8 +145,8 @@ function ApplyInputForm({onPress, handleChange, currentInfo, isLoading}) {
 
             </View>
             <View style={styles.Input}>
-                <Text style={styles.Text}>지문 등록 희망 날짜 :</Text>
-                <View style={styles.picker}>
+                <Text style={styles.Text}>지문 등록 희망 날짜 : </Text>
+                <View style={{...styles.picker,display: "flex", justifyContent: "center"}}>
                     <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo}
                                 width={useWindowDimensions().width * 0.60}/>
                 </View>
@@ -85,11 +175,11 @@ const styles = StyleSheet.create({
         paddingVertical: 22
     },
     picker: {
-        paddingHorizontal: 8,
+        // paddingHorizontal: 8,
         paddingVertical: 9
     },
     Button: {
-        marginTop: 18
+        paddingVertical:5
     }
 })
 

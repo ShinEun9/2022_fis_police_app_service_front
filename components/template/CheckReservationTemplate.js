@@ -96,7 +96,7 @@ function CheckReservationTemplate(props) {
         await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("현장요원")
-                console.log(res.data)
+                console.log(res.data[0].accept)
                 let list = []
                 res.data.map((data, index) => {
                     if (data.a_picture === null) {
