@@ -99,14 +99,14 @@ function ApplyCenterTemplate(props) {
             <View style={{flex: 0.6, zIndex: 1, paddingTop: Platform.OS === 'ios' ? 0 : 30,}}>
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
-            <View style={{flex: 2.1, backgroundColor: "orange"}}>
+            <View style={{flex: 2.1}}>
                 <View style={styles.Guide}>
                     <Text>가이드가이드가이드</Text>
                 </View>
             </View>
             <View style={{flex: 5 , justifyContent:"center"}}>
                 {isLoading.getCurrentInfoLoading ? <ActivityIndicator color="gray"/> :
-                    <ScrollView style={{backgroundColor: "orange"}} contentContainerStyle={{paddingVertical: 20}}>
+                    <ScrollView contentContainerStyle={{paddingVertical: 20}}>
                         <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}
                                         isLoading={isLoading.sendApplicationLoading}/>
                     </ScrollView>
