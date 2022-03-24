@@ -4,11 +4,9 @@ import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 
 function ApplyRecord({content}) {
-    const onPress = () => {
-        console.log("pressButton")
-    }
+
     console.log("history")
-    console.log(content)
+    console.log(content.length)
     return (
         <View style={styles.mainContainer}>
             <ScrollView style={{width: "100%", marginBottom: 20,}}
@@ -34,6 +32,34 @@ function ApplyRecord({content}) {
             </ScrollView>
             {/*<CustomButton content="확인" width="100" height="50" backgroundColor={Style.color2} onPress={onPress}/>*/}
         </View>
+
+        // <View style={styles.mainContainer}>
+        //     {content.length === 0 ? <Text>과거이력 없음</Text>
+        //         :
+        //         <ScrollView style={{width: "100%", marginBottom: 20,}}
+        //                     contentContainerStyle={{alignItems: "center"}}>
+        //             {content ?
+        //                 <>
+        //                     {content.map((data, index) => {
+        //                         return <View key={index} style={styles.container2}>
+        //                             <Text>{data.visit_date}</Text>
+        //                             <Text>신규 {data.new_child === null ? 0 : data.new_child} 명 /
+        //                                 기존 {data.old_child === null ? 0 : data.old_child} 명</Text>
+        //                         </View>
+        //                     })}
+        //                 </>
+        //                 :
+        //                 <View style={{justifyContent: "center", alignItems: "center"}}>
+        //                     <Text>과거 신청 이력 없음</Text>
+        //                 </View>
+        //
+        //             }
+        //
+        //
+        //         </ScrollView>}
+        //
+        // </View>
+
 
     );
 }
