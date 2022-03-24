@@ -26,7 +26,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "config": {"googleMapsApiKey":"REACT_APP_MAP_APIKEY"},
+      "config": {"googleMapsApiKey":"AIzaSyDXPHRGEPDjMPpfppcIbQ3kXjREMPeIP_o"},
       "bundleIdentifier":"com.example",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
@@ -46,7 +46,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "config":{"googleMaps": {"apiKey": "REACT_APP_MAP_APIKEY"}},
+      "config":{"googleMaps": {"apiKey": "AIzaSyDXPHRGEPDjMPpfppcIbQ3kXjREMPeIP_o"}},
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
