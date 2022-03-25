@@ -35,7 +35,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                 if (err.response.data.message === "NoConfirm") {
                     setConfirmInfo(null);
                 } else {
-                    showErrorMessage(err.response.data.message, setLogin, props)
+                    showErrorMessage(err.response.data.message, setLogin, props, getData)
                 }
                 setIsLoading({...isLoading, getData: false})
             })
@@ -71,7 +71,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                 console.log(err.response.data.message)
 
                 setIsLoading({...isLoading, sendConfirm: false})
-                showErrorMessage(err.response.data.message, setLogin, props);
+                showErrorMessage(err.response.data.message, setLogin, props, sendData);
             })
     }
     return (

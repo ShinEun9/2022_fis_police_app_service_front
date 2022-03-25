@@ -71,7 +71,7 @@ function ApplyCenterTemplate(props) {
                 setApplyData(res.data.data)
             }).catch((err) => {
                 console.log(err)
-                showErrorMessage(err.response.data.message)
+                showErrorMessage(err.response.data.message, setLogin, props, getApplyData)
             })
     }
 

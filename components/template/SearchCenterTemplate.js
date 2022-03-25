@@ -23,12 +23,7 @@ function SearchCenterTemplate(props) {
         })
     }
 
-    const getToken = async () => {
-        const t = await AsyncStorage.getItem("@token")
-        return t
-    }
-
-    const searchRequest = async (token) => {
+    const searchRequest = async () => {
         let {c_name} = currentInfo;
         console.log(c_name)
         let c_address, c_ph;
@@ -41,6 +36,7 @@ function SearchCenterTemplate(props) {
             .catch((err) => {
                 console.log(err)
                 setIsLoading(false)
+                //안해도됨
                 showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
@@ -49,9 +45,7 @@ function SearchCenterTemplate(props) {
         // 시설 search api 요청
 
         setIsLoading(true);
-        getToken().then((token) => {
-            searchRequest(token);
-        })
+        searchRequest();
 
     }
 

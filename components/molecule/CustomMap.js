@@ -5,6 +5,9 @@ import {StyleSheet, Dimensions} from 'react-native';
 import {useEffect, useState} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import {showErrorMessage} from "../showErrorMessage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
@@ -13,7 +16,8 @@ let LATITUDE_DELTA = 0.004;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
-export default function CustomMap({c_latitude, c_longitude,c_name}) {
+export default function CustomMap({c_latitude, c_longitude,c_name, props}) {
+    const [login, setLogin] = useRecoilState(loginState);
 
     const location = {
         latitude: c_latitude,
@@ -75,6 +79,7 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
                 setIsLoading(false)
                 console.log(err)
                 console.log(err.response.data.message)
+                showErrorMessage(err.response.data.message, setLogin, props, getAgentLocation )
             })
     }
 

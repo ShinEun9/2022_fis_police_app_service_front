@@ -15,6 +15,8 @@ import CustomButton from "../atom/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import {showErrorMessage} from "../showErrorMessage";
+import {useRecoilState} from "recoil";
+import {loginState} from "../../store/login";
 
 /*
     날짜 : 2022/02/23 11:23 AM
@@ -22,10 +24,11 @@ import {showErrorMessage} from "../showErrorMessage";
     작성내용 : 어떤 스케쥴이 선택됐는지 schedule_id를 props로 건네주야하는데 넘 어려워ㅠㅠ
  */
 
-function MessageInputForm({setModalVisible, selectedScheduleId}) {
+function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
     const [isChecked, setChecked] = useState({lateCenter: false, trafficJam: false, etc: false});
     const [inputValue, setInputValue] = useState("")
     const [loading, setLoading] = useState(false);
+    const [login, setLogin] = useRecoilState(loginState);
 
     const handleChange = (key, value) => {
         setInputValue("");
@@ -61,7 +64,8 @@ function MessageInputForm({setModalVisible, selectedScheduleId}) {
                 console.log(err)
                 console.log(err.response.data.message);
                 setLoading(false)
-                showErrorMessage(err.response.data.message);
+                // 안됨
+                showErrorMessage(err.response.data.message, setLogin,props);
             })
     }
 

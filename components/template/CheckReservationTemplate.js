@@ -102,7 +102,7 @@ function CheckReservationTemplate(props) {
             }).catch((err) => {
                 console.log(err);
                 console.log(err.response.data.message);
-                showErrorMessage(err.response.data.message);
+                showErrorMessage(err.response.data.message, setLogin, props, getHistoryList);
             })
     }
 
@@ -148,7 +148,7 @@ function CheckReservationTemplate(props) {
                 console.log(agentList)
             }).catch((err) => {
                 setIsLoading(false)
-                showErrorMessage(err.response.data.message, setLogin, props);
+                showErrorMessage(err.response.data.message, setLogin, props, getAgentList);
                 console.log("현장요원 에러")
                 console.log(err)
                 console.log(err.response.data.message)
@@ -192,7 +192,7 @@ function CheckReservationTemplate(props) {
                                 </View> :
                                 <View style={{width: Dimensions.get('window').width * 0.9, alignItems: "center"}}>
                                     <CustomMap c_latitude={c_latitude} c_longitude={c_longitude}
-                                               c_name={centerName}/>
+                                               c_name={centerName} props={props}/>
                                     <View style={styles.info}>
                                         {
                                             <ScrollView horizontal pagingEnabled>

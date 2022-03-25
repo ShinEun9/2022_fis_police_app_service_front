@@ -41,7 +41,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
             .catch((err) => {
                 setIsLoading({...isLoading, getDataLoading: false})
                 console.log(err)
-                showErrorMessage(err.response.data.message, setLogin, props,)
+                showErrorMessage(err.response.data.message, setLogin, props,getData)
 
             })
     }
@@ -65,7 +65,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
             }).catch((err) => {
                 console.log(err);
                 setIsLoading({...isLoading, editButtonLoading: false})
-                showErrorMessage(err.response.data.message,setLogin,props);
+                showErrorMessage(err.response.data.message,setLogin,props, editRequest);
 
             })
     }

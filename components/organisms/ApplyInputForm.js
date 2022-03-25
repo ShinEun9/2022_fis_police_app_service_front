@@ -70,7 +70,7 @@ function ApplyInputForm({ setModalVisible,props}) {
             }).catch((err) => {
                 console.log(err)
                 setIsLoading(false)
-                showErrorMessage(err.response.data.message, setLogin, props)
+                showErrorMessage(err.response.data.message, setLogin, props, getCurrentInfo)
             })
     }
     const sendApplication = async (token) => {
@@ -103,7 +103,7 @@ function ApplyInputForm({ setModalVisible,props}) {
             }).catch((err) => {
                 console.log(err)
                 setIsLoading(false)
-                showErrorMessage(err.response.data.message, setLogin, props);
+                showErrorMessage(err.response.data.message, setLogin, props, sendApplication);
 
             })
     }

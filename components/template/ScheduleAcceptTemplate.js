@@ -5,15 +5,12 @@ import {
     SafeAreaView,
     ScrollView,
     StyleSheet,
-    useWindowDimensions,
     Alert,
     ActivityIndicator, Platform, RefreshControl
 } from "react-native";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
-import CustomImageButton from "../atom/CustomImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
-import {schedule} from "../../store/dummy-data/schedule";
 import {week} from "../../store/dummy-data/week";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -55,11 +52,13 @@ function ScheduleAcceptTemplate(props) {
     let schedules = groupByDate;
 
     const getToken = async () => {
+        console.log("token 받기")
         const t = await AsyncStorage.getItem("@token")
         return t
     }
 
     const getIncompleteSchedule = async (token) => {
+        console.log("받은 token으로 api 요청")
         await axios.get(`http://3.35.135.214:8080/app/schedule/incomplete`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -70,19 +69,18 @@ function ScheduleAcceptTemplate(props) {
             .catch((err) => {
                 // console.log(err)
                 // console.log(err.response.data.message)
+                console.log("실패")
+                // AsyncStorage.removeItem("@token");
                 setIsLoading(false)
-                showErrorMessage(err.response.data.message, setLogin, props)
+                showErrorMessage(err.response.data.message, setLogin, props, getIncompleteSchedule)
             })
     }
 
     useEffect(() => {
         // 오늘 일정 받아오기 api 실행
         getToken().then((res) => {
-            console.log(res);
             getIncompleteSchedule(res);
         })
-
-        // setTodaySchedule();
     }, [])
 
     const acceptRequest = async (token, schedule_id, accept) => {
@@ -113,6 +111,8 @@ function ScheduleAcceptTemplate(props) {
             .catch((err) => {
                 console.log(err.response)
                 console.log(err.response.data.message)
+
+                //안됨 ㅠㅠ
                 showErrorMessage(err.response.data.message, setLogin, props)
             })
     }

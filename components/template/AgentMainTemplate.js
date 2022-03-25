@@ -85,6 +85,8 @@ function AgentMainTemplate({props}) {
                 console.log("전송에러")
                 console.log(token)
                 console.log(err.response.data.message)
+                //안됨
+                showErrorMessage(err.response.data.message, setLogin, props)
             })
     }
 
@@ -143,7 +145,7 @@ function AgentMainTemplate({props}) {
             .catch((err) => {
                 console.log(err.response)
                 setIsLoading(false)
-                showErrorMessage(err.response.data.message, setLogin, props, "main")
+                showErrorMessage(err.response.data.message, setLogin, props, getTodaySchedule, "main")
 
             })
     }
@@ -227,7 +229,7 @@ function AgentMainTemplate({props}) {
                     >
                         <View style={{...styles.container, width: useWindowDimensions().width * 0.9, height: 300}}>
                             <MessageInputForm setModalVisible={setModalVisible}
-                                              selectedScheduleId={selectedSchedule}/>
+                                              selectedScheduleId={selectedSchedule} props={props}/>
                         </View>
                     </Modal>
                 </View>
