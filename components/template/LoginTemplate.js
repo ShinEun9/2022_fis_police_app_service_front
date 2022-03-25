@@ -80,7 +80,9 @@ function LoginTemplate({props}) {
                     }
                 }).catch((err) => {
                     setIsLoading(false);
-                    showErrorMessage(err.response.data.message)
+
+                    //토큰 안써서 안해도 됨
+                    showErrorMessage(err.response.data.message, setLogin, props)
                 })
         }
 

@@ -68,7 +68,7 @@ function ScheduleCheckTemplate(props) {
             .catch((err) => {
                 setIsLoading(true)
                 // console.log("getFutureData 실패")
-                showErrorMessage(err.response.data.message, setLogin, props)
+                showErrorMessage(err.response.data.message, setLogin, props, getFutureData)
                 setIsLoading(false)
             })
     }
@@ -85,6 +85,7 @@ function ScheduleCheckTemplate(props) {
             .catch((err) => {
                 // console.log(err)
                 // console.log(err.response.data.message)
+                // 안됨
                 showErrorMessage(err.response.data.message, setLogin, props)
                 setIsLoading(false)
             })

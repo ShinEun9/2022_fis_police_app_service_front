@@ -77,7 +77,7 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
                 }])
             }).catch((err) => {
                 console.log(err)
-                showErrorMessage(err.response.data.message, setLogin, props)
+                showErrorMessage(err.response.data.message, setLogin, props, sendRequest)
             })
     }
 

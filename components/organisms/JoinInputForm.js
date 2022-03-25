@@ -43,6 +43,7 @@ function JoinInputForm({props, center_id}) {
             console.log(err);
             console.log(err.response)
             console.log(err.response.data.message)
+            // token 안써서 안해도 됨
             showErrorMessage(err.response.data.response, setLogin, props)
         })
     }
