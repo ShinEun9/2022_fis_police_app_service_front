@@ -56,12 +56,12 @@ function AgentMainTemplate({props}) {
         if (status!=="granted") {
             setOk(false);
         }
-        // else{
-        //     const {backgroundPermission}=await Location.requestBackgroundPermissionsAsync()
-        //     if (backgroundPermission!=="granted") {
-        //         setOk(false);
-        //     }
-        // }
+        else{
+            const {backgroundPermission}=await Location.requestBackgroundPermissionsAsync()
+            if (backgroundPermission!=="granted") {
+                setOk(false);
+            }
+        }
     }
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
@@ -122,7 +122,7 @@ function AgentMainTemplate({props}) {
                 Location.watchPositionAsync({
                         accuracy:6,
                         timeInterval: 3000,
-                        distanceInterval:5
+                        // distanceInterval:5
                     }, position => {
                         console.log(position)
                         const {latitude, longitude} = position.coords;
