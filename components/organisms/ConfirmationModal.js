@@ -8,6 +8,8 @@ import {showErrorMessage} from "../showErrorMessage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 
+const screen = Dimensions.get("window");
+
 function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const [login, setLogin] = useRecoilState(loginState)
     const [confirmInfo, setConfirmInfo] = useState();
@@ -76,7 +78,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     }
     return (
         isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator color="gray"/></View> :
-            <View style={styles.mainContainer}>
+            <View style={{...styles.mainContainer,height:confirmInfo===null?screen.height*0.5:"auto"}}>
                 {confirmInfo === null ?
                    <Text>확인서 없음</Text>
                     :
@@ -173,8 +175,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
 const styles = StyleSheet.create({
     mainContainer: {
         width: Dimensions.get('window').width * 0.9,
-        // height: Dimensions.get('window').height * 0.65,
-        height:"auto",
         padding: 10,
         alignItems: "center",
         justifyContent: "center",
