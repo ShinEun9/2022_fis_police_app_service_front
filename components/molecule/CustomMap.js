@@ -95,8 +95,8 @@ export default function CustomMap({c_latitude, c_longitude,c_name}) {
 
 const styles = StyleSheet.create({
     map: {
-        marginBottom: 300,
-        width: (screen.width),
+        // marginBottom: 300,
+        width: (screen.width)*0.9,
         height: 300
     },
 });

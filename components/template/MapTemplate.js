@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, ScrollView, Text, View} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, View} from "react-native";
 import CustomMap from "../molecule/CustomMap";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
@@ -78,3 +78,66 @@ function MapTemplate(props) {
 }
 
 export default MapTemplate;
+
+const styles = StyleSheet.create(
+    {
+        container: {
+            flex: 1,
+        }
+        ,
+        map: {
+            height: 300
+        }
+        ,
+        comment: {
+            height: 40,
+            justifyContent: "center",
+            alignItems: "center",
+        }
+        ,
+        info: {
+            height: 218,
+            justifyContent: "center"
+        }
+        ,
+        agent: {
+            alignItems: "center",
+            flexDirection: "row",
+            width: screen.width
+        }
+        ,
+        history: {
+            alignItems:
+                "center",
+            paddingVertical: 20
+        }
+        ,
+        button: {
+            marginTop: 5
+        }
+        ,
+        text: {
+            fontSize: 20,
+            paddingVertical: 3,
+        }
+        ,
+        image: {
+            width: 130,
+            height: 130,
+        }
+        ,
+        textContainer: {
+            paddingHorizontal: 25,
+        }
+        ,
+        modalContainer: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            borderRadius: 10,
+        }
+        ,
+
+    }
+)

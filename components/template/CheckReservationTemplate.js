@@ -34,9 +34,24 @@ function CheckReservationTemplate(props) {
 
     const [selectedSchedule, setSelectedSchedule] = useState()
     const [modalVisible, setModalVisible] = useState(false);
-
     const [historyList, setHistoryList] = useState([])
     const [agentList, setAgentList] = useState([])
+    const [today, setToday] = useState(() => {
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        if (month / 10 < 1) {
+            console.log("hi")
+            month = '0' + month
+        }
+        if (day / 10 < 1) {
+            day = '0' + day
+        }
+        return `${year}-${month}-${day}`
+    })
+
     const [isLoading, setIsLoading] = useState(true)
     const [login, setLogin] = useRecoilState(loginState);
     const [refreshing, setRefreshing] = React.useState(false);
@@ -45,7 +60,7 @@ function CheckReservationTemplate(props) {
         setRefreshing(true);
         getToken().then((token) => {
             getHistoryList(token)
-            getAgentList(token).then(()=>{
+            getAgentList(token).then(() => {
                 setRefreshing(false);
             })
         })
@@ -83,7 +98,6 @@ function CheckReservationTemplate(props) {
                     }
                 })
                 const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date))
-
                 setHistoryList(sortBuf)
             }).catch((err) => {
                 console.log(err);
@@ -107,7 +121,9 @@ function CheckReservationTemplate(props) {
                             a_picture: 'https://ifh.cc/g/pvXWYR.png',
                             late_comment: data.late_comment,
                             schedule_id: data.schedule_id,
-                            c_name:data.c_name
+                            c_name: data.c_name,
+                            visit_date: data.visit_date,
+                            visit_time: data.visit_time
                         }
                     } else {
                         list[index] = {
@@ -117,7 +133,9 @@ function CheckReservationTemplate(props) {
                             a_picture: 'data:image/;base64,' + data.a_picture,
                             late_comment: data.late_comment,
                             schedule_id: data.schedule_id,
-                            c_name:data.c_name
+                            c_name: data.c_name,
+                            visit_date: data.visit_date,
+                            visit_time: data.visit_time
                         }
                     }
                     nowSchedule = data.schedule_id
@@ -137,9 +155,6 @@ function CheckReservationTemplate(props) {
             })
     }
 
-    {
-        console.log()
-    }
     return (
         <SafeAreaView style={styles.container}>
             <View style={{
@@ -148,11 +163,10 @@ function CheckReservationTemplate(props) {
                 alignItems: "center",
                 zIndex: 1
             }}>
-
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="내 예약 확인하러 가기"/>
             </View>
 
-            <View style={{flex: 9, zIndex: 0}}>
+            <View style={{flex: 9, zIndex: 0,}}>
                 {isLoading ?
                     <View
                         style={{
@@ -162,100 +176,122 @@ function CheckReservationTemplate(props) {
                         }}>
                         <ActivityIndicator color="gray"/>
                     </View>
-                    : <ScrollView  refreshControl={
+                    : <ScrollView refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={onRefresh}
-                        />
-                    }
-                                   contentContainerStyle={{height: "auto"}}>
-                        {/*<View style={styles.comment}>*/}
-                        {/*    <Text style={styles.text}>{agentList.late_comment}</Text>*/}
-                        {/*</View>*/}
-                        <View style={styles.map}>
-                            <CustomMap c_latitude={c_latitude} c_longitude={c_longitude} c_name={centerName}/>
-                        </View>
-                        <View style={styles.info}>
-                            <ScrollView horizontal pagingEnabled>
+                        />} contentContainerStyle={{
+                        alignItems: "center",
+                        paddingVertical: Dimensions.get('window').height * 0.02
+                    }}>
+                        <View style={{marginBottom: Dimensions.get('window').height * 0.05}}>
+                            <Text style={{fontSize: 24,}}>오늘 일정</Text>
+                            {agentList.length === 0 || agentList[0].visit_date != today ?
+                                <View style={styles.box}>
+                                    <Text style={{fontSize: 20, color: "gray"}}>오늘 일정이 없습니다.</Text>
+                                </View> :
+                                <View style={{width: Dimensions.get('window').width * 0.9, alignItems: "center"}}>
+                                    <CustomMap c_latitude={c_latitude} c_longitude={c_longitude}
+                                               c_name={centerName}/>
+                                    <View style={styles.info}>
+                                        {
+                                            <ScrollView horizontal pagingEnabled>
+                                                {agentList.map((data, index) => {
+                                                        if (today === data.visit_date) {
+                                                            return <View key={index} style={{alignItems: "center",}}>
+                                                                <View style={{...styles.agent,}}>
+                                                                    <Image
+                                                                        style={styles.image}
+                                                                        source={{uri: data.a_picture}}/>
+                                                                    <View style={styles.textContainer}>
+                                                                        <Text style={styles.text}>현장요원 이름
+                                                                            : {data.a_name}</Text>
+                                                                        <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
+                                                                    </View>
+                                                                </View>
+                                                                <Text style={{
+                                                                    ...styles.text,
+                                                                    fontWeight: "700"
+                                                                }}>{data.late_comment}</Text>
+                                                            </View>
+                                                        }
+                                                    }
+                                                )}
+                                            </ScrollView>
 
-                                {agentList.map((data, index) => {
-                                    return <View key={index}>
-                                        <View style={{...styles.agent, paddingVertical: 3}}>
-                                            <Image
-                                                style={styles.image}
-                                                source={{uri: data.a_picture}}/>
-                                            <View style={styles.textContainer}>
-                                                <Text style={styles.text}>현장요원 이름 : {data.a_name}</Text>
-                                                <Text style={styles.text}>전화번호 : {data.a_ph}</Text>
-                                            </View>
-                                        </View>
-                                        <ScrollView pagingEnabled>
-                                            <View style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                paddingVertical: 3,
-                                                width: screen.width
-                                            }}>
-                                                <Text style={{
-                                                    ...styles.text,
-                                                    fontWeight: "700"
-                                                }}>{data.late_comment}</Text>
-                                            </View>
-                                        </ScrollView>
-
+                                        }
                                     </View>
-                                })}
+                                    <CustomButton keyValue={nowSchedule} width={150} height={40}
+                                                  backgroundColor={Style.color2}
+                                                  onPress={onPress} content={"확인서 열람"}/>
 
-                            </ScrollView>
-                            <View style={{alignItems: 'center', marginTop: 7}}>
-                                <CustomButton keyValue={nowSchedule} width={150} height={40}
-                                              backgroundColor={Style.color2}
-                                              onPress={onPress} content={"확인서 열람"}/>
+                                    <Modal
+                                        isVisible={modalVisible}
+                                        useNativeDriver={true}
+                                        hideModalContentWhileAnimating={true}
+                                        onBackdropPress={() => {
+                                            setModalVisible(false)
+                                        }}
+                                        style={{flex: 1, justifyContent: "center", alignItems: "center",}}
+                                    >
+                                        <View style={{
+                                            ...styles.modalContainer,
+                                            width: screen.width * 0.95,
+                                            height: "auto"
+                                        }}>
+                                            <ConfirmationModal setModalVisible={setModalVisible}
+                                                               schedule_id={selectedSchedule}
+                                                               agentList={agentList}/>
+
+                                        </View>
+                                    </Modal>
+                                </View>
+                            }
+
+
+                        </View>
+
+                        <View style={{marginBottom: Dimensions.get('window').height * 0.05}}>
+                            {/* 두 명의 현장요원이 같은 날 다른 시간에 올 일은? */}
+                            {/* 같은 날 와도 문제임 */}
+                            <Text style={{fontSize: 24}}>예정 일정</Text>
+                            <View style={styles.box}>
+                                {
+                                    agentList.length != 0 ?
+                                        agentList.map((data, index) => {
+                                                return <View key={index} style={{flexDirection: "row",}}>
+                                                    <Text style={{...styles.text, marginRight: 10}}>{data.visit_date}</Text>
+                                                    <Text style={{...styles.text,}}>{data.visit_time}</Text>
+                                                </View>
+                                            }
+                                        ) : <Text style={{fontSize: 20, color: "gray"}}>예정 일정 없음</Text>
+                                }
                             </View>
+                        </View>
 
-                            <Modal
-                                isVisible={modalVisible}
-                                useNativeDriver={true}
-                                hideModalContentWhileAnimating={true}
-                                onBackdropPress={() => {
-                                    setModalVisible(false)
-                                }}
-                                style={{flex: 1, justifyContent: "center", alignItems: "center",}}
-                            >
-                                <View style={{
-                                    ...styles.modalContainer,
-                                    width: screen.width * 0.95,
-                                    height: "auto"
-                                }}>
-                                    <ConfirmationModal setModalVisible={setModalVisible}
-                                                       schedule_id={selectedSchedule}
-                                                       agentList={agentList}/>
 
+                        <View>
+                            <Text style={{fontSize: 24, marginVertical: 10}}>과거 일정</Text>
+                            <View style={styles.box}>
+
+                                {
+                                    historyList.map((data, a) => {
+                                        if (a < 3) {
+                                            return <Text key={a} style={styles.text}>{data.visit_date}</Text>
+                                        }
+                                    })}
+                                <View style={styles.button}>
+                                    {historyList.length === 0 ?
+                                        <Text style={{color: "gray", fontSize: 20}}>과거이력 없음</Text> :
+                                        <CustomImageModal name={"plus-square-o"} size={24} color={"gray"}
+                                                          modalContent={<ApplyRecord content={historyList}/>}/>}
+                                    {/*<Text style={{marginLeft: 10, color:"gray"}}>더보기</Text>*/}
 
                                 </View>
-                            </Modal>
+                            </View>
                         </View>
 
-                        <View style={styles.history}>
-                            <View style={{paddingVertical: 8}}>
-                                <Text style={{fontSize: 25}}>내 과거 신청 이력</Text>
-                            </View>
 
-                            {
-                                historyList.map((data, a) => {
-                                    if (a < 3) {
-                                        return <Text key={a} style={styles.text}>{data.visit_date}</Text>
-                                    }
-                                })}
-                            <View style={styles.button}>
-                                {historyList.length===0?<Text style={{color:"gray"}}>과거이력 없음</Text>: <CustomImageModal name={"plus-square-o"} size={24} color={"black"}
-                                                                                                modalContent={<ApplyRecord content={historyList}/>}/>}
-
-                            </View>
-
-
-                        </View>
                     </ScrollView>}
             </View>
         </SafeAreaView>
@@ -268,51 +304,51 @@ const styles = StyleSheet.create(
     {
         container: {
             flex: 1,
-        }
-        ,
+        },
         map: {
             height: 300
         }
         ,
-        comment: {
-            height: 40,
-            justifyContent: "center",
-            alignItems: "center",
-        }
-        ,
         info: {
-            height: 218,
+            width: Dimensions.get('window').width * 0.9,
+            height: 170,
             justifyContent: "center"
         }
         ,
         agent: {
+            width: Dimensions.get('window').width * 0.9,
             alignItems: "center",
             flexDirection: "row",
-            width: screen.width
         }
         ,
+        box: {
+            width: Dimensions.get('window').width * 0.9,
+            height: "auto",
+            minHeight: Dimensions.get('window').height * 0.2,
+            backgroundColor: Style.color3,
+            alignItems: "center",
+            justifyContent: "center"
+        },
         history: {
-            alignItems:
-                "center",
+            alignItems: "center",
             paddingVertical: 20
         }
         ,
         button: {
-            marginTop: 5
+            marginTop: 10,
+            flexDirection: "row",
+            alignItems: "center"
+
         }
         ,
         text: {
-            fontSize: 20,
+            fontSize: Dimensions.get('window').width>400?20:16,
             paddingVertical: 3,
         }
         ,
         image: {
             width: 130,
             height: 130,
-        }
-        ,
-        textContainer: {
-            paddingHorizontal: 25,
         }
         ,
         modalContainer: {
@@ -323,6 +359,9 @@ const styles = StyleSheet.create(
             borderRadius: 10,
         }
         ,
-
+        textContainer: {
+            // paddingHorizontal: 25,
+        }
+        ,
     }
 )
