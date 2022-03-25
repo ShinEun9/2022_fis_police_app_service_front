@@ -51,10 +51,4 @@ function Select({label, id, items, width, handleChange, currentInfo}) {
         ;
 }
 
-
-const pickerSelectStyles = StyleSheet.create(
-
-    )
-;
-
 export default Select;

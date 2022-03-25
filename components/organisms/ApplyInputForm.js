@@ -141,21 +141,18 @@ function ApplyInputForm({ setModalVisible,props}) {
                             width={useWindowDimensions().width * 0.60}
                             handleChange={handleChange} currentInfo={currentInfo}/>
                 </View>
-
-
             </View>
             <View style={styles.Input}>
                 <Text style={styles.Text}>지문 등록 희망 날짜 : </Text>
                 <View style={{...styles.picker,display: "flex", justifyContent: "center"}}>
                     <DatePicker id="h_date" handleChange={handleChange} currentInfo={currentInfo}
-                                width={useWindowDimensions().width * 0.60}/>
+                                width={useWindowDimensions().width * 0.6}/>
                 </View>
             </View>
             <View style={styles.Button}>
                 <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40"
                               content={isLoading ? <ActivityIndicator color="gray"/> : "제출"}/>
             </View>
-
         </View>
 
 
@@ -175,7 +172,7 @@ const styles = StyleSheet.create({
         paddingVertical: 22
     },
     picker: {
-        // paddingHorizontal: 8,
+        paddingHorizontal: 4,
         paddingVertical: 9
     },
     Button: {

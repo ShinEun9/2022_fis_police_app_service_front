@@ -35,7 +35,7 @@ function ApplyCenterTemplate(props) {
     // })
     const [isLoading, setIsLoading] = useState({getCurrentInfoLoading: true, sendApplicationLoading: false})
     const [login, setLogin] = useRecoilState(loginState);
-    const [applyData, setApplyData] = useState()
+    const [applyData, setApplyData] = useState([])
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleChange = (name, value) => {
@@ -63,12 +63,12 @@ function ApplyCenterTemplate(props) {
     //         })
     // }
 
-    const getApplyData=async (token)=>{
-        await axios.get(`http://3.35.135.214:8080/app/hope/status`,{headers: {Authorization: `Bearer ${token}`}})
-            .then((res)=>{
+    const getApplyData = async (token) => {
+        await axios.get(`http://3.35.135.214:8080/app/hope/status`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
                 console.log("신청현황")
-                console.log(res.data)
-                setApplyData(res.data)
+                console.log(res.data.data)
+                setApplyData(res.data.data)
             }).catch((err) => {
                 console.log(err)
                 showErrorMessage(err.response.data.message)
@@ -90,40 +90,46 @@ function ApplyCenterTemplate(props) {
         console.log("clicked")
         setModalVisible(true)
     };
+    console.log(applyData)
     return (
         <SafeAreaView style={styles.container}>
             <View style={{flex: 0.6, zIndex: 1, paddingTop: Platform.OS === 'ios' ? 0 : 30,}}>
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
-            <View style={{flex: 1.5, justifyContent: "center", alignItems: "center"}}>
+            <View style={{flex: 3.3,alignItems: "center"}}>
                 <View style={{
                     width: useWindowDimensions().width * 0.95,
-                    height: useWindowDimensions().width * 0.7,
+                    height: useWindowDimensions().width * 0.90,
                     backgroundColor: Style.color3,
                     justifyContent: "center",
                     alignItems: "center"
                 }}>
-                    <View style={{flex: 1, marginTop: 15}}>
-                        <Text style={{fontSize: 30}}>신청 현황</Text>
+                    <View>
+                        <Text style={{fontSize: 30,paddingVertical:20}}>최근 신청 현황</Text>
                     </View>
-                    <View style={{flex: 1.5, alignItems: "center"}}>
-                        <Text style={{fontSize: 19}}>지문 등록 참여 여부 : 참</Text>
-                        <Text style={{fontSize: 19}}>지문 등록 희망 날짜 : 2022.05.05</Text>
-                        <Text style={{fontSize: 19}}>신청인 : 지상은</Text>
-                    </View>
+                    <ScrollView >
+                        {applyData.map((data, index) => {
+                            if (index < 5) {
+                                return <View key={index}
+                                             style={{...styles.container2}}>
+                                    <Text style={{fontSize: 19}}>지문 등록 참여 여부 : {data.accept}</Text>
+                                    <Text style={{fontSize: 19}}>지문 등록 희망 날짜 : {data.h_date}</Text>
+                                </View>
+                            }
+                        })}
+                    </ScrollView>
                 </View>
-
             </View>
-            <View style={{...styles.Guide,flex:1.9,marginTop:50}}>
-                <View style={{alignItems: 'center', justifyContent: 'center',flex:1.2}}>
-                    <Text style={styles.text}>1. 기본 정보가 맞는지 확인한다.</Text>
-                    <Text  style={styles.text}>2. 지문 등록 참여 여부를 선택한다.</Text>
-                    <Text  style={styles.text}>3. 희망하는 날짜를 선택한다.</Text>
-                    <Text style={styles.text}>( 추후 전화통화를 통해 날짜 확정 예정 )</Text>
-                    <Text  style={styles.text}>4. 제출 버튼을 눌러 제출한다.</Text>
+            <View style={{...styles.Guide, flex: 2.9}}>
+                <View style={{alignItems: 'center', justifyContent: 'center',paddingVertical:52}}>
+                    <Text style={styles.text}>1. 본인의 기본 정보가 맞는지 확인한다.</Text>
+                    <Text style={styles.text}>2. 지문 등록 참여 여부를 선택한다.</Text>
+                    <Text style={styles.text}>3. 희망하는 날짜를 선택한다.</Text>
+                    <Text style={styles.text}>( 추후 전화를 통해 날짜 확정 예정 )</Text>
+                    <Text style={styles.text}>4. 제출 버튼을 눌러 신청서를 제출한다.</Text>
                 </View>
-                <View style={{justifyContent: 'center', alignItems: 'center',flex:0.8}}>
-                    <CustomButton width={useWindowDimensions().width * 0.7} height={useWindowDimensions().width * 0.12}
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <CustomButton width={screen.width * 0.75} height={40}
                                   backgroundColor={Style.color2} onPress={onPressFunc} content={"지문 등록 신청하러 가기"}/>
                 </View>
             </View>
@@ -139,8 +145,9 @@ function ApplyCenterTemplate(props) {
             >
                 <View style={{
                     ...styles.modalContainer,
-                    width: screen.width * 0.98,
-                    height: "auto"
+                    width: screen.width * 0.97,
+                    height: "auto",
+                    paddingHorizontal:3
                 }}>
                     <ScrollView>
                         <ApplyInputForm setModalVisible={setModalVisible}/>
@@ -182,7 +189,18 @@ const styles = StyleSheet.create({
 
     }
     ,
-    text:{
-        fontSize:20
-    }
+    text: {
+        fontSize: 22
+    },
+    container2: {
+        justifyContent:"center",
+        alignItems: "center",
+        paddingHorizontal: 25,
+        paddingVertical:10,
+        backgroundColor: Style.color5,
+        borderRadius: 20,
+        width: "auto",
+        height: "auto",
+        marginBottom: 20
+    },
 })
