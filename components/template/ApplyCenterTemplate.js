@@ -44,24 +44,6 @@ function ApplyCenterTemplate(props) {
             [name]: value
         })
     }
-    // const getCurrentInfo = async (token) => {
-    //     await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
-    //         .then((res) => {
-    //             console.log(res.data)
-    //             setIsLoading({...isLoading, getCurrentInfoLoading: false})
-    //             setCurrentInfo({
-    //                 ...currentInfo,
-    //                 h_name: res.data.center_name,
-    //                 h_address: res.data.center_address,
-    //                 h_ph: res.data.o_ph,
-    //                 h_mail: res.data.o_email
-    //             })
-    //         }).catch((err) => {
-    //             console.log(err)
-    //             setIsLoading({...isLoading, getCurrentInfoLoading: false})
-    //             showErrorMessage(err.response.data.message, setLogin, props)
-    //         })
-    // }
 
     const getApplyData = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/hope/status`, {headers: {Authorization: `Bearer ${token}`}})
@@ -98,47 +80,49 @@ function ApplyCenterTemplate(props) {
             <View style={{flex: 0.6, zIndex: 1, paddingTop: Platform.OS === 'ios' ? 0 : 30,}}>
                 <CustomNavigation props={props} type="CenterTitleNavbar" title="지문 등록 신청하러 가기"/>
             </View>
-            <ScrollView contentContainerStyle={{flex:9,marginTop:60}}>
-                <View style={{flex:1,alignItems: "center",marginBottom:10}}>
-                    <View style={{
-                        width: useWindowDimensions().width * 0.95,
-                        height: useWindowDimensions().width*0.85,
-                        backgroundColor: Style.color3,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flex:5
-                    }}>
-                        <View>
-                            <Text style={{fontSize: Platform.OS==="ios"?30:27,paddingVertical:20}}>최근 신청 현황</Text>
-                        </View>
-                        <ScrollView >
-                            {applyData.map((data, index) => {
-                                if (index < 5) {
-                                    return <View key={index}
-                                                 style={{...styles.container2}}>
-                                        <Text style={{fontSize: Platform.OS==="ios"?19:17}}>지문 등록 참여 여부 : {data.accept}</Text>
-                                        <Text style={{fontSize: Platform.OS==="ios"?19:17}}>지문 등록 희망 날짜 : {data.h_date}</Text>
-                                    </View>
-                                }
-                            })}
-                        </ScrollView>
-                    </View>
-                </View>
-                <View style={{...styles.Guide,flex:1}}>
-                    <View style={{paddingVertical:70}}>
-                        <View style={{alignItems: 'center', justifyContent: 'center',marginBottom:10}}>
-                            <Text style={styles.text}>1. 본인의 기본 정보가 맞는지 확인한다.</Text>
-                            <Text style={styles.text}>2. 지문 등록 참여 여부를 선택한다.</Text>
-                            <Text style={styles.text}>3. 희망하는 날짜를 선택한다.</Text>
-                            <Text style={styles.text}>( 추후 전화를 통해 방문 날짜 확정 예정 )</Text>
-                            <Text style={styles.text}>4. 제출 버튼을 눌러 신청서를 제출한다.</Text>
-                        </View>
-                        <View style={{justifyContent: 'center', alignItems: 'center',paddingVertical:20}}>
-                            <CustomButton width={screen.width * 0.75} height={Platform.OS==="ios"?40:35}
-                                          backgroundColor={Style.color2} onPress={onPressFunc} content={"지문 등록 신청하러 가기"}/>
+            <ScrollView>
+                <View style={{flex:9,marginTop:60}}>
+                    <View style={{flex:1,alignItems: "center",marginBottom:10}}>
+                        <View style={{
+                            width: useWindowDimensions().width * 0.95,
+                            height: useWindowDimensions().width*0.85,
+                            backgroundColor: Style.color3,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flex:5
+                        }}>
+                            <View>
+                                <Text style={{fontSize: Platform.OS==="ios"?30:24,paddingVertical:20}}>최근 신청 현황</Text>
+                            </View>
+                            <ScrollView >
+                                {applyData.map((data, index) => {
+                                    if (index < 5) {
+                                        return <View key={index}
+                                                     style={{...styles.container2}}>
+                                            <Text style={{fontSize: Platform.OS==="ios"?19:17}}>지문 등록 참여 여부 : {data.accept}</Text>
+                                            <Text style={{fontSize: Platform.OS==="ios"?19:17}}>지문 등록 희망 날짜 : {data.h_date}</Text>
+                                        </View>
+                                    }
+                                })}
+                            </ScrollView>
                         </View>
                     </View>
+                    <View style={{...styles.Guide,flex:1}}>
+                        <View style={{paddingVertical:70}}>
+                            <View style={{alignItems: 'center', justifyContent: 'center',marginBottom:10}}>
+                                <Text style={styles.text}>1. 본인의 기본 정보가 맞는지 확인한다.</Text>
+                                <Text style={styles.text}>2. 지문 등록 참여 여부를 선택한다.</Text>
+                                <Text style={styles.text}>3. 희망하는 날짜를 선택한다.</Text>
+                                <Text style={styles.text}>( 추후 전화를 통해 방문 날짜 확정 예정 )</Text>
+                                <Text style={styles.text}>4. 제출 버튼을 눌러 신청서를 제출한다.</Text>
+                            </View>
+                            <View style={{justifyContent: 'center', alignItems: 'center',paddingVertical:20}}>
+                                <CustomButton width={screen.width * 0.75} height={Platform.OS==="ios"?40:35}
+                                              backgroundColor={Style.color2} onPress={onPressFunc} content={"지문 등록 신청하러 가기"}/>
+                            </View>
+                        </View>
 
+                    </View>
                 </View>
             </ScrollView>
             <Modal
