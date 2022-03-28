@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#ECE6E6',
         justifyContent: "space-between",
         width: Dimensions.get("window").width * 0.8,
-        height: Dimensions.get("window").height * 0.1,
+        height: Dimensions.get("window").height * 0.12,
     }
 })

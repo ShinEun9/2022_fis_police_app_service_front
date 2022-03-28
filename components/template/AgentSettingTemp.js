@@ -21,6 +21,7 @@ function AgentSettingTemp(props) {
                     text: "확인", onPress: async () => {
                         await AsyncStorage.removeItem("@u_auth")
                         await AsyncStorage.removeItem("@token")
+                        await AsyncStorage.removeItem("@refresh_token");
                         setLogin(null);
                         props.navigation.popToTop()
                     }

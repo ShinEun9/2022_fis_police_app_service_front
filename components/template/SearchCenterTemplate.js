@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
         fontSize: Dimensions.get('window').width > 400 ? 20 : 16,
     },
     contentEtc: {
-        fontSize: Dimensions.get('window').width > 400 ? 16 : 5,
+        fontSize: Dimensions.get('window').width > 400 ? 16 : 12,
     }
 })
