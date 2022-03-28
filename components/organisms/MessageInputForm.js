@@ -29,7 +29,10 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
     const [inputValue, setInputValue] = useState("")
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useRecoilState(loginState);
-
+    const [refreshToken, getReFreshToken] = useState(async () => {
+        let t = AsyncStorage.getItem("@refresh_token");
+        return t;
+    })
     const handleChange = (key, value) => {
         setInputValue("");
         setChecked({
@@ -42,6 +45,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
+        console.log(t);
         return t
     }
 
@@ -60,12 +64,43 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
                 }])
 
             })
-            .catch((err) => {
-                console.log(err)
+            .catch(async (err) => {
                 console.log(err.response.data.message);
+                console.log("실패")
                 setLoading(false)
                 // 안됨
-                showErrorMessage(err.response.data.message, setLogin,props);
+                showErrorMessage(err.response.data.message, setLogin, props);
+
+                // token을 null로 보내도 성공해서 확인할 수 있는 방법이 없음
+                if(err.response.data.message!=="ExpiredToken"){
+                    showErrorMessage(err.response.data.message, setLogin, props);
+                }
+                else{
+                    await axios.get(`http://3.35.135.214:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
+                        .then(async (res) => {
+                            await AsyncStorage.setItem("@token", res.data.accessToken,  () => {
+                                AsyncStorage.setItem("@refresh_token", res.data.refreshToken,  () => {
+                                    getToken.then((token)=>{
+                                        sendMessageRequest(token, message)
+                                    })
+                                })
+                            })
+                        }).catch(() => {
+                            Alert.alert("로그인 시간이 만료되었습니다.", "다시 로그인해주세요", [
+                                {
+                                    text: "확인",
+                                    onPress: async () => {
+                                        await AsyncStorage.removeItem("@u_auth")
+                                        await AsyncStorage.removeItem("@token")
+                                        await AsyncStorage.removeItem("@refresh_token")
+                                        setLogin(null);
+                                    }
+                                }, {
+                                    text: "취소"
+                                }
+                            ])
+                        })
+                }
             })
     }
 
@@ -141,7 +176,8 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
 
 
             </View>
-            <CustomButton width="100" height="50" onPress={onPress} content={loading?<ActivityIndicator color="gray" />:"전송" } backgroundColor={Style.color2}/>
+            <CustomButton width="100" height="50" onPress={onPress}
+                          content={loading ? <ActivityIndicator color="gray"/> : "전송"} backgroundColor={Style.color2}/>
         </View>
     );
 }
