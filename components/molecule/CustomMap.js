@@ -16,7 +16,7 @@ let LATITUDE_DELTA = 0.004;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
-export default function CustomMap({c_latitude, c_longitude, c_name, props, flag, setFlag}) {
+export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
     const [login, setLogin] = useRecoilState(loginState);
 
     const location = {
