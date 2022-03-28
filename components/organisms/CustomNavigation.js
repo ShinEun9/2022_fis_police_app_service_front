@@ -16,7 +16,7 @@ import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import NavBarItem from "../molecule/NavBarItem";
 
 
-function CustomNavigation({props, type, title}) {
+function CustomNavigation({props, type, title, setFlag}) {
     const [openNavigation, setOpenNavigation] = useState(false);
     const [login, setLogin] = useRecoilState(loginState);
 
@@ -41,7 +41,10 @@ function CustomNavigation({props, type, title}) {
             <>
                 <View style={styles.mainContainer}>
                     <TouchableOpacity activeOpacity={0.6}
-                                      onPress={() => props.navigation.goBack()} style={{flex: 1}}>
+                                      onPress={() => {
+                                          setFlag(false);
+                                          props.navigation.goBack()
+                                      }} style={{flex: 1}}>
                         <FontAwesome name="angle-left" size={30} color="black" style={{fontWeight: "600"}}/>
                     </TouchableOpacity>
                     {Platform.OS === "ios" ?

@@ -16,7 +16,7 @@ let LATITUDE_DELTA = 0.004;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
-export default function CustomMap({c_latitude, c_longitude,c_name, props}) {
+export default function CustomMap({c_latitude, c_longitude, c_name, props, flag, setFlag}) {
     const [login, setLogin] = useRecoilState(loginState);
 
     const location = {
@@ -32,7 +32,7 @@ export default function CustomMap({c_latitude, c_longitude,c_name, props}) {
             longitude: 0
         }
     }])
-    const [isLoading,setIsLoading] =useState(true)
+    const [isLoading, setIsLoading] = useState(true)
 
     const example = {
         latitude: 37.477732,
@@ -48,13 +48,18 @@ export default function CustomMap({c_latitude, c_longitude,c_name, props}) {
     }
 
     useEffect(() => {
-        setInterval(function () {
-            getToken().then((token) => {
-                getAgentLocation(token)
-            })
-
-        },3000)
-
+        let t = AsyncStorage.getItem("@u_auth")
+        let timer = setInterval(function () {
+            if (t === "OFFICIAL") {
+                console.log(t)
+                getToken().then((token) => {
+                    getAgentLocation(token)
+                })
+            }else{
+                console.log("haisddfhiadfhidlfj asdlfhasd")
+                clearInterval(timer)
+            }
+        }, 3000);
     }, [])
 
     const getAgentLocation = async (token) => {
@@ -79,17 +84,17 @@ export default function CustomMap({c_latitude, c_longitude,c_name, props}) {
                 setIsLoading(false)
                 console.log(err)
                 console.log(err.response.data.message)
-                showErrorMessage(err.response.data.message, setLogin, props, getAgentLocation )
+                showErrorMessage(err.response.data.message, setLogin, props, getAgentLocation)
             })
     }
 
     return (
         <MapView style={styles.map} initialRegion={example}
-                 // loadingEnabled
+            // loadingEnabled
                  provider={PROVIDER_GOOGLE}>
-            <Marker coordinate={example} title={c_name} />
+            <Marker coordinate={example} title={c_name}/>
             {agentLoc.map((data, index) => {
-                return <Marker key={data.key} coordinate={data.coords} image={{uri:`https://ifh.cc/g/OyMDXA.png`}} />
+                return <Marker key={data.key} coordinate={data.coords} image={{uri: `https://ifh.cc/g/OyMDXA.png`}}/>
             })}
         </MapView>
 
@@ -101,7 +106,7 @@ export default function CustomMap({c_latitude, c_longitude,c_name, props}) {
 const styles = StyleSheet.create({
     map: {
         // marginBottom: 300,
-        width: (screen.width)*0.9,
+        width: (screen.width) * 0.9,
         height: 300
     },
 });

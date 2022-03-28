@@ -49,16 +49,15 @@ function AgentMainTemplate({props}) {
     const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
 
-    const TASK_NAME ="BACKGROUND_LOCATION_TASK"
+    const TASK_NAME = "BACKGROUND_LOCATION_TASK"
 
     const ask = async (options) => {
-        const {status}=await Location.requestForegroundPermissionsAsync();
-        if (status!=="granted") {
+        const {status} = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
             setOk(false);
-        }
-        else{
-            const {backgroundPermission}=await Location.requestBackgroundPermissionsAsync()
-            if (backgroundPermission!=="granted") {
+        } else {
+            const {backgroundPermission} = await Location.requestBackgroundPermissionsAsync()
+            if (backgroundPermission !== "granted") {
                 setOk(false);
             }
         }
@@ -71,10 +70,10 @@ function AgentMainTemplate({props}) {
     //     ask();
     // })
 
-    const sendLocation = async (token,lat,lng) => {
-        const location={
-            a_cur_lat:lat.toString(),
-            a_cur_long:lng.toString()
+    const sendLocation = async (token, lat, lng) => {
+        const location = {
+            a_cur_lat: lat.toString(),
+            a_cur_long: lng.toString()
         }
         await axios.post(`http://3.35.135.214:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -86,13 +85,15 @@ function AgentMainTemplate({props}) {
                 console.log(token)
                 console.log(err.response.data.message)
                 //안됨
-                showErrorMessage(err.response.data.message, setLogin, props,()=>{console.log("hi")},"main")
+                showErrorMessage(err.response.data.message, setLogin, props, () => {
+                    console.log("hi")
+                }, "main")
             })
     }
 
-    const toSendLoc = (latitude,longitude) => {
+    const toSendLoc = (latitude, longitude) => {
         getToken().then((res) => {
-            sendLocation(res,latitude,longitude)
+            sendLocation(res, latitude, longitude)
         })
     }
 
@@ -114,24 +115,24 @@ function AgentMainTemplate({props}) {
     // })
 
 
-
-    useEffect(() => {
+    useEffect(async () => {
         ask().then((res) => {
-            if(ok===true) {
-                console.log("inside")
+            if (ok === true) {
                 Location.watchPositionAsync({
-                        accuracy:6,
+                        accuracy: 6,
                         timeInterval: 3000,
                         // distanceInterval:5
-                    }, position => {
-                        console.log(position)
-                        const {latitude, longitude} = position.coords;
-                        toSendLoc(latitude, longitude)
+                    }, async (position) => {
+                        let t = await AsyncStorage.getItem("@u_auth")
+                        if (t === "AGENT") {
+                            const {latitude, longitude} = position.coords;
+                            toSendLoc(latitude, longitude)
+                        }
+
                     },
                 )
             }
         })
-
     }, [])
 
     const getTodaySchedule = async (token) => {
@@ -176,11 +177,11 @@ function AgentMainTemplate({props}) {
     return (
 
         <SafeAreaView style={{flex: 1}}>
-            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1, }}>
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 1,}}>
                 <CustomNavigation props={props} type="agentMain"/>
             </View>
-            <View style={{flex: 9, }}>
-                <View style={{flex: 5, justifyContent: "center", alignItems: 'center', }}>
+            <View style={{flex: 9,}}>
+                <View style={{flex: 5, justifyContent: "center", alignItems: 'center',}}>
                     <View style={{
                         flexDirection: "row",
                         justifyContent: "flex-start",
