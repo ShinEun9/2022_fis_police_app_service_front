@@ -86,7 +86,7 @@ function AgentMainTemplate({props}) {
                 console.log(token)
                 console.log(err.response.data.message)
                 //안됨
-                showErrorMessage(err.response.data.message, setLogin, props)
+                showErrorMessage(err.response.data.message, setLogin, props,()=>{console.log("hi")},"main")
             })
     }
 

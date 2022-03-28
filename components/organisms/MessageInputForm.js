@@ -69,7 +69,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
                 console.log("실패")
                 setLoading(false)
                 // 안됨
-                showErrorMessage(err.response.data.message, setLogin, props);
+                // showErrorMessage(err.response.data.message, setLogin, props);
 
                 // token을 null로 보내도 성공해서 확인할 수 있는 방법이 없음
                 if(err.response.data.message!=="ExpiredToken"){

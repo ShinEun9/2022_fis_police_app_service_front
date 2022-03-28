@@ -85,7 +85,7 @@ function ScheduleCheckTemplate(props) {
             .catch((err) => {
                 // console.log(err)
                 // console.log(err.response.data.message)
-                // 안됨
+                // 안해도 될 것 같음.
                 showErrorMessage(err.response.data.message, setLogin, props)
                 setIsLoading(false)
             })
