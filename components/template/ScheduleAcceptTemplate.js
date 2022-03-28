@@ -108,12 +108,42 @@ function ScheduleAcceptTemplate(props) {
                     }])
                 }
             })
-            .catch((err) => {
+            .catch(async (err) => {
                 console.log(err.response)
                 console.log(err.response.data.message)
 
                 //안됨 ㅠㅠ
-                showErrorMessage(err.response.data.message, setLogin, props)
+                // showErrorMessage(err.response.data.message, setLogin, props)
+                if(err.response.data.message!=="ExpiredToken"){
+                    showErrorMessage(err.response.data.message, setLogin, props);
+                }
+                else{
+                    await axios.get(`http://3.35.135.214:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
+                        .then(async (res) => {
+                            await AsyncStorage.setItem("@token", res.data.accessToken,  () => {
+                                AsyncStorage.setItem("@refresh_token", res.data.refreshToken,  () => {
+                                    getToken.then((token)=>{
+                                        acceptRequest(token, schedule_id,accept)
+                                    })
+                                })
+                            })
+                        }).catch(() => {
+                            Alert.alert("로그인 시간이 만료되었습니다.", "다시 로그인해주세요", [
+                                {
+                                    text: "확인",
+                                    onPress: async () => {
+                                        await AsyncStorage.removeItem("@u_auth")
+                                        await AsyncStorage.removeItem("@token")
+                                        await AsyncStorage.removeItem("@refresh_token")
+                                        props.navigation.popToTop();
+                                        setLogin(null);
+
+                                    }
+                                }
+                            ])
+                        })
+                }
+
             })
     }
 
