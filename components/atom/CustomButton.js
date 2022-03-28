@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     buttonText: {
-        fontSize: 18,
+        fontSize: Platform.OS==="android" ?17:20,
         color: "white",
         textAlign: "center"
 
