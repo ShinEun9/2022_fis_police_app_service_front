@@ -22,7 +22,7 @@ import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 
 
-function ApplyInputForm({ setModalVisible,props}) {
+function ApplyInputForm({ setModalVisible, props, refresh}) {
     const [isLoading,setIsLoading] =useState(false)
     const [currentInfo, setCurrentInfo] = useState({
         accept: "",
@@ -54,6 +54,7 @@ function ApplyInputForm({ setModalVisible,props}) {
             ...currentInfo,
             [name]: value
         })
+        console.log(currentInfo)
     }
     const getCurrentInfo = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
@@ -74,38 +75,44 @@ function ApplyInputForm({ setModalVisible,props}) {
             })
     }
     const sendApplication = async (token) => {
-        let buf = currentInfo.h_date
-        let year = buf.getFullYear()
-        let month = '' + (buf.getMonth() + 1)
-        let day = '' + buf.getDate()
 
-        if (month.length < 2) {
-            month = '0' + month
+        if(currentInfo.accept===""||currentInfo.accept===null||currentInfo.h_date===null){
+            Alert.alert("모든 항목을 입력해주세요","",[{text:"확인"}])
+        }else{
+            let buf = currentInfo.h_date
+            let year = buf.getFullYear()
+            let month = '' + (buf.getMonth() + 1)
+            let day = '' + buf.getDate()
+
+            if (month.length < 2) {
+                month = '0' + month
+            }
+            if (day.length < 2) {
+                day = '0' + day
+            }
+            buf = [year, month, day].join('-')
+
+            console.log(buf)
+            console.log({...currentInfo, h_date: buf})
+            setIsLoading( true)
+            await axios.post(`http://3.35.135.214:8080/app/hope`, {
+                ...currentInfo,
+                h_date: buf
+            }, {headers: {Authorization: `Bearer ${token}`}})
+                .then((res) => {
+                    console.log("전송")
+                    Alert.alert("신청완료 되었습니다", "", [{text: "확인"}]);
+                    setIsLoading(false)
+                    setModalVisible(false)
+                    refresh();
+
+                }).catch((err) => {
+                    console.log(err)
+                    setIsLoading(false)
+                    showErrorMessage(err.response.data.message, setLogin, props, sendApplication);
+
+                })
         }
-        if (day.length < 2) {
-            day = '0' + day
-        }
-        buf = [year, month, day].join('-')
-
-        console.log(buf)
-        console.log({...currentInfo, h_date: buf})
-        setIsLoading( true)
-        await axios.post(`http://3.35.135.214:8080/app/hope`, {
-            ...currentInfo,
-            h_date: buf
-        }, {headers: {Authorization: `Bearer ${token}`}})
-            .then((res) => {
-                console.log("전송")
-                Alert.alert("신청완료 되었습니다", "", [{text: "확인"}]);
-                setIsLoading(false)
-                setModalVisible(false)
-
-            }).catch((err) => {
-                console.log(err)
-                setIsLoading(false)
-                showErrorMessage(err.response.data.message, setLogin, props, sendApplication);
-
-            })
     }
 
     return (

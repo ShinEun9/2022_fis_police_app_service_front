@@ -110,43 +110,46 @@ function CheckReservationTemplate(props) {
         await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("현장요원")
-                console.log(res.data[0].accept)
+               // console.log(res.data[0].accept)
                 let list = []
-                res.data.map((data, index) => {
-                    if (data.a_picture === null) {
-                        list[index] = {
-                            key: data.agent_id,
-                            a_name: data.a_name,
-                            a_ph: data.a_ph,
-                            a_picture: 'https://ifh.cc/g/pvXWYR.png',
-                            late_comment: data.late_comment,
-                            schedule_id: data.schedule_id,
-                            c_name: data.c_name,
-                            visit_date: data.visit_date,
-                            visit_time: data.visit_time
+                if(res.data.length!==0){
+                    res.data.map((data, index) => {
+                        if (data.a_picture === null) {
+                            list[index] = {
+                                key: data.agent_id,
+                                a_name: data.a_name,
+                                a_ph: data.a_ph,
+                                a_picture: 'https://ifh.cc/g/pvXWYR.png',
+                                late_comment: data.late_comment,
+                                schedule_id: data.schedule_id,
+                                c_name: data.c_name,
+                                visit_date: data.visit_date,
+                                visit_time: data.visit_time
+                            }
+                        } else {
+                            list[index] = {
+                                key: data.agent_id,
+                                a_name: data.a_name,
+                                a_ph: data.a_ph,
+                                a_picture: 'data:image/;base64,' + data.a_picture,
+                                late_comment: data.late_comment,
+                                schedule_id: data.schedule_id,
+                                c_name: data.c_name,
+                                visit_date: data.visit_date,
+                                visit_time: data.visit_time
+                            }
                         }
-                    } else {
-                        list[index] = {
-                            key: data.agent_id,
-                            a_name: data.a_name,
-                            a_ph: data.a_ph,
-                            a_picture: 'data:image/;base64,' + data.a_picture,
-                            late_comment: data.late_comment,
-                            schedule_id: data.schedule_id,
-                            c_name: data.c_name,
-                            visit_date: data.visit_date,
-                            visit_time: data.visit_time
-                        }
-                    }
-                    nowSchedule = data.schedule_id
-                    c_latitude = data.c_latitude,
+                        nowSchedule = data.schedule_id
+                        c_latitude = data.c_latitude
                         c_longitude = data.c_longitude
-                })
+                    })
+                    centerName = list[0].c_name
+                }
                 setIsLoading(false)
-                centerName = list[0].c_name
                 setAgentList(list)
                 console.log(agentList)
             }).catch((err) => {
+                console.log(err)
                 setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props, getAgentList);
                 console.log("현장요원 에러")
