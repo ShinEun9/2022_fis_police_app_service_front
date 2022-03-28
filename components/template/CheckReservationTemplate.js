@@ -31,7 +31,6 @@ let c_longitude;
 let centerName;
 
 function CheckReservationTemplate(props) {
-    const [flag, setFlag] = useState(true)
     const [selectedSchedule, setSelectedSchedule] = useState()
     const [modalVisible, setModalVisible] = useState(false);
     const [historyList, setHistoryList] = useState([])
@@ -158,7 +157,6 @@ function CheckReservationTemplate(props) {
             })
     }
 
-    useEffect(()=>{console.log(flag)},[flag])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -168,7 +166,7 @@ function CheckReservationTemplate(props) {
                 alignItems: "center",
                 zIndex: 1
             }}>
-                <CustomNavigation props={props} type="CenterTitleNavbar" title="내 예약 확인하러 가기" setFlag={setFlag}/>
+                <CustomNavigation props={props} type="CenterTitleNavbar" title="내 예약 확인하러 가기" />
             </View>
 
             <View style={{flex: 9, zIndex: 0,}}>
@@ -197,7 +195,7 @@ function CheckReservationTemplate(props) {
                                 </View> :
                                 <View style={{width: Dimensions.get('window').width * 0.9, alignItems: "center"}}>
                                     <CustomMap c_latitude={c_latitude} c_longitude={c_longitude}
-                                               c_name={centerName} props={props} flag={flag} setFlag={setFlag}/>
+                                               c_name={centerName} props={props} />
                                     <View style={styles.info}>
                                         {
                                             <ScrollView horizontal pagingEnabled>
