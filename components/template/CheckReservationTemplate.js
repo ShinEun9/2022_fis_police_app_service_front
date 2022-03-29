@@ -42,7 +42,6 @@ function CheckReservationTemplate(props) {
         let day = date.getDate();
 
         if (month / 10 < 1) {
-            console.log("hi")
             month = '0' + month
         }
         if (day / 10 < 1) {
@@ -85,7 +84,7 @@ function CheckReservationTemplate(props) {
         await axios.get(`http://3.35.135.214:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log("과거기록")
-                console.log(res.data)
+                // console.log(res.data)
                 const buf = []
                 res.data.data.map((data, index) => {
                     buf[index] = {
