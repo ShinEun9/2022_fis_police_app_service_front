@@ -35,13 +35,6 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
     }])
     const [isLoading, setIsLoading] = useState(true)
 
-    const example = {
-        latitude: 37.477732,
-        longitude: 126.880938,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-    }
-
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
@@ -62,8 +55,6 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
     const getAgentLocation = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log("현장요원 위치")
-                console.log(res.data)
                 const buf = []
                 res.data.map((data, index) => {
                     buf[index] = {
@@ -86,10 +77,10 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
     }
 
     return (
-        <MapView style={styles.map} initialRegion={example}
+        <MapView style={styles.map} initialRegion={location}
             // loadingEnabled
                  provider={PROVIDER_GOOGLE}>
-            <Marker coordinate={example} title={c_name}/>
+            <Marker coordinate={location} title={c_name}/>
             {agentLoc.map((data, index) => {
                 return <Marker key={data.key} coordinate={data.coords} image={{uri: `https://ifh.cc/g/OyMDXA.png`}}/>
             })}

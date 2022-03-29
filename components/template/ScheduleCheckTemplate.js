@@ -3,20 +3,16 @@ import {
     Text,
     SafeAreaView,
     View,
-    Alert,
-    Pressable,
     StyleSheet,
     ScrollView,
     useWindowDimensions,
-    Dimensions, Button, ActivityIndicator, Platform, RefreshControl
+    ActivityIndicator, Platform, RefreshControl
 } from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import ListContainer from "../organisms/ListContainer";
 import {Style} from "../../Style";
-import {schedule} from "../../store/dummy-data/schedule";
 import {week} from "../../store/dummy-data/week";
 import Modal from "react-native-modal";
-import MessageInputForm from "../organisms/MessageInputForm";
 import ConfirmationModal from "../organisms/ConfirmationModal";
 import ConfirmationForm from "../organisms/ConfirmationForm";
 import axios from "axios";
@@ -45,7 +41,7 @@ function ScheduleCheckTemplate(props) {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getToken().then((token) => {
-            getFutureData(token).then(()=>{
+            getFutureData(token).then(() => {
                 setRefreshing(false)
             })
         })
@@ -83,9 +79,6 @@ function ScheduleCheckTemplate(props) {
                 setPastSchedule(res.data)
             })
             .catch((err) => {
-                // console.log(err)
-                // console.log(err.response.data.message)
-                // 안해도 될 것 같음.
                 showErrorMessage(err.response.data.message, setLogin, props)
                 setIsLoading(false)
             })
@@ -119,7 +112,6 @@ function ScheduleCheckTemplate(props) {
         tmp = [...todayAndFutureSchedule, ...pastSchedule];
         for (let i = 0; i < tmp.length; i++) {
             if (tmp[i].schedule_id === keyValue) {
-                // console.log(tmp[i])
                 setSelectedScheduleInfo(tmp[i]);
                 setWhichModal(tmp[i].complete);
                 break;

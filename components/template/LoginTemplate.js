@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {SafeAreaView, View, Button, useWindowDimensions, Alert, TouchableOpacity, Text} from "react-native";
+import {SafeAreaView, View, Alert, TouchableOpacity, Text} from "react-native";
 import LoginInputForm from '../organisms/LoginInputForm'
 import logo from '../media/logo.png'
 import {Image} from "react-native";

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Alert, Platform, SafeAreaView, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Platform, SafeAreaView,View} from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
-import JoinInputForm from "../organisms/JoinInputForm";
 import SettingInputForm from "../organisms/SettingInputForm";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";

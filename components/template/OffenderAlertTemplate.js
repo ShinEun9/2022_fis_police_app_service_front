@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, SafeAreaView, Text, View} from "react-native";
+import {Platform, SafeAreaView, View} from "react-native";
 import CustomNavigation from "../organisms/CustomNavigation";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";

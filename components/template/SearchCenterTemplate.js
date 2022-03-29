@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, SafeAreaView, Text, Platform, Dimensions, StyleSheet} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
@@ -25,8 +24,6 @@ function SearchCenterTemplate(props) {
 
     const searchRequest = async () => {
         let {c_name} = currentInfo;
-        console.log(c_name)
-        let c_address, c_ph;
         await axios.get(`http://3.35.135.214:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
             .then((res) => {
                 console.log(res.data.data)
