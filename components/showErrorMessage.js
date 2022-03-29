@@ -5,7 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {StackActions} from "react-navigation";
 import axios from "axios";
 
-export async function showErrorMessage(message, setLogin, props, doFunction = ()=>{console.log("안됨")}, page = "notMain") {
+export async function showErrorMessage(message, setLogin, props, doFunction = () => {
+    console.log("안됨")
+}, page = "notMain") {
 
     const onPress = async () => {
         await AsyncStorage.removeItem("@u_auth")
@@ -27,11 +29,11 @@ export async function showErrorMessage(message, setLogin, props, doFunction = ()
             .then(async (res) => {
                 let a = res.data.accessToken;
                 let b = res.data.refreshToken;
-                 AsyncStorage.setItem("@token", a,  () => {
-                     console.log("setToken")
-                     AsyncStorage.setItem("@refresh_token", b,  () => {
-                         console.log("setRefreshToken")
-                         doFunction(a)
+                AsyncStorage.setItem("@token", a, () => {
+                    console.log("setToken")
+                    AsyncStorage.setItem("@refresh_token", b, () => {
+                        console.log("setRefreshToken")
+                        doFunction(a)
                     })
                 })
             }).catch((err) => {
@@ -90,6 +92,10 @@ export async function showErrorMessage(message, setLogin, props, doFunction = ()
     } else if (message === "AlreadyCompleted") {
 
     } else if (message === "ID Fail") {
+        Alert.alert("아이디 또는 비밀번호가 틀렸습니다.", "다시 로그인 해주세요", [{
+            text: "확인"
+        }])
+    } else if (message === "Password Fail") {
         Alert.alert("아이디 또는 비밀번호가 틀렸습니다.", "다시 로그인 해주세요", [{
             text: "확인"
         }])
