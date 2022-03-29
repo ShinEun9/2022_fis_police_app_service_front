@@ -4,7 +4,7 @@ import {
     SafeAreaView,
     View,
     useWindowDimensions,
-    Dimensions, ActivityIndicator, TouchableOpacity, Platform,
+    Dimensions, ActivityIndicator, TouchableOpacity, Platform, StyleSheet
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -24,7 +24,7 @@ import {showErrorMessage} from "../showErrorMessage";
 
 
 function AgentMainTemplate({props}) {
-    const [schedule, setSchedule] = useState([]);정 // 오늘 일정 저장
+    const [schedule, setSchedule] = useState([]); // 오늘 일정 저장
     const [isLoading, setIsLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
@@ -212,3 +212,13 @@ function AgentMainTemplate({props}) {
 }
 
 export default AgentMainTemplate;
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+        borderRadius: 10,
+    },
+})
