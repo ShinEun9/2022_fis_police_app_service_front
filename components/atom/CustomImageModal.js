@@ -36,7 +36,7 @@ function CustomImageModal({modalContent,  name, size, color,}) {
                     <View style={styles.customButton}>
                         <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
                     </View>
-                    {modalContent} {/* 띄우고 싶은 모달 내용 */}
+                    {modalContent}
                 </View>
             </Modal>
         </View>
