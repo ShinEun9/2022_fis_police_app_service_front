@@ -102,7 +102,7 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
             })
     }
 
-    const getAgentList = async (token) => { // 배치된 현장요원 정보를 받아오는 코드
+    const getAgentList = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 let list = []
@@ -352,9 +352,6 @@ const styles = StyleSheet.create(
             borderRadius: 10,
         }
         ,
-        textContainer: {
-            // paddingHorizontal: 25,
-        }
-        ,
+
     }
 )
