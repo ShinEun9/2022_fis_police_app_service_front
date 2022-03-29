@@ -19,7 +19,7 @@ function MainPage(props) {
     }, [])
 
     return (<>
-            {login === null ? <LoginTemplate setLogin={setLogin} /> : login === "AGENT" ? <AgentMainTemplate setLogin={setLogin} props={props}/> : <CenterMainTemplate setLogin={setLogin} props={props}/>}
+            {login === null ? <LoginTemplate setLogin={setLogin} props={props} /> : login === "AGENT" ? <AgentMainTemplate setLogin={setLogin} props={props}/> : <CenterMainTemplate setLogin={setLogin} props={props}/>}
         </>
 
     )
