@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 import {Style} from "../../Style";
 
@@ -6,7 +6,6 @@ import {Style} from "../../Style";
 function CustomMultilineInput({id, width, height, placeholder, handleChange, currentInfo}) {
 
     return (
-
         <TextInput
             id={id}
             style={{...styles.input, width: parseInt(width), height: parseInt(height)}}
@@ -15,9 +14,6 @@ function CustomMultilineInput({id, width, height, placeholder, handleChange, cur
             placeholder={placeholder}
             multiline
         />
-
-
-
     )
         ;
 }
@@ -28,9 +24,7 @@ const styles = StyleSheet.create(
         input: {
             borderColor: `${Style.color5}`,
             margin: 12,
-
             borderWidth: 2,
-
             padding: 10
         },
     }

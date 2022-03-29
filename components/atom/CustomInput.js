@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, TextInput, View, Text, Button} from 'react-native';
+import React from 'react';
+import {StyleSheet, TextInput} from 'react-native';
 import {Style} from "../../Style";
 
 function CustomInput({type = "normal", id, width, height, placeholder, keyboardType = "default", handleChange, currentInfo}) {

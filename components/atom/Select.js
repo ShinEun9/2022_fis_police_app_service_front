@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import React from 'react';
 import RNPickerSelect from 'react-native-picker-select';
-import {FontAwesome, Ionicons} from '@expo/vector-icons';
+import {FontAwesome} from '@expo/vector-icons';
 import {Style} from "../../Style";
 
 function Select({label, id, items, width, handleChange, currentInfo}) {

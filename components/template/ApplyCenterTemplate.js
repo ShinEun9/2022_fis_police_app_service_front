@@ -4,11 +4,9 @@ import {
     SafeAreaView,
     View,
     StyleSheet,
-    ActivityIndicator,
     ScrollView,
     Dimensions,
     Platform,
-    Alert, useWindowDimensions
 } from "react-native";
 import ApplyInputForm from "../organisms/ApplyInputForm";
 import CustomNavigation from "../organisms/CustomNavigation";
@@ -20,30 +18,16 @@ import {showErrorMessage} from "../showErrorMessage";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 import Modal from "react-native-modal";
-import ConfirmationModal from "../organisms/ConfirmationModal";
+
 
 const screen = Dimensions.get("window");
 
 function ApplyCenterTemplate(props) {
-    // const [currentInfo, setCurrentInfo] = useState({
-    //     accept: "",
-    //     h_date: null,
-    //     h_mail: "",
-    //     h_name: "",
-    //     h_ph: "",
-    //     h_address: ""
-    // })
     const [isLoading, setIsLoading] = useState(true)
     const [login, setLogin] = useRecoilState(loginState);
     const [applyData, setApplyData] = useState([])
     const [modalVisible, setModalVisible] = useState(false);
 
-    const handleChange = (name, value) => {
-        setCurrentInfo({
-            ...currentInfo,
-            [name]: value
-        })
-    }
 
     const getApplyData = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/hope/status`, {headers: {Authorization: `Bearer ${token}`}})
@@ -118,13 +102,6 @@ function ApplyCenterTemplate(props) {
                     </View>
                 </View>
                 <View style={{paddingVertical: 70}}>
-                    {/*<View style={{alignItems: 'center', justifyContent: 'center',marginBottom:10}}>*/}
-                    {/*    <Text style={styles.text}>1. 본인의 기본 정보가 맞는지 확인한다.</Text>*/}
-                    {/*    <Text style={styles.text}>2. 지문 등록 참여 여부를 선택한다.</Text>*/}
-                    {/*    <Text style={styles.text}>3. 희망하는 날짜를 선택한다.</Text>*/}
-                    {/*    <Text style={styles.text}>( 추후 전화를 통해 방문 날짜 확정 예정 )</Text>*/}
-                    {/*    <Text style={styles.text}>4. 제출 버튼을 눌러 신청서를 제출한다.</Text>*/}
-                    {/*</View>*/}
                     <View style={{justifyContent: 'center', alignItems: 'center', paddingVertical: 20}}>
                         <CustomButton width={screen.width * 0.75} height={Platform.OS === "ios" ? 40 : 35}
                                       backgroundColor={Style.color2} onPress={onPressFunc} content={"지문 등록 신청하러 가기"}/>
@@ -153,14 +130,6 @@ function ApplyCenterTemplate(props) {
                     }}/>
                 </View>
             </Modal>
-            {/*<View style={{flex: 5 , justifyContent:"center"}}>*/}
-            {/*    {isLoading.getCurrentInfoLoading ? <ActivityIndicator color="gray"/> :*/}
-            {/*        <ScrollView contentContainerStyle={{paddingVertical: 20}}>*/}
-            {/*            <ApplyInputForm onPress={onPress} handleChange={handleChange} currentInfo={currentInfo}*/}
-            {/*                            isLoading={isLoading.sendApplicationLoading}/>*/}
-            {/*        </ScrollView>*/}
-            {/*    }*/}
-            {/*</View>*/}
         </SafeAreaView>
     );
 }

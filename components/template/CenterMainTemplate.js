@@ -1,14 +1,10 @@
 import React from 'react';
-import {Text, SafeAreaView, View, useWindowDimensions, Platform} from "react-native";
+import {SafeAreaView, View, useWindowDimensions, Platform} from "react-native";
 import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
 import {Style} from "../../Style";
-import {useRecoilState} from "recoil";
-import {loginState} from "../../store/login";
 
 function CenterMainTemplate({props}) {
-    const [login, setLogin] = useRecoilState(loginState);
-
 
     // 코드 개선 필요(4개의 함수가 있을 필요는 없잖아ㅠㅠㅠㅠ 방법을 모르겠음)
     const goApplyCenterTemplate = () => {

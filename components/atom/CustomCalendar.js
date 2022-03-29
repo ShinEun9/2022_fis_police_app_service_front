@@ -1,6 +1,6 @@
-import React, {Component, useEffect, useState} from 'react'
-import {ActivityIndicator, Alert, Text, View} from 'react-native';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import React, {useEffect, useState} from 'react'
+import {ActivityIndicator,Text, View} from 'react-native';
+import {Calendar} from 'react-native-calendars';
 import {FontAwesome} from "@expo/vector-icons";
 import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -47,8 +47,6 @@ function CustomCalendar({props}) {
             })
             .catch((err) => {
                     setIsLoading(false)
-                    // console.log(err)
-                    // console.log(err.response.data.message);
                     showErrorMessage(err.response.data.message, setLogin, props, getData,"main")
                 }
             )

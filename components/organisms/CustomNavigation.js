@@ -1,24 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, Button, useWindowDimensions, Dimensions, StyleSheet, Platform} from 'react-native'
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity,Dimensions, StyleSheet, Platform} from 'react-native'
 import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "../atom/CustomImageButton";
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
 import CustomImageModal from "../atom/CustomImageModal";
 import CustomCalendar from "../atom/CustomCalendar";
-import Modal from "react-native-modal";
-import ConfirmationModal from "./ConfirmationModal";
-import ConfirmationForm from "./ConfirmationForm";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {useRecoilState} from "recoil";
-import {loginState} from "../../store/login";
-import {Style} from "../../Style";
-import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import NavBarItem from "../molecule/NavBarItem";
 
 
 function CustomNavigation({props, type, title}) {
     const [openNavigation, setOpenNavigation] = useState(false);
-    const [login, setLogin] = useRecoilState(loginState);
+
 
     const handleOpenNavigation = () => {
         console.log("hi")
@@ -64,15 +55,6 @@ function CustomNavigation({props, type, title}) {
 
                 </View>
                 {
-
-                    // <CustomLeftImageButton content="내 일정 수락하러 가기" onPress={goScheduleAcceptTemplate}
-                    //                        name="calendar-check-o"
-                    //                        size={30} color="black"/>
-                    // <CustomLeftImageButton content="확정된 일정 열람하러 가기" onPress={goScheduleCheckTemplate}
-                    // name="calendar"
-                    // size={30} color="black"/>
-                    // <CustomLeftImageButton content="급여 확인" onPress={goMoneyCheckTemplate} name="dollar" size={30}
-                    // color="black"/>
 
                     openNavigation ?
                         <>
@@ -203,7 +185,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 20,
         position: "relative",
-        // backgroundColor: "pink"
     },
     title: {
         flexDirection: "row",
@@ -212,9 +193,7 @@ const styles = StyleSheet.create({
         flex: 5
     },
     titleText: {
-
         fontSize: Dimensions.get("window").width > 360 ? 21 : 16,
-
         fontWeight: "600",
         textAlign: "center",
         marginRight: 5

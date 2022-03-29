@@ -9,6 +9,7 @@ import {showErrorMessage} from "../showErrorMessage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 
+
 const screen = Dimensions.get("window");
 const ASPECT_RATIO = screen.width / screen.height;
 

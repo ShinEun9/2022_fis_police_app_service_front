@@ -4,8 +4,7 @@ import {
     SafeAreaView,
     View,
     useWindowDimensions,
-    Alert,
-    StyleSheet, Dimensions, ActivityIndicator, ScrollView, TouchableOpacity, Platform,
+    StyleSheet, Dimensions, ActivityIndicator,TouchableOpacity, Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -13,31 +12,15 @@ import CustomLeftImageButton from "../atom/CustomLeftImageButton";
 import ListContainer from "../organisms/ListContainer";
 import CustomNavigation from "../organisms/CustomNavigation";
 import MoneyCheckTemplate from "./MoneyCheckTemplate";
-import {todaySchedule} from "../../store/dummy-data/todaySchedule";
 import MessageInputForm from "../organisms/MessageInputForm";
-
-import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import styled from "styled-components/native";
 import * as Location from "expo-location";
-import position from "react-native-web/dist/exports/Touchable/Position";
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {FontAwesome} from "@expo/vector-icons";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 import {showErrorMessage} from "../showErrorMessage";
-import * as TaskManager from "expo-task-manager"
-import Expo from "react-native/Libraries/Components/View/ReactNativeViewViewConfig";
-
-
-const screen = Dimensions.get("window");
-const ASPECT_RATIO = screen.width / screen.height;
-let LATITUDE_DELTA = 0.02;
-let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-let newLocation = {}
-let location = []
 
 
 function AgentMainTemplate({props}) {
@@ -46,10 +29,8 @@ function AgentMainTemplate({props}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
     const [login, setLogin] = useRecoilState(loginState);
-    const [alocation, setaLocation] = useState();
     const [ok, setOk] = useState(true);
 
-    const TASK_NAME = "BACKGROUND_LOCATION_TASK"
 
     const ask = async (options) => {
         const {status} = await Location.requestForegroundPermissionsAsync();
@@ -66,9 +47,6 @@ function AgentMainTemplate({props}) {
         const t = await AsyncStorage.getItem("@token")
         return t
     }
-    // useEffect(()=>{
-    //     ask();
-    // })
 
     const sendLocation = async (token, lat, lng) => {
         const location = {
@@ -97,23 +75,6 @@ function AgentMainTemplate({props}) {
         })
     }
 
-    // useEffect(()=>{
-    //     if(ok===true) {
-    //         const agentLocation = Geolocation.watchPosition(
-    //             (position) => {
-    //                 const latitude = position.coords.latitude
-    //                 const longitude = position.coords.longitude
-    //             },
-    //             (error) => {
-    //                 console.error(error.message)
-    //             },
-    //             {
-    //                 enableHighAccuracy: true, timeout: 15000, maximumAge: 10000
-    //             }
-    //         )
-    //     }
-    // })
-
 
     useEffect(async () => {
         ask().then((res) => {
@@ -139,7 +100,6 @@ function AgentMainTemplate({props}) {
         await axios.get(`http://3.35.135.214:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                // console.log(res);
                 setSchedule(res.data);
                 setIsLoading(false)
             })
@@ -217,8 +177,6 @@ function AgentMainTemplate({props}) {
                         <ListContainer onPress={onPress} info={schedule} minHeight="250"
                                        listButtonContent="늦음"/>
                     }
-
-
                     <Modal
                         isVisible={modalVisible}
                         useNativeDriver={true}
@@ -254,17 +212,3 @@ function AgentMainTemplate({props}) {
 }
 
 export default AgentMainTemplate;
-
-
-const styles = StyleSheet.create({
-        container: {
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "white",
-            borderRadius: 10,
-        },
-
-
-    }
-)

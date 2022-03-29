@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, SafeAreaView, useWindowDimensions, Platform} from "react-native";
+import {Text, View, SafeAreaView, Platform} from "react-native";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
 

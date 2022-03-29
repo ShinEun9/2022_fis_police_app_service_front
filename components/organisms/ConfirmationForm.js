@@ -13,7 +13,6 @@ import CustomMultilineInput from "../atom/CustomMultilineInput";
 import Timepicker from "../atom/Timepicker";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import CustomImageButton from "../atom/CustomImageButton";
 import {FontAwesome} from "@expo/vector-icons";
 import DatePicker from "../atom/DatePicker";
 import axios from "axios";
@@ -162,16 +161,6 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
                 <CustomMultilineInput id="etc" width={`${useWindowDimensions().width * 0.6}`} height="40"
                                       handleChange={handleChange} currentInfo={currentInfo}/>
             </View>
-            {/*<View style={styles.Input}>*/}
-            {/*    <Text style={styles.Text}>현장 요원 확인 :</Text>*/}
-            {/*    <CustomInput id="c_agentCheck" width={`${useWindowDimensions().width * 0.528}`} height="40"*/}
-            {/*                 handleChange={handleChange} currentInfo={currentInfo}/>*/}
-            {/*</View>*/}
-            {/*<View style={styles.Input}>*/}
-            {/*    <Text style={styles.Text}>시설 담당자 확인 :</Text>*/}
-            {/*    <CustomInput id="c_centerCheck" width={`${useWindowDimensions().width * 0.495}`} height="40"*/}
-            {/*                 handleChange={handleChange} currentInfo={currentInfo}/>*/}
-            {/*</View>*/}
             <View style={styles.Button}>
                 <CustomButton backgroundColor={Style.color2} onPress={onPress} width="100" height="40"
                               content={isLoading ? <ActivityIndicator color="gray"/> : "제출"}/>
@@ -189,11 +178,6 @@ const styles = StyleSheet.create({
         marginLeft: 13,
         paddingVertical: 7
     },
-    container: {
-        display: "flex",
-        justifyContent: "center",
-
-    },
     Input: {
         flexDirection: "row",
         display: "flex",
@@ -204,7 +188,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
 
     },
-
     Button: {
         marginTop: 18,
         alignItems: "center"

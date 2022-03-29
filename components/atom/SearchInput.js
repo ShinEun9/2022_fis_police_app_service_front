@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet, TextInput, useWindowDimensions, View} from "react-native";
+import {Dimensions, StyleSheet, TextInput, View} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {Style} from "../../Style";
 
@@ -27,9 +27,7 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             alignItems: 'center',
-
             borderWidth: 2,
-
             width: Dimensions.get("window").width * 0.8,
             height: 50,
             padding: 10,

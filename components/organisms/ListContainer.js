@@ -3,7 +3,6 @@ import {ScrollView, Text, useWindowDimensions, View} from 'react-native'
 import List from "../molecule/List";
 import {Style} from "../../Style";
 import CustomButton from "../atom/CustomButton";
-import button from "react-native-web/dist/exports/Button";
 
 function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, listButtonContent, info, keyValue}) {
     let element;
