@@ -42,7 +42,6 @@ function CheckReservationTemplate(props) {
         let day = date.getDate();
 
         if (month / 10 < 1) {
-            console.log("hi")
             month = '0' + month
         }
         if (day / 10 < 1) {

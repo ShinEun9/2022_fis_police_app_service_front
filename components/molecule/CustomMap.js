@@ -48,20 +48,16 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
         return t;
     }
 
-    useEffect(() => {
-        let t = AsyncStorage.getItem("@u_auth")
-        let timer = setInterval(function () {
-            if (t === "OFFICIAL") {
-                console.log(t)
-                getToken().then((token) => {
-                    getAgentLocation(token)
-                })
-            }else{
-                console.log("haisddfhiadfhidlfj asdlfhasd")
-                clearInterval(timer)
-            }
-        }, 3000);
-    }, [])
+    useEffect(()=>{
+        let timer = setInterval(async ()=>{
+            await getToken().then((token)=>{
+                getAgentLocation(token);
+            })
+        },3000);
+        props.navigation.addListener('beforeRemove',()=>{
+            clearInterval(timer);
+        });
+    },[]);
 
     const getAgentLocation = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
