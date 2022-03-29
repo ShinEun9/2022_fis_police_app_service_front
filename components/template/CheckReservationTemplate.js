@@ -30,12 +30,12 @@ let c_latitude;
 let c_longitude;
 let centerName;
 
-function CheckReservationTemplate(props) {
+function CheckReservationTemplate(props) { //시설 담당자가 자신의 예약 내용을 확인하는 템플릿
     const [selectedSchedule, setSelectedSchedule] = useState()
-    const [modalVisible, setModalVisible] = useState(false);
-    const [historyList, setHistoryList] = useState([])
-    const [agentList, setAgentList] = useState([])
-    const [today, setToday] = useState(() => {
+    const [modalVisible, setModalVisible] = useState(false); // 모달을 띄울지 말지 true,false 로 구분
+    const [historyList, setHistoryList] = useState([]) // 과거 지문등록 이력 저장
+    const [agentList, setAgentList] = useState([]) // 배치된 현장요원 목록 저장
+    const [today, setToday] = useState(() => { // 오늘 날짜 초기화
         let date = new Date();
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
@@ -50,7 +50,7 @@ function CheckReservationTemplate(props) {
         return `${year}-${month}-${day}`
     })
 
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true) // loading 구현을 위해
     const [login, setLogin] = useRecoilState(loginState);
     const [refreshing, setRefreshing] = React.useState(false);
 
@@ -80,7 +80,7 @@ function CheckReservationTemplate(props) {
         setModalVisible(true)
     }
 
-    const getHistoryList = async (token) => {
+    const getHistoryList = async (token) => { // 시설의 과거 지문 등록 이력을 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 const buf = []
@@ -93,7 +93,7 @@ function CheckReservationTemplate(props) {
                         center_name: data.center_name
                     }
                 })
-                const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date))
+                const sortBuf = buf.sort((a, b) => new Date(a.visit_date) - new Date(b.visit_date)) // 날짜 순으로 정렬
                 setHistoryList(sortBuf)
             }).catch((err) => {
                 console.log(err);
@@ -102,7 +102,7 @@ function CheckReservationTemplate(props) {
             })
     }
 
-    const getAgentList = async (token) => {
+    const getAgentList = async (token) => { // 배치된 현장요원 정보를 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 let list = []
@@ -125,7 +125,7 @@ function CheckReservationTemplate(props) {
                                 key: data.agent_id,
                                 a_name: data.a_name,
                                 a_ph: data.a_ph,
-                                a_picture: 'data:image/;base64,' + data.a_picture,
+                                a_picture: 'data:image/;base64,' + data.a_picture, // base64로 인코딩된 사진을 디코딩하여 띄움
                                 late_comment: data.late_comment,
                                 schedule_id: data.schedule_id,
                                 c_name: data.c_name,

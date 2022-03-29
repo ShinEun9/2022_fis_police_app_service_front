@@ -41,7 +41,6 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
         })
     }, [])
     const onPress=()=>{
-        // setIsLoading(true)
         getToken().then((token) => {
             sendApplication(token)
         })
@@ -52,7 +51,7 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
             [name]: value
         })
     }
-    const getCurrentInfo = async (token) => {
+    const getCurrentInfo = async (token) => { // 신청서에 적힐 기본 정보를 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
@@ -70,11 +69,11 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
                 showErrorMessage(err.response.data.message, setLogin, props, getCurrentInfo)
             })
     }
-    const sendApplication = async (token) => {
+    const sendApplication = async (token) => { // 작성한 신청서를 제출하는 코드
 
-        if(currentInfo.accept===""||currentInfo.accept===null||currentInfo.h_date===null){
+        if(currentInfo.accept===""||currentInfo.accept===null||currentInfo.h_date===null){ // 모든 항목이 채워지지 않으면 경고창이 뜸
             Alert.alert("모든 항목을 입력해주세요","",[{text:"확인"}])
-        }else{
+        }else{ // 날짜 표현 방식을 바꿔주는 코드
             let buf = currentInfo.h_date
             let year = buf.getFullYear()
             let month = '' + (buf.getMonth() + 1)
@@ -87,9 +86,6 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
                 day = '0' + day
             }
             buf = [year, month, day].join('-')
-
-            console.log(buf)
-            console.log({...currentInfo, h_date: buf})
             setIsLoading( true)
             await axios.post(`http://3.35.135.214:8080/app/hope`, {
                 ...currentInfo,
@@ -101,7 +97,6 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
                     setIsLoading(false)
                     setModalVisible(false)
                     refresh();
-
                 }).catch((err) => {
                     console.log(err)
                     setIsLoading(false)
@@ -111,7 +106,7 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
         }
     }
 
-    return (
+    return ( // 신청서 양식
         <View style={{alignItems: "center"}}>
             <View style={styles.Input}>
                 <Text style={styles.Text}>시설 이름 :</Text>

@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import {TouchableOpacity} from "react-native";
 
 
-function CustomButton({keyValue, width, height, backgroundColor, onPress, content}) {
+function CustomButton({keyValue, width, height, backgroundColor, onPress, content}) { // 버튼 이용 시 사용
     return (
         <TouchableOpacity disabled={content==="확인 대기중"?true:false} onPress={()=>{onPress(keyValue)}} activeOpacity={0.9}>
             <View style={{...styles.button, width: parseInt(width), height: parseInt(height), backgroundColor}}>

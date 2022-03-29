@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
-function CustomRightImageButton({keyValue, onPress, name, size, content, color}) {
+function CustomRightImageButton({keyValue, onPress, name, size, content, color}) { // 오른쪽에 antdesign 아이콘이 있는 버튼
     return (
         <TouchableOpacity onPress={() => {
             onPress(keyValue)

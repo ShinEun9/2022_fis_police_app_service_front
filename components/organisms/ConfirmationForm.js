@@ -23,7 +23,7 @@ import {loginState} from "../../store/login";
 
 function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction}) {
     const [login, setLogin] = useRecoilState(loginState)
-    const [currentInfo, setCurrentInfo] = useState({
+    const [currentInfo, setCurrentInfo] = useState({ // 확인서 내용 초기화
         c_name: "",
         c_address: "",
         c_ph: "",
@@ -36,11 +36,11 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
         etc: "",
     })
     const [isLoading, setIsLoading] = useState(false)
+
     useEffect(() => {
         let date = new Date();
         let tmp = defaultValue['visit_time'].split(":")
         date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), tmp[0], tmp[1])
-
         setCurrentInfo({
             ...currentInfo,
             c_name: defaultValue.c_name,
@@ -62,8 +62,8 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
         let info = {
             new_child, old_child, senile, disabled, etc
         }
-
         const {schedule_id} = defaultValue;
+
         await axios.post(`http://3.35.135.214:8080/app/confirm/write/${schedule_id}`, info, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)

@@ -12,7 +12,7 @@ const screen = Dimensions.get("window");
 
 function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const [login, setLogin] = useRecoilState(loginState)
-    const [confirmInfo, setConfirmInfo] = useState();
+    const [confirmInfo, setConfirmInfo] = useState(); // 확인서 내용 저장
     const [isLoading, setIsLoading] = useState({
         getData: true,
         sendConfirm: false
@@ -23,7 +23,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         return t;
     }
 
-    const getData = async (token) => {
+    const getData = async (token) => { // 작성된 확인서를 불러오는 코드
         await axios.get(`http://3.35.135.214:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setConfirmInfo(res.data);
@@ -52,10 +52,9 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         })
     }, [])
 
-    const sendData = async (token) => {
+    const sendData = async (token) => { // 시설 담당자가 확인서에 서명을 하면 한 내용을 서버로 보내는 코드 -> 이후 시설담당자와 현장요원이 열람 가능
         let confirm_id = {confirm_id: confirmInfo.confirm_id}
-        console.log(confirm_id)
-        console.log(schedule_id)
+
         await axios.post(`http://3.35.135.214:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, sendConfirm: false})

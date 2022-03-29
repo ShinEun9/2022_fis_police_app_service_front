@@ -4,7 +4,7 @@ import {
     SafeAreaView,
     View,
     useWindowDimensions,
-    StyleSheet, Dimensions, ActivityIndicator,TouchableOpacity, Platform,
+    Dimensions, ActivityIndicator, TouchableOpacity, Platform,
 } from "react-native";
 import Modal from "react-native-modal";
 
@@ -24,20 +24,20 @@ import {showErrorMessage} from "../showErrorMessage";
 
 
 function AgentMainTemplate({props}) {
-    const [schedule, setSchedule] = useState([]);
+    const [schedule, setSchedule] = useState([]);정 // 오늘 일정 저장
     const [isLoading, setIsLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState();
     const [login, setLogin] = useRecoilState(loginState);
-    const [ok, setOk] = useState(true);
+    const [ok, setOk] = useState(true); //위치 권한 허용 여부 저장
 
 
     const ask = async (options) => {
-        const {status} = await Location.requestForegroundPermissionsAsync();
+        const {status} = await Location.requestForegroundPermissionsAsync(); // 사용자의 위치 접근 권한을 요청하는 코드
         if (status !== "granted") {
             setOk(false);
         } else {
-            const {backgroundPermission} = await Location.requestBackgroundPermissionsAsync()
+            const {backgroundPermission} = await Location.requestBackgroundPermissionsAsync() // 백그라운드에서의 위치 접근 권한을 요청하는 코드 -> 안드로이드에서는 살행 안 됨,,
             if (backgroundPermission !== "granted") {
                 setOk(false);
             }
@@ -49,7 +49,7 @@ function AgentMainTemplate({props}) {
     }
 
     const sendLocation = async (token, lat, lng) => {
-        const location = {
+        const location = { // 현장요원의 위치를 받아 문자열로 변경하여 서버와 통신
             a_cur_lat: lat.toString(),
             a_cur_long: lng.toString()
         }
@@ -79,13 +79,12 @@ function AgentMainTemplate({props}) {
     useEffect(async () => {
         ask().then((res) => {
             if (ok === true) {
-                Location.watchPositionAsync({
+                Location.watchPositionAsync({ //3초에 한 번 현장요원의 위치를 서버로 보냄
                         accuracy: 6,
                         timeInterval: 3000,
-                        // distanceInterval:5
                     }, async (position) => {
                         let t = await AsyncStorage.getItem("@u_auth")
-                        if (t === "AGENT") {
+                        if (t === "AGENT") { //현장요원으로 로그인 한 경우에만 서버에 현장요원 위치 전송
                             const {latitude, longitude} = position.coords;
                             toSendLoc(latitude, longitude)
                         }
@@ -96,7 +95,7 @@ function AgentMainTemplate({props}) {
         })
     }, [])
 
-    const getTodaySchedule = async (token) => {
+    const getTodaySchedule = async (token) => { // 오늘 일정을 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -123,6 +122,7 @@ function AgentMainTemplate({props}) {
         setModalVisible(true)
     }
 
+    // 해당 메뉴로 이동할 수 있는 코드
     const goScheduleAcceptTemplate = () => {
         props.navigation.navigate('ScheduleAcceptTemplate')
     }
