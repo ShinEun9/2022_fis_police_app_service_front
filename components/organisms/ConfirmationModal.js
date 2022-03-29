@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Dimensions, ActivityIndicator} from 'react-native'
+import {Text, View, StyleSheet, Dimensions, ActivityIndicator, Alert} from 'react-native'
 import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -58,7 +58,11 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         await axios.post(`http://3.35.135.214:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, sendConfirm: false})
-                setModalVisible(false)
+                Alert.alert("완료되었습니다", "", [{
+                    text: "확인", onPress: () => {
+                        setModalVisible(false)
+                    }
+                }])
             }).catch((err) => {
                 console.log(err.response.data.message)
                 setIsLoading({...isLoading, sendConfirm: false})
@@ -67,9 +71,9 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     }
     return (
         isLoading.getData ? <View style={styles.mainContainer}><ActivityIndicator color="gray"/></View> :
-            <View style={{...styles.mainContainer,height:confirmInfo===null?screen.height*0.5:"auto"}}>
+            <View style={{...styles.mainContainer, height: confirmInfo === null ? screen.height * 0.5 : "auto"}}>
                 {confirmInfo === null ?
-                   <Text>확인서 없음</Text>
+                    <Text>확인서 없음</Text>
                     :
                     <>
                         <Text style={{fontSize: 18, fontWeight: "bold", marginBottom: 15}}>현장 등록 확인서</Text>
@@ -110,8 +114,9 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                                 특이사항
                             </Text>
 
-                            <View style={{borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
-                            }} >
+                            <View style={{
+                                borderWidth: 2, borderColor: Style.color5, padding: 5, minHeight: 100
+                            }}>
 
                                 <Text>
                                     {confirmInfo.etc}

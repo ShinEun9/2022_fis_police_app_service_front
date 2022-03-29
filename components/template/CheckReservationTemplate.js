@@ -305,13 +305,15 @@ const styles = StyleSheet.create(
         info: {
             width: Dimensions.get('window').width * 0.9,
             height: 170,
-            justifyContent: "center"
+            justifyContent: "center",
+            marginVertical: 15
         }
         ,
         agent: {
             width: Dimensions.get('window').width * 0.9,
             alignItems: "center",
             flexDirection: "row",
+            marginBottom: 13
         }
         ,
         box: {
