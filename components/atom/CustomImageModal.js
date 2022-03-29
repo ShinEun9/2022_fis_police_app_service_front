@@ -8,7 +8,7 @@ import CustomImageButton from "./CustomImageButton";
 const screen = Dimensions.get("window");
 
 
-function CustomImageModal({modalContent, onPress, name, size, color, content}) {
+function CustomImageModal({modalContent,  name, size, color,}) {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const toggleModal = () => {
