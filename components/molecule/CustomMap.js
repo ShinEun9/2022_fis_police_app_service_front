@@ -22,9 +22,9 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) { //
 
     const location = {
         latitude: c_latitude,
-        longitude: c_longitude,
-        latitudeDelta: LATITUDE_DELTA, // 확대 비율
-        longitudeDelta: LONGITUDE_DELTA, //확대비율
+        longitude:c_longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
     } // 지도의 센터, 마커를 띄우는 위치 를 표현하기 위해 만든 변수
 
     const [agentLoc, setAgentLoc] = useState([{
@@ -81,9 +81,9 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) { //
     return (
         <MapView style={styles.map} initialRegion={location}
                  provider={PROVIDER_GOOGLE}>
-            <Marker coordinate={location} title={c_name}/> {/* 시설의 위치를 마커로 표시 */}
+            <Marker coordinate={location} title={c_name}/>
             {agentLoc.map((data, index) => { // 현장요원의 위치를 띄움( 두 명 이상일 경우를 대비해 map 함수를 이용 )
-                return <Marker key={data.key} coordinate={data.coords} image={{uri: `https://ifh.cc/g/OyMDXA.png`}}/>
+                return <Marker key={data.key} coordinate={data.coords} image={{uri: `https://ifh.cc/g/tFpyLB.png`}}/>
             })}
         </MapView>
 
