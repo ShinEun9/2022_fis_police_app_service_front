@@ -83,8 +83,6 @@ function CheckReservationTemplate(props) {
     const getHistoryList = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log("과거기록")
-                // console.log(res.data)
                 const buf = []
                 res.data.data.map((data, index) => {
                     buf[index] = {
@@ -107,8 +105,6 @@ function CheckReservationTemplate(props) {
     const getAgentList = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log("현장요원")
-               // console.log(res.data[0].accept)
                 let list = []
                 if(res.data.length!==0){
                     res.data.map((data, index) => {
@@ -145,14 +141,10 @@ function CheckReservationTemplate(props) {
                 }
                 setIsLoading(false)
                 setAgentList(list)
-                console.log(agentList)
             }).catch((err) => {
                 console.log(err)
                 setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props, getAgentList);
-                console.log("현장요원 에러")
-                console.log(err)
-                console.log(err.response.data.message)
             })
     }
 
@@ -287,7 +279,6 @@ function CheckReservationTemplate(props) {
                                         <Text style={{color: "gray", fontSize: 20}}>과거이력 없음</Text> :
                                         <CustomImageModal name={"plus-square-o"} size={24} color={"gray"}
                                                           modalContent={<ApplyRecord content={historyList}/>}/>}
-                                    {/*<Text style={{marginLeft: 10, color:"gray"}}>더보기</Text>*/}
 
                                 </View>
                             </View>

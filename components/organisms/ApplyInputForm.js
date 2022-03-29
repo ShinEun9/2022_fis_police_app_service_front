@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
     Text,
-    SafeAreaView,
     View,
-    Dimensions,
     StyleSheet,
     useWindowDimensions,
-    Platform,
     ActivityIndicator, Alert
 } from "react-native";
 import CustomInput from "../atom/CustomInput";
@@ -54,7 +51,6 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
             ...currentInfo,
             [name]: value
         })
-        console.log(currentInfo)
     }
     const getCurrentInfo = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})

@@ -67,10 +67,6 @@ function ScheduleAcceptTemplate(props) {
                 setIncompleteSchedule(res.data)
             })
             .catch((err) => {
-                // console.log(err)
-                // console.log(err.response.data.message)
-                console.log("실패")
-                // AsyncStorage.removeItem("@token");
                 setIsLoading(false)
                 showErrorMessage(err.response.data.message, setLogin, props, getIncompleteSchedule)
             })
@@ -241,21 +237,3 @@ function ScheduleAcceptTemplate(props) {
 }
 
 export default ScheduleAcceptTemplate;
-
-const styles = StyleSheet.create(
-    {
-        label: {
-            backgroundColor: Style.color2,
-            padding: 8,
-            width: 150,
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            alignItems: "center"
-
-        },
-        labelText: {
-            fontSize: 20,
-            color: "white"
-        }
-    }
-);

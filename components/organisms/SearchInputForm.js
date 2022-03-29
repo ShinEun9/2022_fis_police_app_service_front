@@ -1,8 +1,6 @@
 import React from 'react';
-import {View, Text, useWindowDimensions, ActivityIndicator} from 'react-native'
-import Select from "../atom/Select";
+import {View, ActivityIndicator} from 'react-native'
 import SearchInput from "../atom/SearchInput";
-import CustomInput from "../atom/CustomInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
 
@@ -10,20 +8,6 @@ function SearchInputForm({handleChange, currentInfo, submitFunction, isLoading})
 
     return (
         <>
-            {/*<View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>*/}
-            {/*    <Select label="시/도 선택" id="sido" width={useWindowDimensions().width*0.35}*/}
-            {/*            items={[{label: 'Football', value: 'football'}, {*/}
-            {/*                label: 'Baseball',*/}
-            {/*                value: 'baseball'*/}
-            {/*            }, {label: 'Hockey', value: 'hockey'}]}*/}
-            {/*            handleChange={handleChange} currentInfo={currentInfo}/>*/}
-            {/*    <Select label="지역 선택" id="local" width={useWindowDimensions().width*0.35}*/}
-            {/*            items={[{label: 'Football', value: 'football'}, {*/}
-            {/*                label: 'Baseball',*/}
-            {/*                value: 'baseball'*/}
-            {/*            }, {label: 'Hockey', value: 'hockey'}]}*/}
-            {/*            handleChange={handleChange} currentInfo={currentInfo}/>*/}
-            {/*</View>*/}
             <View style={{marginRight: 10}}>
                 <SearchInput id="c_name" width={250} submitFunction={submitFunction} handleChange={handleChange}
                              currentInfo={currentInfo}

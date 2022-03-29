@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, Button, Dimensions} from 'react-native';
+import React from 'react';
+import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import {TouchableOpacity} from "react-native";
 
-
-const screen = Dimensions.get("window");
 
 function CustomButton({keyValue, width, height, backgroundColor, onPress, content}) {
     return (
@@ -13,8 +11,6 @@ function CustomButton({keyValue, width, height, backgroundColor, onPress, conten
             </View>
         </TouchableOpacity>
     );
-
-
 }
 
 export default CustomButton;

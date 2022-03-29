@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
 import Modal from "react-native-modal";
-import {View, StyleSheet, Dimensions, TouchableOpacity, Text, ScrollView} from "react-native";
-import {Style} from "../../Style";
-import styled from "styled-components/native";
-import CustomButton from "./CustomButton";
+import {View, StyleSheet, Dimensions, TouchableOpacity} from "react-native";
 import {FontAwesome} from "@expo/vector-icons";
 import CustomImageButton from "./CustomImageButton";
 
@@ -36,7 +33,6 @@ function CustomImageModal({modalContent, onPress, name, size, color, content}) {
                     setIsModalVisible(false)
                 }}
             >
-
                 <View style={styles.container}>
                     <View style={styles.customButton}>
                         <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
@@ -65,19 +61,5 @@ const styles = StyleSheet.create({
             backgroundColor: "white",
             borderRadius: 10,
         },
-        button: {
-            borderRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-        },
-        buttonText: {
-            fontSize: 20,
-            color: "white"
-        },
-        content: {
-            height: 400,
-            width: 300,
-        }
-
     }
 )

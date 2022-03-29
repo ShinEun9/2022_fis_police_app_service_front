@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, useWindowDimensions, View, StyleSheet, Dimensions, ActivityIndicator} from 'react-native'
+import {Text, View, StyleSheet, Dimensions, ActivityIndicator} from 'react-native'
 import {Style} from "../../Style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -17,7 +17,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         getData: true,
         sendConfirm: false
     });
-    const [agentName, setAgentName] = useState("")
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token");
@@ -27,8 +26,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const getData = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log("확인서")
-                console.log(res.data)
                 setConfirmInfo(res.data);
                 setIsLoading({...isLoading, getData: false})
             }).catch((err) => {
@@ -53,8 +50,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         getToken().then((token) => {
             getData(token)
         })
-
-
     }, [])
 
     const sendData = async (token) => {
@@ -63,15 +58,10 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
         console.log(schedule_id)
         await axios.post(`http://3.35.135.214:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res.data)
-                console.log("hihihihi")
                 setIsLoading({...isLoading, sendConfirm: false})
                 setModalVisible(false)
-
-
             }).catch((err) => {
                 console.log(err.response.data.message)
-
                 setIsLoading({...isLoading, sendConfirm: false})
                 showErrorMessage(err.response.data.message, setLogin, props, sendData);
             })
@@ -101,10 +91,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                                 <Text style={styles.title}>방문시간</Text>
                                 <Text style={styles.content}>{confirmInfo.visit_date} {confirmInfo.visit_time}</Text>
                             </View>
-                            {/*<View style={styles.item}>*/}
-                            {/*    <Text style={styles.title}>종료시간</Text>*/}
-                            {/*    <Text style={styles.content}>2022.05.04 15:30</Text>*/}
-                            {/*</View>*/}
                             <View style={styles.item}>
                                 <Text style={{...styles.title, flex: 1}}>신규인원</Text>
                                 <Text style={{
@@ -200,6 +186,5 @@ const styles = StyleSheet.create({
     }
 
 })
-
 
 export default ConfirmationModal;

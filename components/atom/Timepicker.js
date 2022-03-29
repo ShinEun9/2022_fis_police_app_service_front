@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {Text, TouchableOpacity, View} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {Style} from "../../Style";
-import {AntDesign, FontAwesome} from "@expo/vector-icons";
+import {AntDesign} from "@expo/vector-icons";
 
 function Timepicker({id, currentInfo, handleChange, width}) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -28,9 +28,7 @@ function Timepicker({id, currentInfo, handleChange, width}) {
                     width: parseInt(width),
                     height: 40,
                     flexDirection: 'row',
-
                     borderWidth: 2,
-
                     borderColor:  Style.color5,
                     alignItems: "center",
                     justifyContent: "space-between",

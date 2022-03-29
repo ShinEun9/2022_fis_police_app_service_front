@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import LoginTemplate from "../template/LoginTemplate";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AgentMainTemplate from "../template/AgentMainTemplate";
@@ -16,7 +16,6 @@ function MainPage(props) {
 
     useEffect(() => {
         loadLoginState()
-        // return AsyncStorage.clear()
     }, [])
 
     return (<>

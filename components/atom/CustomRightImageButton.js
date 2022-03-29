@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 
 function CustomRightImageButton({keyValue, onPress, name, size, content, color}) {

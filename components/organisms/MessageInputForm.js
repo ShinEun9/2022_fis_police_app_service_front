@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     View,
     Text,
@@ -7,7 +7,7 @@ import {
     useWindowDimensions,
     Alert,
     TouchableOpacity,
-    TouchableWithoutFeedback, Keyboard, ActivityIndicator
+    Keyboard, ActivityIndicator
 } from 'react-native'
 import {Style} from "../../Style";
 import Checkbox from 'expo-checkbox';
@@ -72,15 +72,14 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
                 // showErrorMessage(err.response.data.message, setLogin, props);
 
                 // token을 null로 보내도 성공해서 확인할 수 있는 방법이 없음
-                if(err.response.data.message!=="ExpiredToken"){
+                if (err.response.data.message !== "ExpiredToken") {
                     showErrorMessage(err.response.data.message, setLogin, props);
-                }
-                else{
+                } else {
                     await axios.get(`http://3.35.135.214:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
                         .then(async (res) => {
-                            await AsyncStorage.setItem("@token", res.data.accessToken,  () => {
-                                AsyncStorage.setItem("@refresh_token", res.data.refreshToken,  () => {
-                                    getToken.then((token)=>{
+                            await AsyncStorage.setItem("@token", res.data.accessToken, () => {
+                                AsyncStorage.setItem("@refresh_token", res.data.refreshToken, () => {
+                                    getToken.then((token) => {
                                         sendMessageRequest(token, message)
                                     })
                                 })

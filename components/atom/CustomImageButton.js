@@ -1,6 +1,6 @@
 import React from 'react';
 import {FontAwesome} from "@expo/vector-icons";
-import {TouchableOpacity,View} from "react-native";
+import {TouchableOpacity} from "react-native";
 
 function CustomImageButton({onPress,name,size,color}) {
     return (
@@ -12,9 +12,3 @@ function CustomImageButton({onPress,name,size,color}) {
 }
 
 export default CustomImageButton;
-
-// const styles = StyleSheet.create({
-//     button:{
-//
-//     }
-// })

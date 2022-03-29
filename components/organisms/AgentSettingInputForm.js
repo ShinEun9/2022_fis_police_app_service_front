@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import CustomInput from "../atom/CustomInput";
-import PasswordInput from "../atom/PasswordInput";
-import CustomButton from "../atom/CustomButton";
-import {Style} from "../../Style";
 import {ActivityIndicator, Dimensions, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -71,8 +68,6 @@ function AgentSettingInputForm({onPressLogout, props}) {
                 <CustomInput type="line" id="a_ph" width={Dimensions.get('window').width * 0.6} height="50"
                              placeholder="아이디" handleChange={handleChange}
                              currentInfo={currentInfo}/>
-
-
                 <View style={{marginTop: 20}}>
                     <TouchableOpacity onPress={onPressLogout} style={{flexDirection: "row", alignItems: "center"}}>
                         <CustomImageButton name="sign-out" color={"gray"} size={20}/>

@@ -2,10 +2,7 @@ import React from 'react';
 import {View, Text, useWindowDimensions, Dimensions} from 'react-native';
 import {Style} from "../../Style";
 import CustomButton from "../atom/CustomButton";
-import CustomModal from "../atom/CustomModal";
-import MessageInputForm from "../organisms/MessageInputForm";
 
-const screen = Dimensions.get("window");
 
 function List({type = "buttonList", onPress, listButtonContent, info}) {
     let element;

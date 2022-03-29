@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import CustomInput from "../atom/CustomInput";
 import PasswordInput from "../atom/PasswordInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import {ActivityIndicator, Alert, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
+import {ActivityIndicator, Alert,useWindowDimensions, View} from "react-native";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {showErrorMessage} from "../showErrorMessage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";

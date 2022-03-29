@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, StyleSheet, TextInput, View, TouchableOpacity} from "react-native";
+import {StyleSheet, TextInput, View, TouchableOpacity} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import {Style} from "../../Style";
 
@@ -66,9 +66,7 @@ const styles = StyleSheet.create(
             flexDirection: 'row',
             justifyContent: "space-between",
             alignItems: 'center',
-
             borderWidth: 1,
-
             padding: 10,
             borderColor: `${Style.color5}`,
             paddingBottom: 10,
@@ -80,9 +78,7 @@ const styles = StyleSheet.create(
             borderColor: "transparent",
             borderBottomColor: `${Style.color5}`,
             margin: 12,
-
             borderWidth: 2,
-
             padding: 10,
         },
         inputStyle:{
