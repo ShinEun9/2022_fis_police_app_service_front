@@ -3,7 +3,7 @@ import {StyleSheet, TextInput} from 'react-native';
 import {Style} from "../../Style";
 
 
-function CustomMultilineInput({id, width, height, placeholder, handleChange, currentInfo}) {
+function CustomMultilineInput({id, width, height, placeholder, handleChange, currentInfo}) { // 글자를 여러줄에 걸쳐 쓸 수 있는 인풋폼
 
     return (
         <TextInput

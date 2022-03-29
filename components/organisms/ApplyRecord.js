@@ -2,15 +2,13 @@ import React from 'react';
 import {Text, View, StyleSheet, ScrollView, Dimensions} from "react-native";
 import {Style} from "../../Style";
 
-function ApplyRecord({content}) {
+function ApplyRecord({content}) { //과거 신청 이력을 띄움
 
-    console.log("history")
-    console.log(content.length)
     return (
         <View style={styles.mainContainer}>
             <ScrollView style={{width: "100%", marginBottom: 20,}}
                         contentContainerStyle={{alignItems: "center"}}>
-                {content ?
+                {content ? // 과거 신청 이력이 없으면 과거 신청 이력 없음 이라고 띄움
                     <>
                         {content.map((data, index) => {
                             return <View key={index} style={styles.container2}>
@@ -38,7 +36,6 @@ export default ApplyRecord;
 const styles = StyleSheet.create(
     {
         mainContainer: {
-            // backgroundColor: Style.color3,
             width: Dimensions.get("window").width * 0.83,
             height: Dimensions.get("window").height * 0.49,
             alignItems: "center",

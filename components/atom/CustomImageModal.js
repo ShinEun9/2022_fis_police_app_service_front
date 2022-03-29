@@ -14,11 +14,10 @@ function CustomImageModal({modalContent, onPress, name, size, color, content}) {
     const toggleModal = () => {
         setIsModalVisible(!isModalVisible);
     };
-    const send = () => {
-        console.log("끄기")
+    const send = () => { //modal 꺼짐
         setIsModalVisible(!isModalVisible)
     }
-    return (
+    return ( // 이미지 버튼을 눌렀을 때 모달이 뜨는 경우 사용
         <View>
             <TouchableOpacity onPress={toggleModal} activeOpacity={0.7}>
                 <FontAwesome name={name} size={size} color={color}></FontAwesome>
@@ -29,7 +28,7 @@ function CustomImageModal({modalContent, onPress, name, size, color, content}) {
                 //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
                 useNativeDriver={true}
                 hideModalContentWhileAnimating={true}
-                onBackdropPress={() => {
+                onBackdropPress={() => { //뒷배경 눌렀을 때 모달창 꺼짐
                     setIsModalVisible(false)
                 }}
             >
@@ -37,7 +36,7 @@ function CustomImageModal({modalContent, onPress, name, size, color, content}) {
                     <View style={styles.customButton}>
                         <CustomImageButton name={"close"} size={30} onPress={send} color={"gray"}/>
                     </View>
-                    {modalContent}
+                    {modalContent} {/* 띄우고 싶은 모달 내용 */}
                 </View>
             </Modal>
         </View>

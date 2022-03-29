@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform} from "react-native";
+import {View, Text, TouchableOpacity, StyleSheet, Dimensions} from "react-native";
 import {FontAwesome} from '@expo/vector-icons'
 
-function CustomLeftImageButton({ content,onPress,name,size,color}) {
+function CustomLeftImageButton({ content,onPress,name,size,color}) { // 왼쪽에 fontawesome 아이콘이 있는 버튼
     return (
         <TouchableOpacity onPress={onPress} activeOpacity={0.9}>
             <View style={styles.button}>

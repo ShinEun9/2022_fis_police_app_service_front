@@ -22,21 +22,20 @@ import Modal from "react-native-modal";
 
 const screen = Dimensions.get("window");
 
-function ApplyCenterTemplate(props) {
-    const [isLoading, setIsLoading] = useState(true)
+
+function ApplyCenterTemplate(props) { //센터가 지문등록을 하는 템플릿
+    const [isLoading, setIsLoading] = useState(true) // loading 구현을 위해
     const [login, setLogin] = useRecoilState(loginState);
-    const [applyData, setApplyData] = useState([])
-    const [modalVisible, setModalVisible] = useState(false);
+    const [applyData, setApplyData] = useState([]) //과거에 신청했던 내용 저장
+    const [modalVisible, setModalVisible] = useState(false); // modal을 띄울지 말지 결정
 
 
-    const getApplyData = async (token) => {
+    const getApplyData = async (token) => { // 과거 신청 이력을 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/hope/status`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log("신청현황")
-                console.log(res.data.data)
                 setIsLoading(false)
                 let buf = []
-                res.data.data.map((data, index) => {
+                res.data.data.map((data, index) => { // 영어로 넘어오는 항목을 한글로 변경해줘야 함
                     if (data.accept === "accept") {
                         buf[index] = {
                             ...data,
@@ -49,7 +48,7 @@ function ApplyCenterTemplate(props) {
                         }
                     }
                 })
-                let rBuf = buf.reverse()
+                let rBuf = buf.reverse() // 최신순으로 정렬
                 setApplyData(rBuf)
             }).catch((err) => {
                 console.log(err)
@@ -87,7 +86,7 @@ function ApplyCenterTemplate(props) {
                                 현황</Text>
                         </View>
                         <ScrollView>
-                            {applyData.map((data, index) => {
+                            {applyData.map((data, index) => { // 최근 5개 신청 이력만 띄워주기 위해 map 함수 사용
                                 if (index < 5) {
                                     return <View key={index}
                                                  style={{...styles.container2}}>

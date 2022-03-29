@@ -17,23 +17,25 @@ let LATITUDE_DELTA = 0.004;
 let LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
-export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
+export default function CustomMap({c_latitude, c_longitude, c_name, props}) { // 지도를 띄우는 컴포넌트
     const [login, setLogin] = useRecoilState(loginState);
 
     const location = {
         latitude: c_latitude,
         longitude: c_longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-    }
+        latitudeDelta: LATITUDE_DELTA, // 확대 비율
+        longitudeDelta: LONGITUDE_DELTA, //확대비율
+    } // 지도의 센터, 마커를 띄우는 위치 를 표현하기 위해 만든 변수
+
     const [agentLoc, setAgentLoc] = useState([{
-        key: -1,
-        coords: {
+        key: -1, //agent_id가 들어감
+        coords: { //agent의 위치가 들어감
             latitude: 0,
             longitude: 0
         }
-    }])
-    const [isLoading, setIsLoading] = useState(true)
+    }]) // 현장요원 위치를 띄우기 위해 만든 변수
+
+    const [isLoading, setIsLoading] = useState(true) //loading 구현을 위함
 
 
     const getToken = async () => {
@@ -42,7 +44,7 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
     }
 
     useEffect(()=>{
-        let timer = setInterval(async ()=>{
+        let timer = setInterval(async ()=>{ //setInterval 함수를 이용해 3초에 한번씩 현장요원의 위치를 받아옴
             await getToken().then((token)=>{
                 getAgentLocation(token);
             })
@@ -52,7 +54,7 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
         });
     },[]);
 
-    const getAgentLocation = async (token) => {
+    const getAgentLocation = async (token) => { //현장요원의 위치를 받아오기 위해 서버와 소통하는 부분
         await axios.get(`http://3.35.135.214:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 const buf = []
@@ -78,10 +80,9 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
 
     return (
         <MapView style={styles.map} initialRegion={location}
-            // loadingEnabled
                  provider={PROVIDER_GOOGLE}>
-            <Marker coordinate={location} title={c_name}/>
-            {agentLoc.map((data, index) => {
+            <Marker coordinate={location} title={c_name}/> {/* 시설의 위치를 마커로 표시 */}
+            {agentLoc.map((data, index) => { // 현장요원의 위치를 띄움( 두 명 이상일 경우를 대비해 map 함수를 이용 )
                 return <Marker key={data.key} coordinate={data.coords} image={{uri: `https://ifh.cc/g/OyMDXA.png`}}/>
             })}
         </MapView>
@@ -93,7 +94,6 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) {
 
 const styles = StyleSheet.create({
     map: {
-        // marginBottom: 300,
         width: (screen.width) * 0.9,
         height: 300
     },
