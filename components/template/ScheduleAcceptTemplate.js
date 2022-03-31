@@ -23,12 +23,11 @@ function ScheduleAcceptTemplate(props) {
     const [incompleteSchedule, setIncompleteSchedule] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [login, setLogin] = useRecoilState(loginState);
-
     const [refreshing, setRefreshing] = React.useState(false);
 
+    // 새로고침. 데이터를 불러오는 함수
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-
         getToken().then((token) => {
             getIncompleteSchedule(token).then(() => {
                 setRefreshing(false)
@@ -57,12 +56,11 @@ function ScheduleAcceptTemplate(props) {
         return t
     }
 
+    // 수락하기 전의 일정을 받아오는 함수
     const getIncompleteSchedule = async (token) => {
-        console.log("받은 token으로 api 요청")
         await axios.get(`http://3.35.135.214:8080/app/schedule/incomplete`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res)
                 setIsLoading(false)
                 setIncompleteSchedule(res.data)
             })
@@ -73,12 +71,12 @@ function ScheduleAcceptTemplate(props) {
     }
 
     useEffect(() => {
-        // 오늘 일정 받아오기 api 실행
         getToken().then((res) => {
             getIncompleteSchedule(res);
         })
     }, [])
 
+    // 수락, 거절 api요청하는 함수
     const acceptRequest = async (token, schedule_id, accept) => {
         await axios.post(`http://3.35.135.214:8080/app/schedule/accept`,
             {schedule_id, accept},
@@ -108,8 +106,6 @@ function ScheduleAcceptTemplate(props) {
                 console.log(err.response)
                 console.log(err.response.data.message)
 
-                //안됨 ㅠㅠ
-                // showErrorMessage(err.response.data.message, setLogin, props)
                 if(err.response.data.message!=="ExpiredToken"){
                     showErrorMessage(err.response.data.message, setLogin, props);
                 }
@@ -143,6 +139,7 @@ function ScheduleAcceptTemplate(props) {
             })
     }
 
+    // 수락 또는 거절 버튼을 눌렀을 때 동작하는 함수
     const onPress = (keyValue) => {
         let schedule_id = []
         console.log(Object.entries(schedules)[keyValue[1]][1])

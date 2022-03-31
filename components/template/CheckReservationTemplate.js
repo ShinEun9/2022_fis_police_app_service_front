@@ -54,6 +54,7 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
     const [login, setLogin] = useRecoilState(loginState);
     const [refreshing, setRefreshing] = React.useState(false);
 
+    // 새로고침했을 때 데이터 불러오는 함수
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getToken().then((token) => {
@@ -68,17 +69,14 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
+
+    // 첫 렌더 시 실행되는 함수
     useEffect(() => {
         getToken().then((token) => {
             getHistoryList(token)
             getAgentList(token)
         })
     }, [])
-
-    const onPress = (keyValue) => {
-        setSelectedSchedule(keyValue)
-        setModalVisible(true)
-    }
 
     const getHistoryList = async (token) => { // 시설의 과거 지문 등록 이력을 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
@@ -102,6 +100,7 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
             })
     }
 
+    // 예정 일정을 가져오는 코드
     const getAgentList = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -148,6 +147,11 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
             })
     }
 
+    // 확인서 열람 버튼을 누르면 동작하는 함수
+    const onPress = (keyValue) => {
+        setSelectedSchedule(keyValue)
+        setModalVisible(true)
+    }
 
     return (
         <SafeAreaView style={styles.container}>

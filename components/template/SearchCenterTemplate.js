@@ -40,7 +40,6 @@ function SearchCenterTemplate(props) {
 
     const submitFunction = async () => {
         // 시설 search api 요청
-
         setIsLoading(true);
         searchRequest();
 

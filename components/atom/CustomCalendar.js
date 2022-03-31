@@ -19,11 +19,11 @@ function CustomCalendar({props}) {
         return t;
     }
 
+    // 근무일과 근무예정일을 api 요청함.
     const getData = async (token) => {
         await axios.get(`http://3.35.135.214:8080/app/confirm/calendar`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res.data);
                 setIsLoading(false);
                 const {visited_date, will_go_date} = res.data
                 let obj1 = will_go_date.reduce(
@@ -37,13 +37,17 @@ function CustomCalendar({props}) {
                 let obj2 = visited_date.reduce(
                     (c, v) =>
                         Object.assign(c, {
-                            [v]: {selected: true, selectedColor: Style.color2},
+                            [v]: {selected: true, selectedColor: Style.color6},
                         }),
                     {},
                 );
+
+                // markedDates =
+                // {
+                //     '2017-10-25': {selected: true, selectedColor: 'red'},
+                //     '2017-10-26': {selected: true, selectedColor: 'red'}
+                //   }
                 setMarkedDates({...obj1, ...obj2})
-                console.log("token 삭제")
-                AsyncStorage.removeItem("@token");
             })
             .catch((err) => {
                     setIsLoading(false)

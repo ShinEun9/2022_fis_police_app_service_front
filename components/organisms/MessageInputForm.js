@@ -18,21 +18,17 @@ import {showErrorMessage} from "../showErrorMessage";
 import {useRecoilState} from "recoil";
 import {loginState} from "../../store/login";
 
-/*
-    날짜 : 2022/02/23 11:23 AM
-    작성자 : 신은수
-    작성내용 : 어떤 스케쥴이 선택됐는지 schedule_id를 props로 건네주야하는데 넘 어려워ㅠㅠ
- */
-
 function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
     const [isChecked, setChecked] = useState({lateCenter: false, trafficJam: false, etc: false});
     const [inputValue, setInputValue] = useState("")
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useRecoilState(loginState);
+
     const [refreshToken, getReFreshToken] = useState(async () => {
         let t = AsyncStorage.getItem("@refresh_token");
         return t;
     })
+
     const handleChange = (key, value) => {
         setInputValue("");
         setChecked({
@@ -45,7 +41,6 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
 
     const getToken = async () => {
         const t = await AsyncStorage.getItem("@token")
-        console.log(t);
         return t
     }
 
@@ -54,7 +49,6 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
             {schedule_id: selectedScheduleId, late_comment: message},
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res)
                 setLoading(false)
 
                 Alert.alert("메세지 전송에 성공하였습니다", "", [{
@@ -65,11 +59,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
 
             })
             .catch(async (err) => {
-                console.log(err.response.data.message);
-                console.log("실패")
                 setLoading(false)
-                // 안됨
-                // showErrorMessage(err.response.data.message, setLogin, props);
 
                 // token을 null로 보내도 성공해서 확인할 수 있는 방법이 없음
                 if (err.response.data.message !== "ExpiredToken") {
@@ -104,6 +94,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
     }
 
 
+    // 제출 버튼을 누르면 동작하는 함수
     const onPress = () => {
         const {lateCenter, trafficJam, etc} = isChecked
         let message;
@@ -122,7 +113,8 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
         }
 
         setLoading(true)
-        // api 요청
+
+        // 토큰받아서 api 요청하는 동작
         getToken().then((token) => {
             sendMessageRequest(token, message)
         })

@@ -5,8 +5,6 @@ import CustomNavigation from "../organisms/CustomNavigation";
 import {Style} from "../../Style";
 
 function CenterMainTemplate({props}) {
-
-    // 코드 개선 필요(4개의 함수가 있을 필요는 없잖아ㅠㅠㅠㅠ 방법을 모르겠음)
     const goApplyCenterTemplate = () => {
         props.navigation.navigate("ApplyCenterTemplate")
     }

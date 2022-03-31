@@ -9,7 +9,6 @@ function PasswordInput({
                            width,
                            height,
                            placeholder,
-                           keyboardType = "default",
                            handleChange,
                            currentInfo
                        }) {
@@ -35,7 +34,7 @@ function PasswordInput({
                     <Ionicons name="md-eye-off" size={24} color="black"/>}
             </TouchableOpacity>
         </View>;
-    } else {
+    } else if(type === "line"){
         element = <View style={{...styles.passwordContainer2, width: parseInt(width), height: parseInt(height)}}>
             <TextInput
                 id={id}

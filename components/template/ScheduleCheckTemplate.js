@@ -25,7 +25,7 @@ function ScheduleCheckTemplate(props) {
     const [todayAndFutureSchedule, setTodayAndFutureSchedule] = useState([]);
     const [pastSchedule, setPastSchedule] = useState([]);
 
-    // 클릭된schedule에 대한 info를 modal에 props로 전달하기 위한 state
+    // 클릭된 schedule에 대한 info를 modal에 props로 전달하기 위한 state
     const [selectedScheduleInfo, setSelectedScheduleInfo] = useState([]);
 
     // 모달을 띄울지 말지 true false로 정하는 state
@@ -38,6 +38,7 @@ function ScheduleCheckTemplate(props) {
     const [login, setLogin] = useRecoilState(loginState);
     const [refreshing, setRefreshing] = React.useState(false);
 
+    // 새로고침, 데이터를 불러오는 함수
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getToken().then((token) => {
@@ -53,6 +54,7 @@ function ScheduleCheckTemplate(props) {
         return t
     }
 
+    // 예정 일정을 불러오는 함수
     const getFutureData = async (token) => {
         console.log("getFutureData 요청")
         await axios.get(`http://3.35.135.214:8080/app/schedule/agent`,
@@ -69,6 +71,7 @@ function ScheduleCheckTemplate(props) {
             })
     }
 
+    // 과거 일정을 불러오는 함수
     const getPastData = async (token, futureData) => {
         await axios.get(`http://3.35.135.214:8080/app/schedule/old`,
             {headers: {Authorization: `Bearer ${token}`}})

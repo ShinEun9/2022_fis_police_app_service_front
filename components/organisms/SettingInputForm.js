@@ -3,7 +3,7 @@ import CustomInput from "../atom/CustomInput";
 import PasswordInput from "../atom/PasswordInput";
 import CustomButton from "../atom/CustomButton";
 import {Style} from "../../Style";
-import {ActivityIndicator, Dimensions, Text, TouchableOpacity,View} from "react-native";
+import {ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View} from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRecoilState} from "recoil";
@@ -31,16 +31,12 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
         await axios.get(`http://3.35.135.214:8080/app/official/setting`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
-                console.log(res)
                 setIsLoading({...isLoading, getDataLoading: false})
                 const {center_id, center_name, o_name, o_ph, o_email, o_nickname, o_pwd,} = res.data
                 setCurrentInfo({center_id, center_name, o_name, o_ph, o_email, o_nickname, o_pwd});
-
-                // 성공했다는 alert 띄우기
             })
             .catch((err) => {
                 setIsLoading({...isLoading, getDataLoading: false})
-                console.log(err)
                 showErrorMessage(err.response.data.message, setLogin, props,getData)
 
             })
@@ -49,8 +45,10 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
     const editRequest = async (token) => {
         let c;
         if (centerInfo != null) {
+            // center를 변경 했을 때, SearchCenterTemplate에서 SettingTemplate으로 navigation params로 center_id를 넘겨줌
             c = centerInfo.center_id
         } else {
+            // center를 변경하지 않았을 때
             c = currentInfo.center_id
         }
 
@@ -61,9 +59,8 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
         }, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, editButtonLoading: false})
-                // props.navigation.goBack();
+                Alert.alert("정보수정에 성공하였습니다","수정된 정보를 확인해보세요", [{text:"확인"}])
             }).catch((err) => {
-                console.log(err);
                 setIsLoading({...isLoading, editButtonLoading: false})
                 showErrorMessage(err.response.data.message,setLogin,props, editRequest);
 

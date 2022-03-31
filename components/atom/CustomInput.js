@@ -13,7 +13,7 @@ function CustomInput({type = "normal", id, width, height, placeholder, keyboardT
             value={currentInfo[id]}
             autoCapitalize="none"
         />;
-    } else {
+    } else if(type === "line") {
         element = <TextInput
             id={id}
             style={{...styles.input2, width: parseInt(width), height: parseInt(height)}}
@@ -22,11 +22,9 @@ function CustomInput({type = "normal", id, width, height, placeholder, keyboardT
             onChangeText={(value) => handleChange(id, value)}
             value={currentInfo[id]}
             autoCapitalize="none"
-
         />
     }
 
-    //  select handleChange 함수
     return (
         element
     );

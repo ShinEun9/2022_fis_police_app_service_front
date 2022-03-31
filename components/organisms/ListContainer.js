@@ -64,7 +64,6 @@ function ListContainer({type = "noButtonListContainer", onPress, minHeight = 0, 
                         }
                     )
                 }
-
             </ScrollView>
         </View>
     }

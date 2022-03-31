@@ -4,6 +4,8 @@ import {FontAwesome} from '@expo/vector-icons';
 import {Style} from "../../Style";
 
 function Select({label, id, items, width, handleChange, currentInfo}) {
+    // label-> 아무 것도 선택하지 않았을 때 default로 나오는 값 (예를 들면 ‘참여/비참여 선택’)
+    // items->[{label: “참여”, value: true},{label:”비참여", value: false}]
     return (
         <RNPickerSelect
             value={currentInfo[id]}

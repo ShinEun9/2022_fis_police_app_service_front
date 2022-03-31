@@ -36,7 +36,6 @@ function LoginTemplate({props}) {
 
     const goSomePage = async () => {
         //로그인 api 요청
-
         setIsLoading(true)
         if(currentInfo.role === ""){
             setIsLoading(false)
@@ -80,14 +79,11 @@ function LoginTemplate({props}) {
                     }
                 }).catch((err) => {
                     setIsLoading(false);
-
-                    //토큰 안써서 안해도 됨
                     showErrorMessage(err.response.data.message, setLogin, props)
                 })
         }
-
-
     }
+
     return (
         <SafeAreaView style={{
             flex: 1,

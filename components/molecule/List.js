@@ -22,9 +22,8 @@ function List({type = "buttonList", onPress, listButtonContent, info}) {
             <View style={{marginRight: 10, width: useWindowDimensions().width * 0.7, justifyContent: "space-between"}}>
                 <Text style={{fontSize: 20, marginBottom: 10}}>{info.c_name} {info.visit_time}</Text>
                 <Text style={{marginBottom: 10}}>{info.c_address}</Text>
-                <Text>{info.estimate_num}명</Text>
+                <Text>{info.estimate_num===null?0:info.estimate_num}명</Text>
             </View>
-            {/*<CustomModal key={info.schedule_id}onPress={onPress} backgroundColor={Style.color2} width="50" height="70" content={listButtonContent} modalWidth={screen.width*0.9} modalHeight={screen.height*0.4} modalButtonContent={"전송"} modalContent={<MessageInputForm/>}/>*/}
             <CustomButton keyValue={info.schedule_id} onPress={onPress}
                           backgroundColor={listButtonContent === "확인서 작성" ? Style.color7 : listButtonContent === "확인 대기중" ? Style.color6 : Style.color2}
                           width="50" height="70" content={listButtonContent}/>
@@ -45,7 +44,7 @@ function List({type = "buttonList", onPress, listButtonContent, info}) {
             <View style={{marginRight: 10, width: useWindowDimensions().width * 0.7, justifyContent: "space-between"}}>
                 <Text style={{fontSize: 20, marginBottom: 10}}>{info.c_name} {info.visit_time}</Text>
                 <Text style={{marginBottom: 10}}>{info.c_address}</Text>
-                <Text>{info.estimate_num}명</Text>
+                <Text>{info.estimate_num===null?0:info.estimate_num}명</Text>
             </View>
         </View>
     }
