@@ -38,6 +38,8 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        // visit_date와 visit_time을 string type에서 date type으로 변경하여 setCurrentInfo
+        // setCurrentInfo하는 이유는 확인서에 적힐 기본 정보를 받아오기 위함
         let date = new Date();
         let tmp = defaultValue['visit_time'].split(":")
         date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), tmp[0], tmp[1])
@@ -57,6 +59,7 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
         return t;
     }
 
+    // 확인서 제출하는 api 요청
     const sendRequest = async (token) => {
         const {new_child, old_child, senile, disabled, etc} = currentInfo
         let info = {

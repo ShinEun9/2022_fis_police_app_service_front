@@ -18,6 +18,7 @@ function DatePicker({id, handleChange, currentInfo, width}) {
     }
 
     return (
+        // datePicker의 value 값은 date 형식으로, 보이는 형식은 string으로
         <View>
             <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
                 <View style={{

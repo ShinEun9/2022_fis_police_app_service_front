@@ -29,8 +29,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                 setConfirmInfo(res.data);
                 setIsLoading({...isLoading, getData: false})
             }).catch((err) => {
-                console.log(err)
-                console.log(err.response.data.message)
                 if (err.response.data.message === "NoConfirm") {
                     setConfirmInfo(null);
                 } else {
@@ -64,7 +62,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                     }
                 }])
             }).catch((err) => {
-                console.log(err.response.data.message)
                 setIsLoading({...isLoading, sendConfirm: false})
                 showErrorMessage(err.response.data.message, setLogin, props, sendData);
             })
@@ -158,7 +155,6 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
                     </>
                 }
             </View>
-
     );
 }
 

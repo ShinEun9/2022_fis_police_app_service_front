@@ -35,11 +35,13 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
         const t = await AsyncStorage.getItem("@token");
         return t;
     }
+
     useEffect(() => {
         getToken().then((token) => {
             getCurrentInfo(token)
         })
     }, [])
+
     const onPress=()=>{
         getToken().then((token) => {
             sendApplication(token)
@@ -51,6 +53,7 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
             [name]: value
         })
     }
+
     const getCurrentInfo = async (token) => { // 신청서에 적힐 기본 정보를 받아오는 코드
         await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -70,7 +73,6 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
             })
     }
     const sendApplication = async (token) => { // 작성한 신청서를 제출하는 코드
-
         if(currentInfo.accept===""||currentInfo.accept===null||currentInfo.h_date===null){ // 모든 항목이 채워지지 않으면 경고창이 뜸
             Alert.alert("모든 항목을 입력해주세요","",[{text:"확인"}])
         }else{ // 날짜 표현 방식을 바꿔주는 코드

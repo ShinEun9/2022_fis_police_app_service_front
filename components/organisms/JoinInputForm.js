@@ -21,10 +21,18 @@ function JoinInputForm({props, center_id}) {
     const [isLoading, setIsLoading] = useState(false)
     const [login,setLogin]=useRecoilState(loginState);
 
+    // 정보가 바뀔때마다 set해주는 함수
+    const handleChange = (name, value) => {
+        setCurrentInfo({
+            ...currentInfo,
+            [name]: value
+        })
+    }
+
+    // 시설 회원가입 api 요청
     const onPress = async () => {
         setIsLoading(true)
         await axios.post(`http://3.35.135.214:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
-            console.log(res)
             setIsLoading(false)
             Alert.alert(
                 "회원가입되었습니다",
@@ -36,23 +44,13 @@ function JoinInputForm({props, center_id}) {
                 ]
             );
             props.navigation.navigate("MainPage")
-
         }).catch((err) => {
             setIsLoading(false)
-            console.log(err);
-            console.log(err.response)
-            console.log(err.response.data.message)
-            // token 안써서 안해도 됨
             showErrorMessage(err.response.data.response, setLogin, props)
         })
     }
 
-    const handleChange = (name, value) => {
-        setCurrentInfo({
-            ...currentInfo,
-            [name]: value
-        })
-    }
+
 
     return (
         <>

@@ -12,12 +12,10 @@ function CustomNavigation({props, type, title}) {
 
 
     const handleOpenNavigation = () => {
-        console.log("hi")
         setOpenNavigation(prev => !prev);
     }
 
     const onPressOfficialSetting = () => {
-        console.log("setting")
         props.navigation.navigate("SettingTemplate")
     }
     const onPressAgentSetting = () => {

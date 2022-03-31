@@ -15,13 +15,13 @@ function Timepicker({id, currentInfo, handleChange, width}) {
         setDatePickerVisibility(false);
     };
 
-
     const getFormattedTime = (time) => {
         let a = time.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: false})
         return a;
     }
 
     return (
+        // timepicker value값은 date 형식, 보이는 형식은 string
         <View>
             <TouchableOpacity onPress={showDatePicker} activeOpacity={0.9}>
                 <View style={{
@@ -46,7 +46,6 @@ function Timepicker({id, currentInfo, handleChange, width}) {
                 mode="time"
                 date={currentInfo[id] === null ? new Date() : currentInfo[id]}
                 onConfirm={(time) => {
-                    console.log(time);
                     handleChange(id, time);
                     hideDatePicker();
                 }}
