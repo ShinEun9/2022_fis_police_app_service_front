@@ -45,7 +45,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
     }
 
     const sendMessageRequest = async (token, message) => {
-        await axios.post(`http://3.35.135.214:8080/app/schedule/late`,
+        await axios.post(`http://3.37.216.66:8080/app/schedule/late`,
             {schedule_id: selectedScheduleId, late_comment: message},
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -65,7 +65,7 @@ function MessageInputForm({setModalVisible, selectedScheduleId, props}) {
                 if (err.response.data.message !== "ExpiredToken") {
                     showErrorMessage(err.response.data.message, setLogin, props);
                 } else {
-                    await axios.get(`http://3.35.135.214:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
+                    await axios.get(`http://3.37.216.66:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
                         .then(async (res) => {
                             await AsyncStorage.setItem("@token", res.data.accessToken, () => {
                                 AsyncStorage.setItem("@refresh_token", res.data.refreshToken, () => {

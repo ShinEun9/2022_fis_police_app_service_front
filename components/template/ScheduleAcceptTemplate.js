@@ -58,7 +58,7 @@ function ScheduleAcceptTemplate(props) {
 
     // 수락하기 전의 일정을 받아오는 함수
     const getIncompleteSchedule = async (token) => {
-        await axios.get(`http://3.35.135.214:8080/app/schedule/incomplete`,
+        await axios.get(`http://3.37.216.66:8080/app/schedule/incomplete`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading(false)
@@ -78,7 +78,7 @@ function ScheduleAcceptTemplate(props) {
 
     // 수락, 거절 api요청하는 함수
     const acceptRequest = async (token, schedule_id, accept) => {
-        await axios.post(`http://3.35.135.214:8080/app/schedule/accept`,
+        await axios.post(`http://3.37.216.66:8080/app/schedule/accept`,
             {schedule_id, accept},
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
@@ -110,7 +110,7 @@ function ScheduleAcceptTemplate(props) {
                     showErrorMessage(err.response.data.message, setLogin, props);
                 }
                 else{
-                    await axios.get(`http://3.35.135.214:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
+                    await axios.get(`http://3.37.216.66:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${refreshToken}`}})
                         .then(async (res) => {
                             await AsyncStorage.setItem("@token", res.data.accessToken,  () => {
                                 AsyncStorage.setItem("@refresh_token", res.data.refreshToken,  () => {

@@ -61,7 +61,7 @@ function LoginTemplate({props}) {
                 ]
             );
         } else {
-            await axios.post(`http://3.35.135.214:8080/app/login`, currentInfo, {withCredentials: true})
+            await axios.post(`http://3.37.216.66:8080/app/login`, currentInfo, {withCredentials: true})
                 .then((res) => {
                     console.log(res.data)
                     if (res.data.u_auth === "AGENT") {
@@ -70,12 +70,12 @@ function LoginTemplate({props}) {
                         setAsyncStorage("@refresh_token", res.data.refreshToken)
                         setIsLoading(false);
                         setLogin("AGENT")
-                    } else if (res.data.u_auth === "OFFICIAL") {
-                        setAsyncStorage("@u_auth", "OFFICIAL")
+                    } else if (res.data.u_auth === "DIRECTOR") {
+                        setAsyncStorage("@u_auth", "DIRECTOR")
                         setAsyncStorage("@token", res.data.token);
                         setAsyncStorage("@refresh_token", res.data.refreshToken)
                         setIsLoading(false);
-                        setLogin("OFFICIAL")
+                        setLogin("DIRECTOR")
                     }
                 }).catch((err) => {
                     setIsLoading(false);

@@ -15,7 +15,7 @@ function LoginInputForm({handleChange, currentInfo, onPress, isLoading}) {
                     <Select label="권한 선택" id="role" width={useWindowDimensions().width * 0.7}
                             items={[{label: '현장요원', value: 'AGENT'}, {
                                 label: '시설관리자',
-                                value: 'OFFICIAL'
+                                value: 'DIRECTOR'
                             }]}
                             handleChange={handleChange} currentInfo={currentInfo}/>
                 </View>

@@ -21,7 +21,7 @@ function CustomCalendar({props}) {
 
     // 근무일과 근무예정일을 api 요청함.
     const getData = async (token) => {
-        await axios.get(`http://3.35.135.214:8080/app/confirm/calendar`,
+        await axios.get(`http://3.37.216.66:8080/app/confirm/calendar`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading(false);

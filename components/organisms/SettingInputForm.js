@@ -28,7 +28,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
         return t
     }
     const getData = async (token) => {
-        await axios.get(`http://3.35.135.214:8080/app/official/setting`,
+        await axios.get(`http://3.37.216.66:8080/app/official/setting`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, getDataLoading: false})
@@ -53,7 +53,7 @@ function SettingInputForm({props, centerInfo, onPressLogout}) {
         }
 
         setIsLoading({...isLoading, editButtonLoading: true})
-        await axios.patch(`http://3.35.135.214:8080/app/officials`, {
+        await axios.patch(`http://3.37.216.66:8080/app/officials`, {
             ...currentInfo,
             center_id: c
         }, {headers: {Authorization: `Bearer ${token}`}})

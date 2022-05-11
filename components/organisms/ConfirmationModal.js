@@ -24,7 +24,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     }
 
     const getData = async (token) => { // 작성된 확인서를 불러오는 코드
-        await axios.get(`http://3.35.135.214:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.37.216.66:8080/app/confirm/${schedule_id}`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setConfirmInfo(res.data);
                 setIsLoading({...isLoading, getData: false})
@@ -53,7 +53,7 @@ function ConfirmationModal({setModalVisible, schedule_id, props}) {
     const sendData = async (token) => { // 시설 담당자가 확인서에 서명을 하면 한 내용을 서버로 보내는 코드 -> 이후 시설담당자와 현장요원이 열람 가능
         let confirm_id = {confirm_id: confirmInfo.confirm_id}
 
-        await axios.post(`http://3.35.135.214:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://3.37.216.66:8080/app/confirm/check/${schedule_id}`, confirm_id, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, sendConfirm: false})
                 Alert.alert("완료되었습니다", "", [{

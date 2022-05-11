@@ -26,7 +26,7 @@ function AgentSettingInputForm({onPressLogout, props}) {
     }
 
     const getData = async (token) => {
-        await axios.get(`http://3.35.135.214:8080/app/agent/setting`,
+        await axios.get(`http://3.37.216.66:8080/app/agent/setting`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading({...isLoading, getDataLoading: false})

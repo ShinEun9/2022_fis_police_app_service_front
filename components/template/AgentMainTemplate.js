@@ -53,7 +53,7 @@ function AgentMainTemplate({props}) {
             a_cur_lat: lat.toString(),
             a_cur_long: lng.toString()
         }
-        await axios.post(`http://3.35.135.214:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://3.37.216.66:8080/app/agent/currentLocation`, location, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(location)
                 console.log("send")
@@ -96,7 +96,7 @@ function AgentMainTemplate({props}) {
     }, [])
 
     const getTodaySchedule = async (token) => { // 오늘 일정을 받아오는 코드
-        await axios.get(`http://3.35.135.214:8080/app/schedule/today`,
+        await axios.get(`http://3.37.216.66:8080/app/schedule/today`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setSchedule(res.data);
