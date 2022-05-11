@@ -25,7 +25,7 @@ export async function showErrorMessage(message, setLogin, props, doFunction = ()
     }
 
     const apiRequest = async (rT) => {
-        await axios.get(`http://3.35.135.214:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${rT}`}})
+        await axios.get(`http://3.37.216.66:8080/app/refreshToken`, {headers: {RefreshToken: `Bearer ${rT}`}})
             .then(async (res) => {
                 let a = res.data.accessToken;
                 let b = res.data.refreshToken;

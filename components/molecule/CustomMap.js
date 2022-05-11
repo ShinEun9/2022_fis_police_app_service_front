@@ -55,7 +55,7 @@ export default function CustomMap({c_latitude, c_longitude, c_name, props}) { //
     },[]);
 
     const getAgentLocation = async (token) => { //현장요원의 위치를 받아오기 위해 서버와 소통하는 부분
-        await axios.get(`http://3.35.135.214:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.37.216.66:8080/app/schedule/location`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 const buf = []
                 res.data.map((data, index) => {

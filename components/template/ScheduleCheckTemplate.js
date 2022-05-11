@@ -57,7 +57,7 @@ function ScheduleCheckTemplate(props) {
     // 예정 일정을 불러오는 함수
     const getFutureData = async (token) => {
         console.log("getFutureData 요청")
-        await axios.get(`http://3.35.135.214:8080/app/schedule/agent`,
+        await axios.get(`http://3.37.216.66:8080/app/schedule/agent`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
@@ -73,7 +73,7 @@ function ScheduleCheckTemplate(props) {
 
     // 과거 일정을 불러오는 함수
     const getPastData = async (token, futureData) => {
-        await axios.get(`http://3.35.135.214:8080/app/schedule/old`,
+        await axios.get(`http://3.37.216.66:8080/app/schedule/old`,
             {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data);

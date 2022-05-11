@@ -55,7 +55,7 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
     }
 
     const getCurrentInfo = async (token) => { // 신청서에 적힐 기본 정보를 받아오는 코드
-        await axios.get(`http://3.35.135.214:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.37.216.66:8080/app/official/setting`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res.data)
                 setIsLoading(false)
@@ -89,7 +89,7 @@ function ApplyInputForm({ setModalVisible, props, refresh}) {
             }
             buf = [year, month, day].join('-')
             setIsLoading( true)
-            await axios.post(`http://3.35.135.214:8080/app/hope`, {
+            await axios.post(`http://3.37.216.66:8080/app/hope`, {
                 ...currentInfo,
                 h_date: buf
             }, {headers: {Authorization: `Bearer ${token}`}})

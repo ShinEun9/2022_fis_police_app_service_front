@@ -32,7 +32,7 @@ function JoinInputForm({props, center_id}) {
     // 시설 회원가입 api 요청
     const onPress = async () => {
         setIsLoading(true)
-        await axios.post(`http://3.35.135.214:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
+        await axios.post(`http://3.37.216.66:8080/app/officials`, currentInfo, {withCredentials: true}).then((res) => {
             setIsLoading(false)
             Alert.alert(
                 "회원가입되었습니다",

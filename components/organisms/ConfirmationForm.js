@@ -67,7 +67,7 @@ function ConfirmationForm({setModalVisible, defaultValue, props, getDataFunction
         }
         const {schedule_id} = defaultValue;
 
-        await axios.post(`http://3.35.135.214:8080/app/confirm/write/${schedule_id}`, info, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.post(`http://3.37.216.66:8080/app/confirm/write/${schedule_id}`, info, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
                 setIsLoading(false)

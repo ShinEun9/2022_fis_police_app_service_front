@@ -31,7 +31,7 @@ function ApplyCenterTemplate(props) { //센터가 지문등록을 하는 템플�
 
 
     const getApplyData = async (token) => { // 과거 신청 이력을 받아오는 코드
-        await axios.get(`http://3.35.135.214:8080/app/hope/status`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.37.216.66:8080/app/hope/status`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 setIsLoading(false)
                 let buf = []

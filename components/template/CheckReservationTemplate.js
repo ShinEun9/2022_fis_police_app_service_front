@@ -79,7 +79,7 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
     }, [])
 
     const getHistoryList = async (token) => { // 시설의 과거 지문 등록 이력을 받아오는 코드
-        await axios.get(`http://3.35.135.214:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.37.216.66:8080/app/confirm/center`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 const buf = []
                 res.data.data.map((data, index) => {
@@ -102,7 +102,7 @@ function CheckReservationTemplate(props) { //시설 담당자가 자신의 예�
 
     // 예정 일정을 가져오는 코드
     const getAgentList = async (token) => {
-        await axios.get(`http://3.35.135.214:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
+        await axios.get(`http://3.37.216.66:8080/app/schedule/confirm`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 let list = []
                 if(res.data.length!==0){

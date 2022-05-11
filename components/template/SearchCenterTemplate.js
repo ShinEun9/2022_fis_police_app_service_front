@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView, Text, Platform, Dimensions, StyleSheet} from "react-native";
+import {View, SafeAreaView, Text, Platform, Dimensions, StyleSheet, ScrollView} from "react-native";
 import SearchInputForm from "../organisms/SearchInputForm";
 import CustomRightImageButton from "../atom/CustomRightImageButton";
 import CustomNavigation from "../organisms/CustomNavigation";
@@ -24,7 +24,7 @@ function SearchCenterTemplate(props) {
 
     const searchRequest = async () => {
         let {c_name} = currentInfo;
-        await axios.get(`http://3.35.135.214:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
+        await axios.get(`http://3.37.216.66:8080/app/center/search?c_name=${c_name}`, {withCredentials: true})
             .then((res) => {
                 console.log(res.data.data)
                 setIsLoading(false)
@@ -60,16 +60,15 @@ function SearchCenterTemplate(props) {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, flex: 0.5}}>
-
+            <View style={{paddingTop: Platform.OS === 'ios' ? 0 : 30, }}>
                 <CustomNavigation props={props} type="joinSettingNavbar"
                                   title={props.route.params === "setting" ? "설정페이지" : "회원가입"}/>
             </View>
-            <View style={{flex: 1, flexDirection: "row", justifyContent: "center", alignItems: 'center'}}>
+            <View style={{ flexDirection: "row", justifyContent: "center", alignItems: 'center', marginBottom: 20}}>
                 <SearchInputForm currentInfo={currentInfo} handleChange={handleChange}
                                  submitFunction={submitFunction} isLoading={isLoading}/>
             </View>
-            <View style={{flex: 7, marginTop: 10, justifyContent: "flex-start", alignItems: "center"}}>
+            <ScrollView contentContainerStyle={{ alignItems:"center"}}>
                 {centerList.length === 0 ? <Text style={{color: "gray"}}>검색 결과가 없습니다.</Text> :
                     centerList.map((center) => {
                         return <View key={center.center_id} style={{marginBottom: 15}}>
@@ -93,7 +92,7 @@ function SearchCenterTemplate(props) {
                     })
 
                 }
-            </View>
+            </ScrollView>
 
         </SafeAreaView>
     );
